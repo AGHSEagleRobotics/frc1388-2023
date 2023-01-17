@@ -6,6 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DriveTrainCommand;
+import frc.robot.subsystems.DriveTrain;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,8 +29,23 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+  private final DriveTrain m_driveTrain = new DriveTrain
+  (new WPI_TalonFX(0),
+   new WPI_TalonFX(1), 
+   new WPI_TalonFX(2), 
+   new WPI_TalonFX(3));
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    m_driveTrain.setDefaultCommand(
+    new DriveTrainCommand( 
+    m_driveTrain,
+    ()-> m_driverController.getLeftY(),
+    ()-> m_driverController.getRightY(),
+    ()-> m_driverController.getRightX()
+    ));
+
     // Configure the trigger bindings
     configureBindings();
   }
