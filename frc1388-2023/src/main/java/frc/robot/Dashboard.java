@@ -21,11 +21,11 @@ public class Dashboard {
 
     private final UsbCamera m_cameraSmall;
     private final int CAMERA_SMALL_RES_HEIGHT = 120;
-    private final int CAMERA_SMALL_RES_WIDTH = 480;
+    private final int CAMERA_SMALL_RES_WIDTH = 160;
     private final int CAMERA_SMALL_FPS = 10;
 
-    private final VideoSink m_videoSinkLargeCamera;
-    private final VideoSink m_videoSinkSmallCamera;
+    // private final VideoSink m_videoSinkLargeCamera;
+    // private final VideoSink m_videoSinkSmallCamera;
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
@@ -40,23 +40,22 @@ public class Dashboard {
         m_cameraLarge.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         m_cameraLarge.setFPS(CAMERA_LARGE_FPS);
         m_cameraLarge.setResolution(CAMERA_LARGE_RES_WIDTH, CAMERA_LARGE_RES_HEIGHT);
-        m_videoSinkLargeCamera = CameraServer.getServer();
-        m_videoSinkLargeCamera.setSource(m_cameraLarge);
+        // m_videoSinkLargeCamera = CameraServer.getServer();
+        // m_videoSinkLargeCamera.setSource(m_cameraLarge);
 
-        m_cameraSmall = CameraServer.startAutomaticCapture(1); // TODO add constants
+        m_cameraSmall = CameraServer.startAutomaticCapture(1); // TODO add constantss
         m_cameraSmall.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         m_cameraSmall.setFPS(CAMERA_SMALL_FPS);
         m_cameraSmall.setResolution(CAMERA_SMALL_RES_WIDTH, CAMERA_SMALL_RES_HEIGHT);
-        m_videoSinkSmallCamera = CameraServer.getServer();
-        m_videoSinkSmallCamera.setSource(m_cameraSmall);
+        // m_videoSinkLargeCamera.setSource(m_cameraSmall);
 
 
-        m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_videoSinkLargeCamera.getSource())
+        m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(15, 14)
             .withPosition(0, 0);
 
-        m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_videoSinkLargeCamera.getSource())
+        m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(5, 5)
             .withPosition(16, 0);
