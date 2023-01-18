@@ -22,6 +22,7 @@ public class Dashboard {
     private final ComplexWidget m_cameraComplexWidget;
 
     public Dashboard() {
+        System.out.println("\n\n\n\n\n\n\n\ndashboard\n\n\n\n\n\n\n\n\n");
         m_shuffleboardTab =  Shuffleboard.getTab(SHUFFLEBOARD_TAB_NAME);
         Shuffleboard.selectTab(SHUFFLEBOARD_TAB_NAME);
 
@@ -35,7 +36,7 @@ public class Dashboard {
 
         m_cameraComplexWidget = m_shuffleboardTab.add("Camera view", m_videoSink.getSource())
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(12, 11)
+            .withSize(15, 14)
             .withPosition(0, 0);
     } // end constructor
 }
