@@ -38,5 +38,8 @@ public class Dashboard {
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(15, 14)
             .withPosition(0, 0);
+
+        //TODO place AUTO POSITION code here so we can choose our auto path
+        
     } // end constructor
 }

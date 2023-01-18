@@ -16,4 +16,20 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public final class AutoConstants
+  {
+    public static final double TURN_P_VALUE = 0.03;
+    public static final double TURN_P_TOLERANCE = 1.25;
+    public static final double MOVE_P_VALUE = 0.04;
+    public static final double MOVE_P_TOLERANCE = 0.5;
+    //TODO CHANGE ALL PID & F VALUES, REVIEW
+    public static final double MOVE_F_VALUE = 0;
+
+    public static final double AUTO_TIME = 15.0; //seconds
+        
+    public static final double AUTO_DRIVE_SPEED = 0.5;
+    public static final double AUTO_TURN_SPEED = 0.25;
+    public static final double AUTO_TURN_ANGLE_MAX = 75;
+  }
 }
