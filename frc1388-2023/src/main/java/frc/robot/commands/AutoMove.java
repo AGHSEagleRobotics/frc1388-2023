@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController; 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
 public class AutoMove extends CommandBase {
@@ -40,13 +39,14 @@ public class AutoMove extends CommandBase {
   @Override
   public void initialize() {
     double speed;
-
     speed = MathUtil.clamp( m_speed, -m_speed, m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_pidController.reset();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -55,6 +55,7 @@ public class AutoMove extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean finished = (m_pidController.atSetpoint());
+    return finished;
   }
 }
