@@ -29,6 +29,10 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
+
+    // private final ComplexWidget m_tx;
+    // private final ComplexWidget m_ty;
+    // private final ComplexWidget m_ta;
     
     public Dashboard() {
         
