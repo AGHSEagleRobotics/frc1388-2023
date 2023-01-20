@@ -78,6 +78,16 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     
+    //AUTO IDEAS BASED ON POSITION
+    //position A, B, and C 
+    //B scores, goes over charge station slowly, goes back after obtaining leave point
+    //B can score on lower level if needed
+    //A scores, goes around far edge of charge station, picks up, returns on same path
+    //A could either take a path right next to charge station or by the boarder of field
+    //C scores, goes around near edge of charge station, picks up, returns on same path
+    //Dilemna: what level do we score on?
+    //B: 3rd level and 1st level are most efficient
+    
     return null;
   }
 }
