@@ -17,6 +17,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry m_ty;
   private NetworkTableEntry m_ta;
   private NetworkTableEntry m_tv;
+  private NetworkTableEntry m_ts;
   private NetworkTableEntry m_tid;
 
   /** Creates a new Limelight. */
@@ -27,33 +28,39 @@ public class Limelight extends SubsystemBase {
     m_ty = table.getEntry("ty");
     m_ta = table.getEntry("ta");
     m_tv = table.getEntry("tv");
+    m_ts = table.getEntry("ts");
     m_tid = table.getEntry("tid");
   }
 
   public double getTx() {
     return m_tx.getDouble(0.0);
-} 
+  } 
 
-    public double getTy() {
+  public double getTy() {
     return m_ty.getDouble(0.0);
-} 
+  } 
 
-    public double getTa() {
+  public double getTa() {
     return m_ta.getDouble(0.0);
-} 
+  } 
 
-public double getTv() {
+  public double getTv() {
     return m_tv.getDouble(0.0);
-} 
+  } 
 
-public double getTid() {
-  return m_tid.getDouble(0.0);
-}
+  public double getTs() {
+    return m_ts.getDouble(0.0);
+  }
+
+  public double getTid() {
+    return m_tid.getDouble(0.0);
+  }
 
   @Override
   public void periodic() {
     // V example of good code V
-    if (Math.random() > 0.7) System.out.println(getTid() + "\t\ttarget x: " + Math.round(getTx()) + "\ttarget y: " + Math.round(getTy()) + "\ttarget area: " + Math.round(getTa()) + "\ttarget detected: " + getTv());
+    // if (Math.random() > 0.7) System.out.println(getTid() + "\t\ttarget x: " + Math.round(getTx()) + "\ttarget y: " + Math.round(getTy()) + "\ttarget area: " + Math.round(getTa()) + "\ttarget detected: " + getTv());
+    if (Math.random() > .7) System.out.println(getTs());
     
   }
 }
