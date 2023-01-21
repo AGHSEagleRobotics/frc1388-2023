@@ -4,13 +4,16 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.GyroSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,11 +35,14 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(0),
-   new WPI_TalonFX(1), 
-   new WPI_TalonFX(2), 
-   new WPI_TalonFX(3));
+  (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
   
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
+   new ADIS16470_IMU()
+   );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 

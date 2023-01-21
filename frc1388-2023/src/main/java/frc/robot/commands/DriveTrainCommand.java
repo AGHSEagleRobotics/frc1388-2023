@@ -36,7 +36,7 @@ public class DriveTrainCommand extends CommandBase {
   @Override
   public void execute() {
     double speed = -m_driveLeftStickYAxis.get();
-    double rotation = m_driveRightStickXAxis.get();
+    double rotation = -m_driveRightStickXAxis.get();
     m_driveTrain.arcadeDrive(speed, rotation);
   }
 
