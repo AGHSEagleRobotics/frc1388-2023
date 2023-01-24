@@ -13,7 +13,7 @@ import frc.robot.subsystems.GyroSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -41,7 +41,7 @@ public class RobotContainer {
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
   
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+   new ADIS16448_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
