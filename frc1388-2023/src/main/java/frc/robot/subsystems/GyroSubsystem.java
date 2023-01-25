@@ -23,6 +23,21 @@ public class GyroSubsystem extends SubsystemBase {
 
   }
 
+  // getters for gyro angles
+  public double getXGyro() {
+    return m_gyro.getGyroAngleX();
+  }
+  public double getYGyro() {
+    return m_gyro.getGyroAngleY();
+  }
+  public double getZGyro() {
+    return m_gyro.getGyroAngleZ();
+  }
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
