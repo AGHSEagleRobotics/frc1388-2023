@@ -23,7 +23,7 @@ public class GyroSubsystem extends SubsystemBase {
 
   }
 
-  // getters for gyro angles
+  // getters for gyro angles and reset
   public double getXGyro() {
     return m_gyro.getGyroAngleX();
   }
