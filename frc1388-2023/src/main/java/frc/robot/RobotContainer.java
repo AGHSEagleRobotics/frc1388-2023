@@ -7,13 +7,24 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.SolenoidMove;
+import frc.robot.subsystems.Air;
 import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,18 +36,24 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
-
-
+  private final PneumaticHub m_PneumaticHub = new PneumaticHub(Constants.Pneumatics.kCANIDPneumaticHub);
+  
+  public final DoubleSolenoid m_DoubleSolenoid = new DoubleSolenoid(
+    Constants.Pneumatics.kCANIDPneumaticHub, PneumaticsModuleType.REVPH, 
+    Constants.Pneumatics.kChExtend, Constants.Pneumatics.kChRetract);
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
+  // private final CommandXboxController m_driverController =
+  //     new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController m_driverController = new XboxController(0);
+  private final CommandXboxController m_OpController = new CommandXboxController(1);
   private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(0),
    new WPI_TalonFX(1), 
    new WPI_TalonFX(2), 
    new WPI_TalonFX(3));
   
+   //private final Air m_air = new Air();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -63,11 +80,21 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-
+    
+    // m_driverController.getAButto
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-   
+    // new JoystickButton(m_OpController, XboxController.Button.kA.value).onTrue(
+    //   new SolenoidMove(m_DoubleSolenoid));
+
+    //Old version without CommonOpController
+    // new JoystickButton(m_OpController, XboxController.Button.kA.value)
+    //   .onTrue( new InstantCommand(()-> { m_DoubleSolenoid.set(Value.kForward); }) );
+
+    m_OpController.a().onTrue(( new InstantCommand(()-> { m_DoubleSolenoid.set(Value.kForward); }) ));
+    m_OpController.b().onTrue(( new InstantCommand(()-> { m_DoubleSolenoid.set(Value.kReverse); }) ));
+    //new InstantCommand needed to use lambda - takes runnable
+
   }
 
   /**

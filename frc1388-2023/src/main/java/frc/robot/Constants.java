@@ -16,4 +16,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class Pneumatics{
+    public static final int kCANIDPneumaticHub = 5;
+    public static final int kChExtend = 0;
+    public static final int kChRetract = 1;
+  }
+
 }
