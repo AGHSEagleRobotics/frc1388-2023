@@ -7,8 +7,6 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.commands.SolenoidMove;
-import frc.robot.subsystems.Air;
 import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
