@@ -9,8 +9,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Dashboard {
+    public enum Task {
+        up, middle, down;
+    }
     private final ShuffleboardTab m_shuffleboardTab;
     private final String SHUFFLEBOARD_TAB_NAME = "Competition"; //TODO maybe? put this in constants
 
@@ -29,6 +33,9 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
+
+    private static SendableChooser<Task> m_autoTask = new SendableChooser<>();
+    private final ComplexWidget m_complexWidgetTask;
     
     public Dashboard() {
         
@@ -59,5 +66,18 @@ public class Dashboard {
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(5, 5)
             .withPosition(16, 0);
+
+            for (Task ep: Task.values()) {
+                m_autoTask.addOption(ep.name(), ep);
+            }
+    
+            m_complexWidgetTask = Shuffleboard.getTab("Competition").add("AutoPosition", m_autoTask) //TODO add constants and stuff
+            .withWidget(BuiltInWidgets.kSplitButtonChooser)
+            .withSize(5, 5)
+            .withPosition(16, 7);
     } // end constructor
+
+    public Task getPosition() {
+        return m_autoTask.getSelected();
+    }
 }
