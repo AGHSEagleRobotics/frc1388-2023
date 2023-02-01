@@ -8,13 +8,15 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
+
 import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
+
+import frc.robot.subsystems.IMUSubsystem16448;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -35,14 +37,16 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
   (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
   
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+
+   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
+   new ADIS16448_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -85,6 +89,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     
+
     return new AutoBalance(m_driveTrain, m_gyroSubsystem, 0, 0);
   }
 }
