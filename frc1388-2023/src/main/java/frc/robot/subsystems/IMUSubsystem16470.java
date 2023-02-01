@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +20,6 @@ public class IMUSubsystem16470 extends SubsystemBase {
   public IMUSubsystem16470(ADIS16470_IMU gyro) {
     m_gyro = gyro;
     m_gyro.setYawAxis(IMUAxis.kZ);
-    m_gyro.calibrate();
     m_gyro.reset();
    
   }
@@ -44,9 +44,12 @@ public class IMUSubsystem16470 extends SubsystemBase {
     
     counter++;
     if(counter == 20){
-      System.out.println("Test 1: Rotation: " + m_gyro.getAngle() + ", X angle: " + 
-      m_gyro.getXComplementaryAngle() + ", Y angle: " + m_gyro.getYComplementaryAngle());
-      System.out.println();
+      SmartDashboard.putNumber("ADIS16470/Z Angle", m_gyro.getAngle());
+      SmartDashboard.putNumber("ADIS16470/X Angle", m_gyro.getXComplementaryAngle());
+      SmartDashboard.putNumber("ADIS16470/Y Angle", m_gyro.getYComplementaryAngle());
+      // System.out.println("Test 1: Rotation: " + m_gyro.getAngle() + ", X angle: " + 
+      // m_gyro.getXComplementaryAngle() + ", Y angle: " + m_gyro.getYComplementaryAngle());
+      // System.out.println();
       counter = 0;
     }
   

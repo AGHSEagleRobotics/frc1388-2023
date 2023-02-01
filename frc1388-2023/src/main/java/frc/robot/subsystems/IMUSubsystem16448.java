@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,6 @@ public class IMUSubsystem16448 extends SubsystemBase {
 
   public IMUSubsystem16448(ADIS16448_IMU gyro) {
     m_gyro = gyro;
-    m_gyro.calibrate();
     m_gyro.reset();
    
 
@@ -44,9 +44,12 @@ public class IMUSubsystem16448 extends SubsystemBase {
     
     counter++;
     if( counter == 20){
-      System.out.println("Test 1: Rotation: " + m_gyro.getGyroAngleZ() + 
-      ", X angle: " + m_gyro.getGyroAngleX() + ", Y angle: " + m_gyro.getGyroAngleY());
-      System.out.println();
+      SmartDashboard.putNumber("ADIS16448/Z Angle", m_gyro.getGyroAngleZ());
+      SmartDashboard.putNumber("ADIS16448/X Angle", m_gyro.getGyroAngleX());
+      SmartDashboard.putNumber("ADIS16448/Y Angle", m_gyro.getGyroAngleY());
+      // System.out.println("Test 1: Rotation: " + m_gyro.getGyroAngleZ() + 
+      // ", X angle: " + m_gyro.getGyroAngleX() + ", Y angle: " + m_gyro.getGyroAngleY());
+      // System.out.println();
       counter = 0;
     }
 
