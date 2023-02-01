@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class GyroSubsystem extends SubsystemBase {
+public class IMUSubsystem16448 extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private final ADIS16448_IMU m_gyro;
   private int counter;
-  private static final Logger log = LogManager.getLogger(GyroSubsystem.class);
+  private static final Logger log = LogManager.getLogger(IMUSubsystem16448.class);
 
-  public GyroSubsystem(ADIS16448_IMU gyro) {
+  public IMUSubsystem16448(ADIS16448_IMU gyro) {
     m_gyro = gyro;
     m_gyro.calibrate();
     m_gyro.reset();
