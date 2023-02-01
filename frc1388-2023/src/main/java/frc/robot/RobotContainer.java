@@ -8,6 +8,7 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
@@ -84,6 +85,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     
-    return null;
+    return new AutoBalance(m_driveTrain, m_gyroSubsystem, 0, 0);
   }
 }

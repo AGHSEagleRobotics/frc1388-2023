@@ -10,14 +10,16 @@ import org.apache.logging.log4j.Logger;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.AutoConstants;
+//import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class AutoBalance extends CommandBase {
   private static final Logger log = LogManager.getLogger(AutoBalance.class);
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
+  private GyroSubsystem m_gyroSubsystem;
   private final double m_turnSpeed;
   private final double m_turnAngleSet;
 
@@ -26,18 +28,19 @@ public class AutoBalance extends CommandBase {
   private double m_angle3 = 0;
   private int m_tickCounter = 0;
 
-  private final PIDController m_pidController = new PIDController(DriveTrainConstants.BALANCE_P_VALUE, 0, 0);
+  private final PIDController m_pidController = new PIDController(0.02, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, double turnSpeed, double turnAngleSet) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, double turnSpeed, double turnAngleSet) {
     m_driveTrainSubsystem = driveTrainSubsystem;
+    m_gyroSubsystem = gyroSubsystem;
     m_turnSpeed = turnSpeed;
     m_turnAngleSet = turnAngleSet;
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
 
-    m_pidController.setTolerance(DriveTrainConstants.BALANCE_P_VALUE);
+    m_pidController.setTolerance(0.02);
     
   }
 
@@ -47,7 +50,7 @@ public class AutoBalance extends CommandBase {
     log.info("m_turnSpeed={}\tm_turnAngleSet={}",m_turnSpeed,m_turnAngleSet);
 
     // m_driveTrainSubsystem.resetGyro();
-    m_driveTrainSubsystem.setDeadbandZero();
+   // m_driveTrainSubsystem.setDeadbandZero();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,7 +60,7 @@ public class AutoBalance extends CommandBase {
     m_tickCounter++;
 
     double pSpeed;
-    double angle = m_driveTrainSubsystem.getGyroAngle();
+    double angle = m_gyroSubsystem..getGyroAngle();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
     System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
     System.out.println("Average Angle: "+ averageAngle);
@@ -67,7 +70,7 @@ public class AutoBalance extends CommandBase {
       pSpeed = 0;
     }
     else {
-          //double pSpeed = angle * DriveTrainConstants.BALANCE_P_VALUE;
+          //double pSpeed = angle * DriveTrainConstants.0.02;
       pSpeed = Math.pow(((Math.abs(angle))/15), 3);
       System.out.println("(abs(angle)/15)^7 :  " + pSpeed);
       pSpeed = Math.copySign(pSpeed, angle);
