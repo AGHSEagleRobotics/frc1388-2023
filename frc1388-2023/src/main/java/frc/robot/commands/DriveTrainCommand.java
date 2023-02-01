@@ -7,16 +7,17 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveTrainCommand extends CommandBase {
-  private final DriveTrain m_driveTrain;
+  private final DriveTrainSubsystem m_driveTrain;
   
   private Supplier<Double> m_driveLeftStickYAxis;
   private Supplier<Double> m_driveRightStickYAxis;
   private Supplier<Double> m_driveRightStickXAxis;
   /** Creates a new DriveTrainCommand. */
-  public DriveTrainCommand( DriveTrain driveTrain, Supplier<Double> driveLeftStickYAxis, 
+  public DriveTrainCommand( DriveTrainSubsystem driveTrain, Supplier<Double> driveLeftStickYAxis, 
   Supplier<Double> driveRightStickYAxis, Supplier<Double> driveRightStickXAxis ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);

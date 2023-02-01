@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveTrain extends SubsystemBase {
+public class DriveTrainSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
   private final WPI_TalonFX m_leftBack;
   private final WPI_TalonFX m_rightFront;
@@ -19,8 +19,8 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive m_differentialDrive;
 
 
-  /** Creates a new DriveTrain. */
-  public DriveTrain(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
+  /** Creates a new DriveTrainSubsystem. */
+  public DriveTrainSubsystem(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
     m_leftFront = leftFront;
     m_leftBack = leftBack;
     m_rightFront = rightFront;
