@@ -19,7 +19,23 @@ public final class Constants {
     public static final int CANID_LEFT_BACK     = 2;
     public static final int CANID_RIGHT_FRONT   = 3;
     public static final int CANID_RIGHT_BACK    = 4;
-  }
+
+    //Encoder stuff
+    private final static double COUNTS_PER_REV = 2048;
+    private final static double REVS_PER_COUNT = 1/COUNTS_PER_REV;
+    private final static double WHEEL_DIAMETER_INCHES = 6.0; // make range value?
+    private final static double FALCON_TO_SIMPLE_BOX_GEAR_RATIO = 1/4.67;
+    private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
+    public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
+    public final static double INCHES_PER_ENCODER_UNITS = 
+      REVS_PER_COUNT *
+      FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
+      SIMPLE_BOX_TO_WHEELS_RATIO *
+      WHEEL_CIRCUMFERENCE;
+    
+    private final int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
+    private final int SEC_PER_MIN = 60;
+}
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

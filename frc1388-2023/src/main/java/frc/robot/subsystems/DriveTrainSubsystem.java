@@ -55,7 +55,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDrive( double leftSpeed, double rightSpeed) {
     m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
-
+  public void constantSpeedDrive(double speed) {
+    //The velocity = speed(inps)/INCHES_PER_ENCODER_UNITS/SENSOR_CYCLES_PER_SECOND
+  }
   /**
  * gets raw left sensor units
  * @return distance in raw sensor units
