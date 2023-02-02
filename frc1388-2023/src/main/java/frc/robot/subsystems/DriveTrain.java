@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
@@ -61,14 +62,16 @@ public class DriveTrain extends SubsystemBase {
  * @return distance in raw sensor units
  */
   public double getLeftEncoderDistance(){
-    return m_leftFront.getSelectedSensorPosition();
+    return m_leftFront.getSelectedSensorPosition()
+    * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
   /**
    * gets raw right sensor units
    * @return distance in raw sensor units
    */
   public double getRightEncoderDistance(){
-    return m_rightFront.getSelectedSensorPosition();
+    return m_rightFront.getSelectedSensorPosition()
+    * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
   @Override
   public void periodic() {
