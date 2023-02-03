@@ -60,13 +60,13 @@ public class Dashboard extends SubsystemBase{
 
         m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(15, 14)
+            .withSize(10, 10)
             .withPosition(0, 0);
 
         m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(5, 5)
-            .withPosition(16, 0);
+            .withPosition(10, 0);
 
             for (Task ep: Task.values()) {
                 m_autoTask.addOption(ep.name(), ep);
@@ -75,7 +75,7 @@ public class Dashboard extends SubsystemBase{
             m_complexWidgetTask = Shuffleboard.getTab("Competition").add("AutoPosition", m_autoTask) //TODO add constants and stuff
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
             .withSize(5, 5)
-            .withPosition(16, 7);
+            .withPosition(10, 6);
     } // end constructor
 
     public Task getPosition() {
