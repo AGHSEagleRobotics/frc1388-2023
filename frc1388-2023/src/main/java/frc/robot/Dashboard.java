@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Dashboard {
+public class Dashboard extends SubsystemBase{
     public enum Task {
         up, middle, down;
     }
@@ -79,5 +80,12 @@ public class Dashboard {
 
     public Task getPosition() {
         return m_autoTask.getSelected();
+    }
+
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      System.out.println(m_autoTask.getSelected());
+      System.out.println("dashboard test");
     }
 }
