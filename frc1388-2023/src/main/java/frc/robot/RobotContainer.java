@@ -11,6 +11,7 @@ import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
@@ -34,10 +35,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
-  private final PneumaticHub m_PneumaticHub = new PneumaticHub(Constants.Pneumatics.kCANIDPneumaticHub);
+  private final Compressor m_PneumaticHub = new Compressor(
+    Constants.Pneumatics.kCANIDPneumaticHub, 
+    PneumaticsModuleType.CTREPCM);
   
   public final DoubleSolenoid m_DoubleSolenoid = new DoubleSolenoid(
-    Constants.Pneumatics.kCANIDPneumaticHub, PneumaticsModuleType.REVPH, 
+    Constants.Pneumatics.kCANIDPneumaticHub, PneumaticsModuleType.CTREPCM, 
     Constants.Pneumatics.kChExtend, Constants.Pneumatics.kChRetract);
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
