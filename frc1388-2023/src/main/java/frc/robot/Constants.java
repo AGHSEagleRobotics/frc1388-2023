@@ -40,4 +40,21 @@ public final class Constants {
     public static final double AUTO_TURN_SPEED = 0.25;
     public static final double AUTO_TURN_ANGLE_MAX = 75;
   }
+
+  public final class FieldConstants
+  {
+    //all measurements in inches
+    public static final double ROBOT_WIDTH = 28;
+    public static final double ROBOT_LENGTH = 29;
+    public static final double BUMPER_SIZE = 3.0;
+
+    public static final double CHARGE_STATION_WIDTH = 76.1;
+
+    public static final double SCORE_ZONE_TO_CHARGE_STATION = 60.7;
+    public static final double SCORE_ZONE_TO_FAR_COMMUNITY = SCORE_ZONE_TO_CHARGE_STATION + CHARGE_STATION_WIDTH; //138.6 //blue right, red left
+    public static final double SCORE_ZONE_TO_NEAR_COMMUNITY = 88; // blue left, red right
+    public static final double SCORE_ZONE_TO_GAME_PIECE = 224;
+
+    public static final double DOUBLE_SUBSTATION_HEIGHT = 37;
+  }
 }
