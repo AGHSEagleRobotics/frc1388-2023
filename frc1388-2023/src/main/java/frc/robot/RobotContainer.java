@@ -9,8 +9,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IMUSubsystem16448;
-import frc.robot.subsystems.IMUSubsystem16470;
+import frc.robot.subsystems.GyroSubsystem;
+
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -42,8 +42,8 @@ public class RobotContainer {
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
   
-   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
-   new ADIS16448_IMU()
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
+   new ADIS16470_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
