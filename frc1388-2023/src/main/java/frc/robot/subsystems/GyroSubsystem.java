@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import org.ejml.sparse.csc.mult.MatrixVectorMultWithSemiRing_DSCC;
-
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -16,6 +14,7 @@ public class GyroSubsystem extends SubsystemBase {
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
   private int counter;
+  
   private enum gyroType{
     ADIS16448,
     ADIS16470
@@ -34,12 +33,16 @@ public class GyroSubsystem extends SubsystemBase {
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
   }
-
+// robot orientation is x foward y left and z up
+// relative to top side of the roborio(the part with the usb ports)
+// on the 16470, y is right, x is backwards, and z is up
+// on the 16448, y is right, x is forwards, and z is down
+// set from the robot's orientation rather than the gyro's orientation
   public double getXAngle() {
     double xAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        xAngle = m_gyro16470.getXComplementaryAngle();
+        xAngle = -m_gyro16470.getXComplementaryAngle();
         break;
 
       case ADIS16448:
@@ -57,11 +60,11 @@ public class GyroSubsystem extends SubsystemBase {
     double yAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        yAngle = m_gyro16470.getYComplementaryAngle();
+        yAngle = -m_gyro16470.getYComplementaryAngle();
         break;
 
       case ADIS16448:
-        yAngle = m_gyro16448.getGyroAngleY();
+        yAngle = -m_gyro16448.getGyroAngleY();
         break;
 
       default:
@@ -79,7 +82,7 @@ public class GyroSubsystem extends SubsystemBase {
         break;
 
       case ADIS16448:
-        zAngle = m_gyro16448.getGyroAngleZ();
+        zAngle = -m_gyro16448.getGyroAngleZ();
         break;
 
       default:
@@ -94,19 +97,9 @@ public class GyroSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     counter++;
     if(counter>=20){
-      switch(m_gyroType){
-        case ADIS16470:
-        SmartDashboard.putNumber("ADIS16470/Z Angle", m_gyro16470.getAngle());
-        SmartDashboard.putNumber("ADIS16470/X Angle", m_gyro16470.getXComplementaryAngle());
-        SmartDashboard.putNumber("ADIS16470/Y Angle", m_gyro16470.getYComplementaryAngle());    
-        break;
-        
-        case ADIS16448:
-        SmartDashboard.putNumber("ADIS16448/Z Angle", m_gyro16448.getGyroAngleZ());
-        SmartDashboard.putNumber("ADIS16448/X Angle", m_gyro16448.getGyroAngleX());
-        SmartDashboard.putNumber("ADIS16448/Y Angle", m_gyro16448.getGyroAngleY());
-        break;
-      }
+        SmartDashboard.putNumber("Robot Z Angle", getZAngle());
+        SmartDashboard.putNumber("Robot X Angle", getXAngle());
+        SmartDashboard.putNumber("Robot Y Angle", getYAngle());    
       counter = 0;
     }   
   }
