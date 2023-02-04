@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.core.RotatedRect;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -36,8 +38,8 @@ public class DriveTrain extends SubsystemBase {
     m_rightBack.setNeutralMode(NeutralMode.Brake);
 
     // Invert left motors
-    m_leftFront.setInverted(false);
-    m_leftBack.setInverted(false);
+    m_leftFront.setInverted(true);
+    m_leftBack.setInverted(true);
     // Invert right motors
     m_rightFront.setInverted(false);
     m_rightBack.setInverted(false);

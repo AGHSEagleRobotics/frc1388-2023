@@ -30,10 +30,10 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(0),
-   new WPI_TalonFX(1), 
+  (new WPI_TalonFX(1),
    new WPI_TalonFX(2), 
-   new WPI_TalonFX(3));
+   new WPI_TalonFX(3), 
+   new WPI_TalonFX(4));
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,8 +42,8 @@ public class RobotContainer {
     new DriveTrainCommand( 
     m_driveTrain,
     ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightY(),
-    ()-> m_driverController.getRightX()
+    ()-> m_driverController.getRightX(),
+    ()-> m_driverController.rightStick().getAsBoolean()
     ));
 
     // Configure the trigger bindings
