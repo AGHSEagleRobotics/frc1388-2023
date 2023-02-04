@@ -14,7 +14,7 @@ public class GyroSubsystem extends SubsystemBase {
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
   private int counter;
-  
+
   private enum gyroType{
     ADIS16448,
     ADIS16470
@@ -42,11 +42,13 @@ public class GyroSubsystem extends SubsystemBase {
     double xAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        xAngle = -m_gyro16470.getXComplementaryAngle();
+        xAngle = -m_gyro16470.getYComplementaryAngle(); // Lint
+//        xAngle = -m_gyro16470.getXComplementaryAngle(); // RoboRio
         break;
 
       case ADIS16448:
-        xAngle = m_gyro16448.getGyroAngleX();
+        xAngle = -m_gyro16448.getGyroAngleY(); // Lint
+//        xAngle = m_gyro16448.getGyroAngleX(); // RoboRio
         break;
 
       default:
@@ -60,11 +62,13 @@ public class GyroSubsystem extends SubsystemBase {
     double yAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        yAngle = -m_gyro16470.getYComplementaryAngle();
+        yAngle = m_gyro16470.getXComplementaryAngle(); // Lint
+//        yAngle = -m_gyro16470.getYComplementaryAngle(); // RoboRio
         break;
 
       case ADIS16448:
-        yAngle = -m_gyro16448.getGyroAngleY();
+        yAngle = -m_gyro16448.getGyroAngleX(); // Lint
+//        yAngle = -m_gyro16448.getGyroAngleY(); // RoboRio
         break;
 
       default:
