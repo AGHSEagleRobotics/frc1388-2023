@@ -4,11 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
@@ -44,6 +49,24 @@ public class DriveTrainSubsystem extends SubsystemBase {
    
     // Differential Drive
     m_differentialDrive = new DifferentialDrive(m_leftFront, m_rightFront);
+
+    // constant speed motor setting and PID
+    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //m_leftFront.setSensorPhase(false);
+    m_leftFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
+    m_leftFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
+    m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
+    m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
+
+    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //m_leftFront.setSensorPhase(false);
+    m_leftFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
+    m_leftFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
+    m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
+    m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
+
+    SmartDashboard.putNumber("speed", 0);
+    SmartDashboard.putNumber("velocity", 0);
   }
 
   public void arcadeDrive( double xSpeed, double zRotation) {
@@ -55,8 +78,24 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDrive( double leftSpeed, double rightSpeed) {
     m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
+  
+  /**
+   * Constant speed drive method for differential drive platform.
+   *
+   * <p> This drives the robot motors at a constant speed rather than a constant voltage
+   *
+   * @param speed The robot's speed along the X axis in inches per second. Forward is positive.
+   */
   public void constantSpeedDrive(double speed) {
+    //Speed units are inches per second
+    //Velocity is in ticks per 100 miliseconds
     //The velocity = speed(inps)/INCHES_PER_ENCODER_UNITS/SENSOR_CYCLES_PER_SECOND
+    double velocity = speed/DriveTrainConstants.INCHES_PER_ENCODER_UNITS/DriveTrainConstants.SENSOR_CYCLES_PER_SECOND;
+    m_leftFront.set(ControlMode.Velocity, velocity);      
+    m_rightFront.set(ControlMode.Velocity, velocity);
+    System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
+    SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("velocity", velocity);
   }
   /**
  * gets raw left sensor units

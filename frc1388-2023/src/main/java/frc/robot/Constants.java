@@ -19,7 +19,7 @@ public final class Constants {
     public static final int CANID_LEFT_BACK     = 2;
     public static final int CANID_RIGHT_FRONT   = 3;
     public static final int CANID_RIGHT_BACK    = 4;
-
+    
     //Encoder stuff
     private final static double COUNTS_PER_REV = 2048;
     private final static double REVS_PER_COUNT = 1/COUNTS_PER_REV;
@@ -33,9 +33,16 @@ public final class Constants {
       SIMPLE_BOX_TO_WHEELS_RATIO *
       WHEEL_CIRCUMFERENCE;
     
-    private final int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
-    private final int SEC_PER_MIN = 60;
-}
+    public final static int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
+    public final static int SEC_PER_MIN = 60;
+
+    //public static final double GAINS_VELOCITY_F = 0.047;
+    public static final double GAINS_VELOCITY_F = 0;
+    public static final double GAINS_VELOCITY_P = 0.25; // using motor for testing
+    public static final double GAINS_VELOCITY_I = 0;
+    public static final double GAINS_VELOCITY_D = 0;
+    public static final int PID_IDX = 0;
+  } 
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
