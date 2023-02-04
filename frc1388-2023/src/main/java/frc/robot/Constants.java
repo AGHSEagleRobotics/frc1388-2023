@@ -37,9 +37,9 @@ public final class Constants {
     public final static int SEC_PER_MIN = 60;
 
     //public static final double GAINS_VELOCITY_F = 0.047;
-    public static final double GAINS_VELOCITY_F = 0.5;
+    public static final double GAINS_VELOCITY_F = 0.05;
     // public static final double GAINS_VELOCITY_P = 0.25; // using motor for testing
-    public static final double GAINS_VELOCITY_P = 0; // using motor for testing
+    public static final double GAINS_VELOCITY_P = 0.15; // using motor for testing
     public static final double GAINS_VELOCITY_I = 0;
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;

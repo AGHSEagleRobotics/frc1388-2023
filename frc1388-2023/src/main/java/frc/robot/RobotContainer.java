@@ -56,13 +56,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    m_driveTrain.setDefaultCommand(
-    new DriveTrainCommand( 
-    m_driveTrain,
-    ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightY(),
-    ()-> m_driverController.getRightX()
-    ));
+    // m_driveTrain.setDefaultCommand(
+    // new DriveTrainCommand( 
+    // m_driveTrain,
+    // ()-> m_driverController.getLeftY(),
+    // ()-> m_driverController.getRightY(),
+    // ()-> m_driverController.getRightX()
+    // ));
 
     // Configure the trigger bindings
     configureBindings();
@@ -81,12 +81,10 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
     // TESTING: testing out constant speed drive
-    // TODO test if using the repeat command is needed
     m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(3); }) ));
     m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-   
   }
 
   /**

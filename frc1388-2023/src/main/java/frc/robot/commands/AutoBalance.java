@@ -80,7 +80,8 @@ public class AutoBalance extends CommandBase {
       pSpeed = pSpeed * -3;
       pSpeed = MathUtil.clamp(pSpeed, -2, 2);
       System.out.println("pSpeed clamped :  " + pSpeed);
-      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
+      // m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
+      m_driveTrainSubsystem.constantSpeedDrive(12);
     
     }
     

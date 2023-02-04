@@ -30,6 +30,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_leftBack = leftBack;
     m_rightFront = rightFront;
     m_rightBack = rightBack;
+   
+    m_leftFront.configFactoryDefault();
+    m_leftBack.configFactoryDefault();
+    m_rightFront.configFactoryDefault();
+    m_rightBack.configFactoryDefault();
 
     m_leftBack.follow(m_leftFront);
     m_rightBack.follow(m_rightFront);
