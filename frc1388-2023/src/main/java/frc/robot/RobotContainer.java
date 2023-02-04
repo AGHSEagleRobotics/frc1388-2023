@@ -13,12 +13,16 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 import frc.robot.subsystems.IMUSubsystem16448;
+import frc.robot.subsystems.IMUSubsystem16470;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -46,8 +50,8 @@ public class RobotContainer {
    new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
   
 
-   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
-   new ADIS16448_IMU()
+   private final IMUSubsystem16470 m_gyroSubsystem = new IMUSubsystem16470(
+   new ADIS16470_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -76,9 +80,10 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
-    //TESTING: testing out constant speed drive
-    m_driverController.a().onTrue(( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(1); }) ));
-    m_driverController.a().onFalse(( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) ));
+    // TESTING: testing out constant speed drive
+    // TODO test if using the repeat command is needed
+    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(3); }) ));
+    m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
    
@@ -94,5 +99,9 @@ public class RobotContainer {
     
 
     return new AutoBalance(m_driveTrain, m_gyroSubsystem, 0, 0);
+  }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_driveTrain.setNeutralMode(mode);
   }
 }

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -44,6 +47,12 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    // set motors to coast mode when user button on RoboRio is pressed
+    if (RobotController.getUserButton()) {
+      m_robotContainer.setNeutralMode(NeutralMode.Coast);
+      System.out.println("###RobotPeriodic() -> UserButtonPressed -> NeutralMode.Coast###");
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

@@ -58,16 +58,19 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
     m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
 
-    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     //m_leftFront.setSensorPhase(false);
-    m_leftFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
-    m_leftFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
-    m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
-    m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
+    m_rightFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
+    m_rightFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
+    m_rightFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
+    m_rightFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
 
     SmartDashboard.putNumber("speed", 0);
     SmartDashboard.putNumber("velocity", 0);
+    SmartDashboard.putNumber("TargetSpeed", 0);
+    SmartDashboard.putNumber("angle", 0);
   }
+    
 
   public void arcadeDrive( double xSpeed, double zRotation) {
     m_differentialDrive.arcadeDrive(xSpeed, zRotation);
@@ -111,6 +114,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double getRightEncoderDistance(){
     return m_rightFront.getSelectedSensorPosition();
   }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_leftFront.setNeutralMode(mode);
+    m_leftBack.setNeutralMode(mode);
+    m_rightFront.setNeutralMode(mode);
+    m_rightBack.setNeutralMode(mode);
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

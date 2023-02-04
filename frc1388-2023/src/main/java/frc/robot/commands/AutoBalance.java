@@ -9,17 +9,19 @@ import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IMUSubsystem16448;
+import frc.robot.subsystems.IMUSubsystem16470;
 
 public class AutoBalance extends CommandBase {
   private static final Logger log = LogManager.getLogger(AutoBalance.class);
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
-  private IMUSubsystem16448 m_gyroSubsystem;
+  private IMUSubsystem16470 m_gyroSubsystem;
   private final double m_turnSpeed;
   private final double m_turnAngleSet;
 
@@ -31,7 +33,7 @@ public class AutoBalance extends CommandBase {
   private final PIDController m_pidController = new PIDController(0.02, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, IMUSubsystem16448 gyroSubsystem, double turnSpeed, double turnAngleSet) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, IMUSubsystem16470 gyroSubsystem, double turnSpeed, double turnAngleSet) {
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
     m_turnSpeed = turnSpeed;
@@ -60,7 +62,7 @@ public class AutoBalance extends CommandBase {
     m_tickCounter++;
 
     double pSpeed;
-    double angle = m_gyroSubsystem.getYGyro();
+    double angle = m_gyroSubsystem.getXGyro();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
     System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
     System.out.println("Average Angle: "+ averageAngle);
@@ -75,9 +77,10 @@ public class AutoBalance extends CommandBase {
       System.out.println("(abs(angle)/15)^7 :  " + pSpeed);
       pSpeed = Math.copySign(pSpeed, angle);
       System.out.println("pSpeed copySign :  " + pSpeed);
-      pSpeed = MathUtil.clamp(pSpeed, -0.45, 0.45);
+      pSpeed = pSpeed * -3;
+      pSpeed = MathUtil.clamp(pSpeed, -2, 2);
       System.out.println("pSpeed clamped :  " + pSpeed);
-      m_driveTrainSubsystem.tankDrive(pSpeed, pSpeed);
+      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
     
     }
     
@@ -90,6 +93,9 @@ public class AutoBalance extends CommandBase {
     if( m_tickCounter == 3){ m_angle3 = angle; m_tickCounter=0; }
 
     System.out.println("Angle: "+angle + "/t Speed: " + pSpeed);
+    SmartDashboard.putNumber("TargetSpeed", pSpeed);
+    SmartDashboard.putNumber("angle", angle);
+    
 
     // turnSpeed = m_pidController.calculate(angle, m_turnAngleSet);
    // turnSpeed = MathUtil.clamp(turnSpeed, -m_turnSpeed, m_turnSpeed);
