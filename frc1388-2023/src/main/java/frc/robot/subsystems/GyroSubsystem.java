@@ -3,18 +3,26 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.DataLogManager;
 public class GyroSubsystem extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
   private int counter;
 
+  private DataLog m_log = DataLogManager.getLog();
+  private DoubleLogEntry m_logGyroZ = new DoubleLogEntry(m_log, "/robot/GyroZ");
+  private DoubleLogEntry m_logGyroX = new DoubleLogEntry(m_log, "/robot/GyroX");
+  private DoubleLogEntry m_logGyroY = new DoubleLogEntry(m_log, "/robot/GyroY");
+  
+  
   private enum gyroType{
     ADIS16448,
     ADIS16470
@@ -33,6 +41,7 @@ public class GyroSubsystem extends SubsystemBase {
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
   }
+  
 // robot orientation is x foward y left and z up
 // relative to top side of the roborio(the part with the usb ports)
 // on the 16470, y is right, x is backwards, and z is up
@@ -106,5 +115,8 @@ public class GyroSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Robot Y Angle", getYAngle());    
       counter = 0;
     }   
+    m_logGyroZ.append(getZAngle());
+    m_logGyroX.append(getXAngle());
+    m_logGyroY.append(getYAngle());
   }
 }
