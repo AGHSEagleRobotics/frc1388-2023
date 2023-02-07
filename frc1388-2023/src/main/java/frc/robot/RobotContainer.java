@@ -35,10 +35,10 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(0),
-   new WPI_TalonFX(1), 
-   new WPI_TalonFX(2), 
-   new WPI_TalonFX(3));
+  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
    new ADIS16470_IMU()
