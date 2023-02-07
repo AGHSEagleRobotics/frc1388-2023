@@ -9,11 +9,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.IMUSubsystem16448;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -40,8 +40,8 @@ public class RobotContainer {
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
+   new ADIS16448_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
