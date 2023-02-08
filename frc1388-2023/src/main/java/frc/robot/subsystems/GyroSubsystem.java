@@ -108,13 +108,13 @@ public class GyroSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    counter++;
-    if(counter>=20){
+    //counter++;
+ //   if(counter>=20){
         SmartDashboard.putNumber("Robot Z Angle", getZAngle());
         SmartDashboard.putNumber("Robot X Angle", getXAngle());
         SmartDashboard.putNumber("Robot Y Angle", getYAngle());    
-      counter = 0;
-    }   
+    //  counter = 0;
+    //}   
     m_logGyroZ.append(getZAngle());
     m_logGyroX.append(getXAngle());
     m_logGyroY.append(getYAngle());
