@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +15,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  private static SendableChooser<Objective> m_autoObjective = new SendableChooser<>(); 
   
   public final class DriveTrainConstants{
     public static final int CANID_LEFT_FRONT    = 1;
@@ -41,6 +45,23 @@ public final class Constants {
     public static final double AUTO_TURN_ANGLE_MAX = 75;
   }
 
+  public enum Objective
+  {
+    LEAVECOMMUNITY ("Leave community" );
+
+    private String m_dashboardDescript; //This is what will show on dashboard
+
+    private Objective ( String dashboardDescript )
+    {
+      m_dashboardDescript = dashboardDescript;
+    }
+  }
+  
+  public Objective getObjective()
+  {
+     return m_autoObjective.getSelected();
+  }
+  
   public final class FieldConstants
   {
     //all measurements in inches
@@ -57,4 +78,5 @@ public final class Constants {
 
     public static final double DOUBLE_SUBSTATION_HEIGHT = 37;
   }
+
 }

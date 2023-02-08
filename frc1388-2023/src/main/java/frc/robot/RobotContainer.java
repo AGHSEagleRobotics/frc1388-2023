@@ -5,7 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.Objective;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoPickUp;
+import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
@@ -15,8 +19,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,6 +34,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
+  private final Constants m_constants = new Constants();
+  private final AutoMethod m_autoMethod = new AutoMethod();
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -82,17 +90,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    
-    //AUTO IDEAS BASED ON POSITION
-    //position A, B, and C 
-    //B scores, goes over charge station slowly, goes back after obtaining leave point
-    //B can score on lower level if needed
-    //A scores, goes around far edge of charge station, picks up, returns on same path
-    //A could either take a path right next to charge station or by the boarder of field
-    //C scores, goes around near edge of charge station, picks up, returns on same path
-    //Dilemna: what level do we score on?
-    //B: 3rd level and 1st level are most efficient
+
+    Objective objective = m_constants.getObjective();
+
+    switch ( objective ) {
+      case LEAVECOMMUNITY:
+      return    
+      AutoMethod.LeaveCommunity();
+    }
+
     
     return null;
   }

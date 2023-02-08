@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoScriptable extends SequentialCommandGroup {
-  
-  private static SendableChooser<String> m_objectiveChooser = new SendableChooser<>(); //String vs Objective is an enum
-  public static final String testAuto = "Testing Auto";
 
   /** Creates a new AutoScriptable. */
   public AutoScriptable() {
@@ -21,15 +18,15 @@ public class AutoScriptable extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands( new AutoMove(0, 0), new AutoTurn(0, 0));
 
-    m_objectiveChooser.addOption( "Testing Auto Option", testAuto );
-    m_objectiveChooser.setDefaultOption( "Testing Auto Option", testAuto );
-    String objective = m_objectiveChooser.getSelected();
-    switch(objective) {
-        case "testAuto":
-        sequence(new AutoMove(0, 0));
-        break;
-        default: 
-        break;
+    // m_objectiveChooser.addOption( "Testing Auto Option", testAuto );
+    // m_objectiveChooser.setDefaultOption( "Testing Auto Option", testAuto );
+    // String objective = m_objectiveChooser.getSelected();
+
+    // switch(objective) {
+    //     case "testAuto":
+    //     sequence(new AutoMove(0, 0));
+    //     break;
+    //     default: 
+    //     break;
     }
   }
-}
