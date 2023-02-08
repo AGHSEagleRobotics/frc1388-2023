@@ -39,8 +39,8 @@ public final class Constants {
     //public static final double GAINS_VELOCITY_F = 0.047;
     public static final double GAINS_VELOCITY_F = 0.05;
     // public static final double GAINS_VELOCITY_P = 0.25; // using motor for testing
-    public static final double GAINS_VELOCITY_P = 0.15; // using motor for testing
-    public static final double GAINS_VELOCITY_I = 0;
+    public static final double GAINS_VELOCITY_P = 0.05; // using motor for testing
+    public static final double GAINS_VELOCITY_I = 0.0005;
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
   } 
