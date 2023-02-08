@@ -8,13 +8,10 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-
 import frc.robot.commands.AutoBalance;
 
-
-
 import frc.robot.subsystems.GyroSubsystem;
-
+import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -44,7 +41,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
 
-
+  private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 

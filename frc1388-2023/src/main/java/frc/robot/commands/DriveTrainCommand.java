@@ -8,7 +8,8 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-m;
+import frc.robot.subsystems.DriveTrain;
+
 
 public class DriveTrainCommand extends CommandBase {
   // public enum DriveMode{
@@ -18,7 +19,7 @@ public class DriveTrainCommand extends CommandBase {
   private boolean m_quickTurn;
 
 
-  private final DriveTrainSubsystem m_driveTrain;
+  private final DriveTrain m_driveTrain;
   
   private Supplier<Double> m_driveLeftStickYAxis;
   private Supplier<Double> m_driveRightStickXAxis;

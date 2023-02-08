@@ -24,7 +24,7 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive m_differentialDrive;
 
 
-  /** Creates a new DriveTrainSubsystem. */
+  /** Creates a new DriveTrain. */
   public DriveTrain(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
     m_leftFront = leftFront;
     m_leftBack = leftBack;
