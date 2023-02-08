@@ -994,51 +994,101 @@ public class MultiChannelADIS implements AutoCloseable, NTSendable {
   }
 
   /** @return Yaw axis angle in degrees (CCW positive) */
-  public synchronized double getAngle(IMUAxis axis) {
-    switch (axis) {
+  public synchronized double getAngle() {
+    switch (m_yaw_axis) {
       case kX:
-        
         if (m_simGyroAngleX != null) {
           return m_simGyroAngleX.get();
         }
         return m_integ_angle_x;
+        break;
       case kY:
         if (m_simGyroAngleY != null) {
           return m_simGyroAngleY.get();
         }
         return m_integ_angle_y;
+        break;
       case kZ:
         if (m_simGyroAngleZ != null) {
           return m_simGyroAngleZ.get();
         }
         return m_integ_angle_z;
+        break;
     }
     return 0.0;
   }
 
+  /** @return X axis angle in degrees (CCW positive) */
+  public synchronized double getGyroAngleX() {
+    if (m_simGyroAngleX != null) {
+      return m_simGyroAngleX.get();
+    }
+    return m_integ_angle_x;
+  }
+
+  /** @return Y axis angle in degrees (CCW positive) */
+  public synchronized double getGyroAngleY() {
+    if (m_simGyroAngleY != null) {
+      return m_simGyroAngleY.get();
+    }
+    return m_integ_angle_y;
+  }
+
+  /** @return Z axis angle in degrees (CCW positive) */
+  public synchronized double getGyroAngleZ() {
+    if (m_simGyroAngleZ != null) {
+      return m_simGyroAngleZ.get();
+    }
+    return m_integ_angle_z;
+  }
+
 
   /** @return Yaw axis angular rate in degrees per second (CCW positive) */
-  public synchronized double getRate(IMUAxis axis) {
-    switch (axis) {
-      case kX:
-        
-        if (m_simGyroRateX != null) {
-          return m_simGyroRateX.get();
-        }
-        return m_gyro_rate_x;
-      case kY:
-        if (m_simGyroRateY != null) {
-          return m_simGyroRateY.get();
-        }
-        return m_gyro_rate_y;
-      case kZ:
-        if (m_simGyroRateZ != null) {
-          return m_simGyroRateZ.get();
-        }
-        return m_gyro_rate_z;
-    }
+  public synchronized double getRate() {
+    if (m_yaw_axis == IMUAxis.kX) {
+      if (m_simGyroRateX != null) {
+        return m_simGyroRateX.get();
+      }
+      return m_gyro_rate_x;
+    } else if (m_yaw_axis == IMUAxis.kY) {
+      if (m_simGyroRateY != null) {
+        return m_simGyroRateY.get();
+      }
+      return m_gyro_rate_y;
+    } else if (m_yaw_axis == IMUAxis.kZ) {
+      if (m_simGyroRateZ != null) {
+        return m_simGyroRateZ.get();
+      }
+      return m_gyro_rate_z;
+    } else {
       return 0.0;
+    }
   }
+
+  /** @return X axis angular rate in degrees per second (CCW positive) */
+  public synchronized double getGyroRateX() {
+    if (m_simGyroRateX != null) {
+      return m_simGyroRateX.get();
+    }
+    return m_gyro_rate_x;
+  }
+
+  /** @return Y axis angular rate in degrees per second (CCW positive) */
+  public synchronized double getGyroRateY() {
+    if (m_simGyroRateY != null) {
+      return m_simGyroRateY.get();
+    }
+    return m_gyro_rate_y;
+  }
+
+  /** @return Z axis angular rate in degrees per second (CCW positive) */
+  public synchronized double getGyroRateZ() {
+    if (m_simGyroRateZ != null) {
+      return m_simGyroRateZ.get();
+    }
+    return m_gyro_rate_z;
+  }
+
 
   /** @return Yaw Axis */
   public IMUAxis getYawAxis() {
@@ -1092,6 +1142,6 @@ public class MultiChannelADIS implements AutoCloseable, NTSendable {
   @Override
   public void initSendable(NTSendableBuilder builder) {
     builder.setSmartDashboardType("Gyro");
-    builder.addDoubleProperty("Value", () -> getAngle(m_yaw_axis), null); //this::getAngle, null);
+    builder.addDoubleProperty("Value", this::getAngle, null);
   }
 }
