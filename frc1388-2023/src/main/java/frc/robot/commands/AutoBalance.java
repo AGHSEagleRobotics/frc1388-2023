@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IMUSubsystem16448;
+import frc.robot.subsystems.IMUSubsystem16470;
 import frc.robot.subsystems.IMUSubsystem16470;
 
 public class AutoBalance extends CommandBase {
