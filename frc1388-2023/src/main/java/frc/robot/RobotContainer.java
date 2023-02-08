@@ -42,12 +42,11 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
-  (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
+  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
 
    private final IMUSubsystem16470 m_gyroSubsystem = new IMUSubsystem16470(
@@ -56,13 +55,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    // m_driveTrain.setDefaultCommand(
-    // new DriveTrainCommand( 
-    // m_driveTrain,
-    // ()-> m_driverController.getLeftY(),
-    // ()-> m_driverController.getRightY(),
-    // ()-> m_driverController.getRightX()
-    // ));
+    m_driveTrain.setDefaultCommand(
+    new DriveTrainCommand( 
+    m_driveTrain,
+    ()-> m_driverController.getLeftY(),
+    ()-> m_driverController.getRightX(),
+    ()-> m_driverController.rightStick().getAsBoolean()
+    ));
 
     // Configure the trigger bindings
     configureBindings();
