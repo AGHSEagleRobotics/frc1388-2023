@@ -13,15 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IMUSubsystem16470;
-import frc.robot.subsystems.IMUSubsystem16470;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class AutoBalance extends CommandBase {
   private static final Logger log = LogManager.getLogger(AutoBalance.class);
 
-  private DriveTrainSubsystem m_driveTrainSubsystem;
-  private IMUSubsystem16470 m_gyroSubsystem;
+  private DriveTrain m_driveTrainSubsystem;
+  private GyroSubsystem m_gyroSubsystem;
   private final double m_turnSpeed;
   private final double m_turnAngleSet;
 
@@ -33,7 +32,7 @@ public class AutoBalance extends CommandBase {
   private final PIDController m_pidController = new PIDController(0.02, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, IMUSubsystem16470 gyroSubsystem, double turnSpeed, double turnAngleSet) {
+  public AutoBalance(DriveTrain driveTrainSubsystem, GyroSubsystem gyroSubsystem, double turnSpeed, double turnAngleSet) {
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
     m_turnSpeed = turnSpeed;
@@ -62,7 +61,7 @@ public class AutoBalance extends CommandBase {
     m_tickCounter++;
 
     double pSpeed;
-    double angle = m_gyroSubsystem.getXGyro();
+    double angle = m_gyroSubsystem.getYAngle();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
     System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
     System.out.println("Average Angle: "+ averageAngle);

@@ -8,8 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
+m;
 
 public class DriveTrainCommand extends CommandBase {
   // public enum DriveMode{
@@ -27,8 +26,9 @@ public class DriveTrainCommand extends CommandBase {
 
   private boolean m_lastStick = false;
   /** Creates a new DriveTrainCommand. */
+
   public DriveTrainCommand(
-    DriveTrainSubsystem driveTrain,
+    DriveTrain driveTrain,
     Supplier<Double> driveLeftStickYAxis, 
     Supplier<Double> driveRightStickXAxis,
     Supplier<Boolean> rightStickButton

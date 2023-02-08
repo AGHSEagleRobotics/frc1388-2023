@@ -10,10 +10,11 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 
 import frc.robot.commands.AutoBalance;
-import frc.robot.subsystems.DriveTrainSubsystem;
 
-import frc.robot.subsystems.IMUSubsystem16448;
-import frc.robot.subsystems.IMUSubsystem16470;
+
+
+import frc.robot.subsystems.GyroSubsystem;
+
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -43,26 +44,27 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
 
-  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
-  (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
+
+  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
 
-   private final IMUSubsystem16470 m_gyroSubsystem = new IMUSubsystem16470(
-   new ADIS16470_IMU()
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
+   new ADIS16448_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    // m_driveTrain.setDefaultCommand(
-    // new DriveTrainCommand( 
-    // m_driveTrain,
-    // ()-> m_driverController.getLeftY(),
-    // ()-> m_driverController.getRightY(),
-    // ()-> m_driverController.getRightX()
-    // ));
+
+    m_driveTrain.setDefaultCommand(
+    new DriveTrainCommand( 
+    m_driveTrain,
+    ()-> m_driverController.getLeftY(),
+    ()-> m_driverController.getRightX(),
+    ()-> m_driverController.rightStick().getAsBoolean()
+    ));
 
     // Configure the trigger bindings
     configureBindings();

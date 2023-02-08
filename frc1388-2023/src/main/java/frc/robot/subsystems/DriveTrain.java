@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DriveTrainConstants;
 
-public class DriveTrainSubsystem extends SubsystemBase {
+public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
   private final WPI_TalonFX m_leftBack;
   private final WPI_TalonFX m_rightFront;
@@ -25,7 +25,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 
   /** Creates a new DriveTrainSubsystem. */
-  public DriveTrainSubsystem(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
+  public DriveTrain(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
     m_leftFront = leftFront;
     m_leftBack = leftBack;
     m_rightFront = rightFront;
