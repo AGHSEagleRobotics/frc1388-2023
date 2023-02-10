@@ -19,6 +19,15 @@ import frc.robot.subsystems.GyroSubsystem;
 public class AutoBalance extends CommandBase {
   private static final Logger log = LogManager.getLogger(AutoBalance.class);
 
+  private enum BalanceStates {
+    approachingRamp,
+    goingUpRamp,
+    rampTiltingDown,
+    overshooting
+  }
+
+  private BalanceStates m_balanceState = BalanceStates.approachingRamp;
+
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
   private final double m_turnSpeed;
@@ -104,6 +113,32 @@ public class AutoBalance extends CommandBase {
     //System.out.println("Angle: "+angle+"\tturnSpeed: "+turnSpeed+"\tTurnSetPoint"+m_turnAngleSet);
 
    // m_driveTrainSubsystem.curvatureDrive(0, turnSpeed, true);
+   switch (m_balanceState) {
+    case approachingRamp: if(m_gyroSubsystem.getYAngle() > 5) {
+      m_balanceState = BalanceStates.goingUpRamp;
+    }
+    break;
+
+    case goingUpRamp: if (m_gyroSubsystem.getYAngle() < averageAngle) {
+      m_balanceState = BalanceStates.rampTiltingDown;
+    }
+    //1/2 power
+    break;
+
+    case rampTiltingDown: if(m_gyroSubsystem.getYAngle() < -2.5) {
+      m_balanceState = BalanceStates.overshooting;
+    }
+    if(m_gyroSubsystem.getYAngle() > 2.5) {
+      m_balanceState = BalanceStates.goingUpRamp;
+    }
+    //stop
+    break;
+
+    case overshooting: if(Math.abs(m_gyroSubsystem.getYAngle()) > 2.5) {
+      m_balanceState = BalanceStates.rampTiltingDown;
+    }
+    //-1/4 power
+   }
   }
 
   // Called once the command ends or is interrupted.
