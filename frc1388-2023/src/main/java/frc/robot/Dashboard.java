@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveTrainConstants;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;
@@ -59,5 +61,14 @@ public class Dashboard {
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(5, 5)
             .withPosition(16, 0);
+
+        //DELETEME: testing autobalance pid loop
+        SmartDashboard.putNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
+        SmartDashboard.putNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
+        SmartDashboard.putNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
+        SmartDashboard.putNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
+        SmartDashboard.putNumber("speed", 6);
+
     } // end constructor
 }
+ 

@@ -36,16 +36,22 @@ public final class Constants {
     public final static int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
     public final static int SEC_PER_MIN = 60;
 
-    //public static final double GAINS_VELOCITY_F = 0.047;
+    //tuned for constant speed drive lint2023 
     public static final double GAINS_VELOCITY_F = 0.05;
-    // public static final double GAINS_VELOCITY_P = 0.25; // using motor for testing
-    public static final double GAINS_VELOCITY_P = 0.15; // using motor for testing
-    public static final double GAINS_VELOCITY_I = 0;
-    public static final double GAINS_VELOCITY_D = 0;
+    public static final double GAINS_VELOCITY_P = 0.02; 
+    public static final double GAINS_VELOCITY_I = 0.0001;
+    public static final double GAINS_VELOCITY_D = 0.00001;
     public static final int PID_IDX = 0;
   } 
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+ 
+  public static class AutoBalanceConstants{
+    public static final double HIGH_SPEED = 18.0;
+    public static final double LOW_SPEED = 12.0;
+
+
   }
 }
