@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.AutoBalanceConstants;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrain;
@@ -41,7 +42,7 @@ public class AutoBalance extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
 
-    m_pidController.setTolerance(0.02);
+    //m_pidController.se  tTolerance(0.02);
     
   }
 
@@ -72,15 +73,15 @@ public class AutoBalance extends CommandBase {
     }
     else {
           //double pSpeed = angle * DriveTrainConstants.0.02;
-      pSpeed = Math.pow(((Math.abs(angle))/15), 3);
-      System.out.println("(abs(angle)/15)^7 :  " + pSpeed);
+      pSpeed = Math.pow(((Math.abs(angle))/15), 2.5);
+      // System.out.println("(abs(angle)/15)^2.5 :  " + pSpeed);
       pSpeed = Math.copySign(pSpeed, angle);
-      System.out.println("pSpeed copySign :  " + pSpeed);
-      pSpeed = pSpeed * -3;
-      pSpeed = MathUtil.clamp(pSpeed, -2, 2);
-      System.out.println("pSpeed clamped :  " + pSpeed);
-      // m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
-      m_driveTrainSubsystem.constantSpeedDrive(12);
+      // System.out.println("pSpeed copySign :  " + pSpeed);
+      pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
+      pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
+      // System.out.println("pSpeed :  " + pSpeed);
+      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
+      // m_driveTrainSubsystem.constantSpeedDrive(6);
     
     }
     

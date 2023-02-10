@@ -67,6 +67,8 @@ public class Dashboard {
         SmartDashboard.putNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
         SmartDashboard.putNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
         SmartDashboard.putNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
+        SmartDashboard.putNumber("speed", 6);
+
     } // end constructor
 }
  
