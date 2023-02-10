@@ -9,10 +9,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.commands.AutoBalance;
 
+import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -41,17 +41,20 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
+
+  private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
+
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16448_IMU()
+   new ADIS16470_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
 
     m_driveTrain.setDefaultCommand(
     new DriveTrainCommand( 
@@ -78,7 +81,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
     // TESTING: testing out constant speed drive
-    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(3); }) ));
+    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
     m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
