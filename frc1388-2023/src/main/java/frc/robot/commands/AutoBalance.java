@@ -70,29 +70,29 @@ public class AutoBalance extends CommandBase {
     //  double turnSpeed;
     m_tickCounter++;
 
-    double pSpeed;
+    // double pSpeed;
     double angle = m_gyroSubsystem.getYAngle();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
-    System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
-    System.out.println("Average Angle: "+ averageAngle);
+    // System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
+    // System.out.println("Average Angle: "+ averageAngle);
 
-    if( averageAngle - Math.abs(angle) > 1){
-    //if( Math.abs(angle) < 13.5 ){
-      pSpeed = 0;
-    }
-    else {
-          //double pSpeed = angle * DriveTrainConstants.0.02;
-      pSpeed = Math.pow(((Math.abs(angle))/15), 2.5);
-      // System.out.println("(abs(angle)/15)^2.5 :  " + pSpeed);
-      pSpeed = Math.copySign(pSpeed, angle);
-      // System.out.println("pSpeed copySign :  " + pSpeed);
-      pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
-      pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
-      // System.out.println("pSpeed :  " + pSpeed);
-      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
-      // m_driveTrainSubsystem.constantSpeedDrive(6);
+    // if( averageAngle - Math.abs(angle) > 1){
+    // //if( Math.abs(angle) < 13.5 ){
+    //   pSpeed = 0;
+    // }
+    // else {
+    //       //double pSpeed = angle * DriveTrainConstants.0.02;
+    //   pSpeed = Math.pow(((Math.abs(angle))/15), 2.5);
+    //   // System.out.println("(abs(angle)/15)^2.5 :  " + pSpeed);
+    //   pSpeed = Math.copySign(pSpeed, angle);
+    //   // System.out.println("pSpeed copySign :  " + pSpeed);
+    //   pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
+    //   pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
+    //   // System.out.println("pSpeed :  " + pSpeed);
+    //   m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
+    //   // m_driveTrainSubsystem.constantSpeedDrive(6);
     
-    }
+    // }
     
     /* TODO test constant code
     double constantSpeed = DriveTrainConstants.BALANCE_CONSTANT;
@@ -102,8 +102,8 @@ public class AutoBalance extends CommandBase {
     if( m_tickCounter == 2){ m_angle2 = angle; }
     if( m_tickCounter == 3){ m_angle3 = angle; m_tickCounter=0; }
 
-    System.out.println("Angle: "+angle + "/t Speed: " + pSpeed);
-    SmartDashboard.putNumber("TargetSpeed", pSpeed);
+    // System.out.println("Angle: "+angle + "/t Speed: " + pSpeed);
+    // SmartDashboard.putNumber("TargetSpeed", pSpeed);
     SmartDashboard.putNumber("angle", angle);
     
 
@@ -115,31 +115,61 @@ public class AutoBalance extends CommandBase {
 
    // m_driveTrainSubsystem.curvatureDrive(0, turnSpeed, true);
    switch (m_balanceState) {
-    case approachingRamp: if(m_gyroSubsystem.getYAngle() > 5) {
-      m_balanceState = BalanceStates.goingUpRamp;
-    }
-    break;
+    case approachingRamp:
+      if(m_gyroSubsystem.getYAngle() > 5) {
+        m_balanceState = BalanceStates.goingUpRamp;
+      }
+      m_driveTrainSubsystem.arcadeDrive(0.5, 0);
+      break;
 
-    case goingUpRamp: if (m_gyroSubsystem.getYAngle() < averageAngle) {
-      m_balanceState = BalanceStates.rampTiltingDown;
-    }
-    //1/2 power
-    break;
+    case goingUpRamp: 
+      if (m_gyroSubsystem.getYAngle() + 1 < averageAngle) {
+        m_balanceState = BalanceStates.rampTiltingDown;
+      }
+      constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
+      break;
 
-    case rampTiltingDown: if(m_gyroSubsystem.getYAngle() < -2.5) {
-      m_balanceState = BalanceStates.overshooting;
-    }
-    if(m_gyroSubsystem.getYAngle() > 2.5) {
-      m_balanceState = BalanceStates.goingUpRamp;
-    }
-    //stop
-    break;
+    case rampTiltingDown:
+      if(m_gyroSubsystem.getYAngle() < -2.5) {
+        m_balanceState = BalanceStates.overshooting;
+      }
+      if(m_gyroSubsystem.getYAngle() > 2.5) {
+        m_balanceState = BalanceStates.goingUpRamp;
+      }
+      m_driveTrainSubsystem.arcadeDrive(0, 0);
+      break;
 
     case overshooting: if(Math.abs(m_gyroSubsystem.getYAngle()) > 2.5) {
       m_balanceState = BalanceStates.rampTiltingDown;
     }
-    //-1/4 power
+    constantSpeedBalance(AutoBalanceConstants.LOW_SPEED);
    }
+  }
+
+  public void constantSpeedBalance(double maxSpeed) {
+    double pSpeed;
+    double angle = m_gyroSubsystem.getYAngle();
+    // double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
+    // System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
+    // System.out.println("Average Angle: "+ averageAngle);
+
+    // if( averageAngle - Math.abs(angle) > 1){
+    // //if( Math.abs(angle) < 13.5 ){
+    //   pSpeed = 0;
+    // }
+    // else {
+          //double pSpeed = angle * DriveTrainConstants.0.02;
+      pSpeed = Math.pow(((Math.abs(angle))/15), 2.5);
+      // System.out.println("(abs(angle)/15)^2.5 :  " + pSpeed);
+      pSpeed = Math.copySign(pSpeed, angle);
+      // System.out.println("pSpeed copySign :  " + pSpeed);
+      pSpeed = pSpeed * -maxSpeed;
+      pSpeed = MathUtil.clamp(pSpeed, -maxSpeed, maxSpeed);
+      // System.out.println("pSpeed :  " + pSpeed);
+      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
+      // m_driveTrainSubsystem.constantSpeedDrive(6);
+    
+    // }
   }
 
   // Called once the command ends or is interrupted.

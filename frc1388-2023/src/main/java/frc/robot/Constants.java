@@ -49,8 +49,8 @@ public final class Constants {
   }
  
   public static class AutoBalanceConstants{
-    public static final double HIGH_SPEED = 18.0;
-    public static final double LOW_SPEED = 12.0;
+    public static final double HIGH_SPEED = 15.0;
+    public static final double LOW_SPEED = 15.0;
 
 
   }
