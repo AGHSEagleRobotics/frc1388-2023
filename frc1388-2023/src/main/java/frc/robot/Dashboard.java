@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.Constants.Objective;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;
     private final String SHUFFLEBOARD_TAB_NAME = "Competition"; //TODO maybe? put this in constants
+    private static SendableChooser<Objective> m_autoObjective = new SendableChooser<>();
 
     private final UsbCamera m_cameraLarge;
     private final int CAMERA_LARGE_RES_HEIGHT = 480;
@@ -29,6 +32,13 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
+
+    public ComplexWidget m_complexWidgetObjective;
+
+    private final int autonChooserWidth = 18;
+    private final int autonChooserHeight = 2;
+    private final int autonChooserColumnIndex = 12;
+    private final int autonChooserRowIndex = 0;
     
     public Dashboard() {
         
@@ -60,7 +70,21 @@ public class Dashboard {
             .withSize(5, 5)
             .withPosition(16, 0);
 
-        //TODO place AUTO POSITION code here so we can choose our auto path
-        
-    } // end constructor
+            for (Constants.Objective o: Objective.values()) {
+                m_autoObjective.addOption(o.getDashboardDescript(), o);
+            }
+
+            m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
+            .withWidget(BuiltInWidgets.kSplitButtonChooser)
+            .withSize(autonChooserWidth, autonChooserHeight)
+            .withPosition(autonChooserColumnIndex, autonChooserRowIndex);
+            
+
+    } //end constructor
+
+    //TODO place AUTO POSITION code here so we can choose our auto path
+    public Objective getObjective() {
+        return m_autoObjective.getSelected();
+    } 
+
 }

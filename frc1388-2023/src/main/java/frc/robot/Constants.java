@@ -62,6 +62,9 @@ public final class Constants {
       m_dashboardDescript = dashboardDescript;
     }
 
+  public String getDashboardDescript(){
+      return m_dashboardDescript;
+  }
 
   }
   
