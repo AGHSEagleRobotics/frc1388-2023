@@ -13,11 +13,13 @@ import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IMUSubsystem16448;
+import frc.robot.subsystems.GyroSubsystem;
+
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -43,12 +45,12 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
+  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
-   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
    new ADIS16448_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,8 +60,8 @@ public class RobotContainer {
     new DriveTrainCommand( 
     m_driveTrain,
     ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightY(),
-    ()-> m_driverController.getRightX()
+    ()-> m_driverController.getRightX(),
+    ()-> m_driverController.rightStick().getAsBoolean()
     ));
 
     // Configure the trigger bindings
