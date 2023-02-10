@@ -44,23 +44,31 @@ public final class Constants {
     public static final double AUTO_TURN_SPEED = 0.25;
     public static final double AUTO_TURN_ANGLE_MAX = 75;
   }
-
+  
   public enum Objective
   {
-    LEAVECOMMUNITY ("Leave community" );
+    LEAVECOMMUNITY ("Leave community" ),
+    SCORE( "Score" ),
+    SCOREANDLEAVE ( "Score and leave community" ),
+    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
+    CHARGESTATION ( "Balance on charge station" ),
+    OVERCHARGESTATION( "Straight over charge station" ),
+    CHARGESTATIONBACK( "Over station and back" );
 
+    
     private String m_dashboardDescript; //This is what will show on dashboard
-
     private Objective ( String dashboardDescript )
     {
       m_dashboardDescript = dashboardDescript;
     }
+
+
   }
   
   public Objective getObjective()
   {
      return m_autoObjective.getSelected();
-  }
+    }
   
   public final class FieldConstants
   {

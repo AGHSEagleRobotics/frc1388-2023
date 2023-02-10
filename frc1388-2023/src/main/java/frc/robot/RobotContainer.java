@@ -97,8 +97,32 @@ public class RobotContainer {
       case LEAVECOMMUNITY:
       return    
       AutoMethod.LeaveCommunity();
-    }
 
+      case SCORE:
+      return
+      AutoMethod.Score();
+
+      case SCOREANDLEAVE:
+      return
+      AutoMethod.ScoreLeave();
+
+      case SCORELEAVEPICKUP:
+      return
+      AutoMethod.ScoreLeavePickUp();
+
+      case CHARGESTATION:
+      return
+      AutoMethod.ChargeStation();
+
+      case OVERCHARGESTATION:
+      return
+      AutoMethod.OverChargeStation();
+
+      case CHARGESTATIONBACK:
+      return
+      AutoMethod.OverChargeAndBack();
+
+    }
     
     return null;
   }
