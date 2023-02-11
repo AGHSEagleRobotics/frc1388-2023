@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.commands.AutoBalance;
@@ -97,8 +98,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     
-
-    return new AutoBalance(m_driveTrain, m_gyroSubsystem, 0, 0);
+    System.out.println("Get Auto Command");
+    return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
+      .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
   }
 
   public void setNeutralMode(NeutralMode mode) {

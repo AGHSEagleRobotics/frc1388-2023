@@ -126,6 +126,15 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
     SmartDashboard.putNumber("motor output", m_leftFront.getMotorOutputPercent());
   }
+  public void resetLeftEncoder(){
+    m_leftFront.setSelectedSensorPosition(0);
+  };
+  public void resetRightEncoder(){
+    m_rightFront.setSelectedSensorPosition(0);
+  }
+  public void setDeadbandZero() {
+    m_differentialDrive.setDeadband(0); 
+  }
   /**
  * gets raw left sensor units
  * @return distance in raw sensor units

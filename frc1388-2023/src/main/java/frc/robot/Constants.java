@@ -49,9 +49,41 @@ public final class Constants {
   }
  
   public static class AutoBalanceConstants{
-    public static final double HIGH_SPEED = 15.0;
+    public static final double HIGH_SPEED = 18.0;
     public static final double LOW_SPEED = 15.0;
 
 
   }
+  public final class AutoConstants {
+    //TEST P VALUE LATER
+    
+    public static final double TURN_P_VALUE = 0.03;
+    public static final double TURN_P_TOLERANCE = 1.25;
+    public static final double MOVE_P_VALUE = 0.02;
+    public static final double MOVE_P_TOLERANCE = 0.5;
+
+    public static final double MOVE_F_VALUE = 0;
+ 
+
+    public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
+
+    public static final double AUTO_SHOOT_RPM = 3700; 
+    public static final double SHOOTER_TIMER_1 = 1;
+    public static final double SHOOTER_TIMER_2 = 1.7;
+
+    public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
+    public static final double AUTO_DRIVE_SPEED = 0.5;
+
+    public static final double AUTO_TIME = 15.0; //seconds
+    public static final double AUTO_LEAVE_TARMAC_DISTANCE = 70; //inches
+
+    public static final double AUTO_TURN_SPEED = 0.25;
+    public static final double AUTO_TURN_ANGLE_MAX = 75; //degrees //changed from 79
+
+    public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
+    public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
+    public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
+    public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
+
+}
 }

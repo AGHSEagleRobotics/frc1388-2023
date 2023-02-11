@@ -70,8 +70,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    System.out.println("autonomous innit:getting autonomous command");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
+    System.out.println("starting auto command");
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

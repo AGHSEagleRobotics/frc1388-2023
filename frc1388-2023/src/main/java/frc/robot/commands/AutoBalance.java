@@ -4,21 +4,15 @@
 
 package frc.robot.commands;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoBalanceConstants;
-//import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class AutoBalance extends CommandBase {
-  private static final Logger log = LogManager.getLogger(AutoBalance.class);
 
   private enum BalanceStates {
     approachingRamp,
@@ -31,8 +25,6 @@ public class AutoBalance extends CommandBase {
 
   private DriveTrain m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
-  private final double m_turnSpeed;
-  private final double m_turnAngleSet;
 
   private double m_angle1 = 0;
   private double m_angle2 = 0;
@@ -42,11 +34,9 @@ public class AutoBalance extends CommandBase {
   private final PIDController m_pidController = new PIDController(0.02, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrain driveTrainSubsystem, GyroSubsystem gyroSubsystem, double turnSpeed, double turnAngleSet) {
+  public AutoBalance(DriveTrain driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
-    m_turnSpeed = turnSpeed;
-    m_turnAngleSet = turnAngleSet;
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
@@ -58,7 +48,6 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    log.info("m_turnSpeed={}\tm_turnAngleSet={}",m_turnSpeed,m_turnAngleSet);
 
     // m_driveTrainSubsystem.resetGyro();
    // m_driveTrainSubsystem.setDeadbandZero();
@@ -75,7 +64,7 @@ public class AutoBalance extends CommandBase {
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
     // System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
     // System.out.println("Average Angle: "+ averageAngle);
-
+  
     if( averageAngle - Math.abs(angle) > 1){
     //if( Math.abs(angle) < 13.5 ){
       pSpeed = 0;
