@@ -15,6 +15,8 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.DriveTrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.subsystems.MultiChannelADIS;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
@@ -50,7 +52,7 @@ public class RobotContainer {
   
 
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+   new MultiChannelADIS()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
