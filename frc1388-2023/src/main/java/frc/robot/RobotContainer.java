@@ -36,7 +36,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
-  private final Constants m_constants = new Constants();
   private final AutoMethod m_autoMethod = new AutoMethod();
 
 
@@ -51,7 +50,7 @@ public class RobotContainer {
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16448_IMU()
+   new ADIS16470_IMU()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -93,7 +92,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Objective objective = m_constants.getObjective();
+    Objective objective = m_Dashboard.getObjective();
+    System.out.println(objective);
 
     switch ( objective ) {
       case LEAVECOMMUNITYFAR:

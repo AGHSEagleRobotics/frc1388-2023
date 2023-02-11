@@ -69,11 +69,6 @@ public final class Constants {
 
   }
   
-  public Objective getObjective()
-  {
-     return m_autoObjective.getSelected();
-    }
-  
   public final class FieldConstants
   {
     //all measurements in inches
