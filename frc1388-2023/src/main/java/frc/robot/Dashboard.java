@@ -4,6 +4,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -11,11 +12,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.Objective;
+import frc.robot.Constants.Position;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;
     private final String SHUFFLEBOARD_TAB_NAME = "Competition"; //TODO maybe? put this in constants
     private static SendableChooser<Objective> m_autoObjective = new SendableChooser<>();
+    private static SendableChooser<Position> m_autoPosition = new SendableChooser<>();
 
     private final UsbCamera m_cameraLarge;
     private final int CAMERA_LARGE_RES_HEIGHT = 480;
@@ -33,6 +36,7 @@ public class Dashboard {
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
     private final ComplexWidget m_complexWidgetObjective;
+    private final ComplexWidget m_complexWidgetPosition;
 
     private final int autonChooserWidth = 5;
     private final int autonChooserHeight = 5;
@@ -73,11 +77,19 @@ public class Dashboard {
                 m_autoObjective.addOption(o.getDashboardDescript(), o);
             }
 
-            m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
+            for (Constants.Position p: Position.values()) {
+                m_autoPosition.addOption(p.getDashboardDescript(), p);
+            }
+
+        m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
             .withSize(autonChooserWidth, autonChooserHeight)
             .withPosition(autonChooserColumnIndex, autonChooserRowIndex);
-            
+
+        m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
+            .withWidget(BuiltInWidgets.kSplitButtonChooser)
+            .withSize(5, 5)
+            .withPosition(10, 4);
 
     } //end constructor
 
@@ -85,5 +97,9 @@ public class Dashboard {
     public Objective getObjective() {
         return m_autoObjective.getSelected();
     } 
+
+    public Position getPosition() {
+        return m_autoPosition.getSelected();
+    }
 
 }

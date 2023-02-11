@@ -6,10 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.Objective;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
+import frc.robot.commands.AutoTurn;
 
 /** Add your docs here. */
 public class AutoMethod {
@@ -21,46 +23,73 @@ public class AutoMethod {
     public static Command LeaveCommunityFar()
     {
         return 
-        new AutoMove( Constants.FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + Constants.FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+        new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
     public static Command LeaveCommunityNear()
     {
         return 
-        new AutoMove( Constants.FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + Constants.FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+        new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
     public static Command Score()
     {
         return
-        new AutoScore()
+        new AutoScore() //move arm
         ; 
     }
 
-    public static Command ScoreLeave()
+    public static Command ScoreLeaveNear()
     {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(0, 0)
-                )
-        .andThen(
-            new AutoMove(0, 0)
+            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
                 )
         ;
     }
 
-    public static Command ScoreLeavePickUp()
+
+    public static Command ScoreLeaveFar()
     {
         return 
-        //new AutoScore command
-        //.andThen(
-        new AutoMove(0, 0)
-        //         )
+            new AutoScore()
         .andThen(
-        new AutoPickUp()
+            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
+                )
+        ;
+    }
+
+    public static Command ScoreLeavePickUpNear()
+    {
+        return 
+            new AutoScore()
+        .andThen(
+            new AutoTurn(0.5, 180)
+        )
+        .andThen(
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+                )
+        .andThen(
+            new AutoPickUp()
+        )
+        ;
+    }
+
+    public static Command ScoreLeavePickUpFar()
+    {
+        return 
+            new AutoScore()
+        .andThen(
+            new AutoTurn(0.5, 180)
+        )
+        .andThen(
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+                )
+        .andThen(
+            new AutoPickUp()
         )
         ;
     }
@@ -70,7 +99,23 @@ public class AutoMethod {
     public static Command ChargeStation()
     {
         return 
-        new AutoMove(0, 0)
+        new AutoMove(40, 0.5)
+        //.andThen(
+        // new AutoBalance()
+        //        )
+        ;
+    }
+
+    public static Command ScoreThenCharge()
+    {
+        return
+        new AutoScore()
+        .andThen(
+            new AutoTurn(0.5, 180)
+        )
+        .andThen(
+            new AutoMove(40, 0.5)
+        )
         //.andThen(
         // new AutoBalance()
         //        )
@@ -80,17 +125,17 @@ public class AutoMethod {
     public static Command OverChargeStation()
     {
         return
-        new AutoMove( 0, 0) //constant movement? 
+        new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station 
         ;
     }
 
     public static Command OverChargeAndBack()
     {
         return
-        new AutoMove(20, 0.10)
-        .andThen(
-        new AutoMove(-10, 0.10)
-        )
+        new AutoMove(190, 0.5)
+        //.andThen(
+        //new AutoBalance()
+        //        )
         ;
     }
 }

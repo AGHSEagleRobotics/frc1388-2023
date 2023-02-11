@@ -7,14 +7,16 @@ package frc.robot;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.Objective;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
+
+import javax.lang.model.util.ElementScanner14;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -93,32 +95,54 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     Objective objective = m_Dashboard.getObjective();
+    Position position = m_Dashboard.getPosition();
     System.out.println(objective);
 
     switch ( objective ) {
-      case LEAVECOMMUNITYFAR:
+      case LEAVECOMMUNITY:
+      if ( position == Position.C ){
       return    
       AutoMethod.LeaveCommunityFar();
-
-      case LEAVECOMMUNITYNEAR:
-      return
+      }
+      else {
+      return 
       AutoMethod.LeaveCommunityNear();
+      }
 
       case SCORE:
       return
       AutoMethod.Score();
 
       case SCOREANDLEAVE:
+      if( position == Position.C )
+      {
       return
-      AutoMethod.ScoreLeave();
+      AutoMethod.ScoreLeaveFar();
+      } 
+      else{
+        return 
+        AutoMethod.ScoreLeaveNear();
+      }
 
       case SCORELEAVEPICKUP:
+      if ( position == Position.C )
+      {
       return
-      AutoMethod.ScoreLeavePickUp();
+      AutoMethod.ScoreLeavePickUpFar();
+      }
+      else
+      {
+        return
+        AutoMethod.ScoreLeavePickUpNear();
+      }
 
       case CHARGESTATION:
       return
       AutoMethod.ChargeStation();
+
+      case SCORETHENCHARGE:
+      return
+      AutoMethod.ScoreThenCharge();
 
       case OVERCHARGESTATION:
       return

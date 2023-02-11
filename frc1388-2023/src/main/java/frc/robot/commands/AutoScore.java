@@ -7,18 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoScore extends CommandBase {
-  private String m_stringa;
   /** Creates a new AutoScore. */
-  public AutoScore( String stringa ) {
-    m_stringa = stringa;
-    System.out.println(stringa);
+  public AutoScore() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println(m_stringa);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
