@@ -81,7 +81,7 @@ public class AutoBalance extends CommandBase {
       pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
       // System.out.println("pSpeed :  " + pSpeed);
       m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
-      // m_driveTrainSubsystem.constantSpeedDrive(6);
+      // m_driveTrainSubsystem.constantSpeedDrive(12);
     
     }
     
