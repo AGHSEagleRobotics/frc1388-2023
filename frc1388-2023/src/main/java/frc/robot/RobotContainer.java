@@ -14,7 +14,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
-
+import frc.robot.subsystems.MultiChannelADIS;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -50,7 +50,7 @@ public class RobotContainer {
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+   new MultiChannelADIS()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

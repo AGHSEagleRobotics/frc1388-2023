@@ -15,6 +15,7 @@ public class GyroSubsystem extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
+  private MultiChannelADIS m_gyro16470Multi;
   private int counter;
 
   private DataLog m_log = DataLogManager.getLog();
@@ -25,7 +26,8 @@ public class GyroSubsystem extends SubsystemBase {
   
   private enum gyroType{
     ADIS16448,
-    ADIS16470
+    ADIS16470,
+    ADIS16470Multi
   }
 
   private gyroType m_gyroType;
@@ -40,6 +42,11 @@ public class GyroSubsystem extends SubsystemBase {
     m_gyro16470.setYawAxis(IMUAxis.kZ);
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
+  }
+  public GyroSubsystem(MultiChannelADIS gyro){
+    m_gyro16470Multi = gyro;
+    m_gyro16470Multi.resetAllAngles();
+    m_gyroType = gyroType.ADIS16470Multi;
   }
   
 // robot orientation is x foward y left and z up
@@ -58,6 +65,11 @@ public class GyroSubsystem extends SubsystemBase {
       case ADIS16448:
         xAngle = -m_gyro16448.getGyroAngleY(); // Lint
 //        xAngle = m_gyro16448.getGyroAngleX(); // RoboRio
+        break;
+
+      case ADIS16470Multi:
+        xAngle = -m_gyro16470Multi.getGyroAngleX(); // Lint
+//        xAngle = m_gyro16470Multi.getGyroAngleY(); // RoboRio
         break;
 
       default:
@@ -79,6 +91,11 @@ public class GyroSubsystem extends SubsystemBase {
         yAngle = -m_gyro16448.getGyroAngleX(); // Lint
 //        yAngle = -m_gyro16448.getGyroAngleY(); // RoboRio
         break;
+      
+      case ADIS16470Multi:
+        yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+//        yAngle = -m_gyro16470Multi.getGyroAngleX(); // RoboRio
+        break;
 
       default:
         yAngle = 0.0;
@@ -96,6 +113,10 @@ public class GyroSubsystem extends SubsystemBase {
 
       case ADIS16448:
         zAngle = -m_gyro16448.getGyroAngleZ();
+        break;
+
+      case ADIS16470Multi:
+        zAngle = m_gyro16470Multi.getGyroAngleZ(); // Lint
         break;
 
       default:
