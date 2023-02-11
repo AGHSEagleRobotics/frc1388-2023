@@ -45,7 +45,7 @@ public class GyroSubsystem extends SubsystemBase {
   }
   public GyroSubsystem(MultiChannelADIS gyro){
     m_gyro16470Multi = gyro;
-    m_gyro16470Multi.reset();
+    m_gyro16470Multi.resetAllAngles();
     m_gyroType = gyroType.ADIS16470Multi;
   }
   
@@ -116,7 +116,7 @@ public class GyroSubsystem extends SubsystemBase {
         break;
 
       case ADIS16470Multi:
-        zAngle = m_gyro16470Multi.getGyroAngleZ();
+        zAngle = m_gyro16470Multi.getGyroAngleZ(); // Lint
         break;
 
       default:
