@@ -32,13 +32,12 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
+    private final ComplexWidget m_complexWidgetObjective;
 
-    public ComplexWidget m_complexWidgetObjective;
-
-    private final int autonChooserWidth = 18;
-    private final int autonChooserHeight = 2;
-    private final int autonChooserColumnIndex = 12;
-    private final int autonChooserRowIndex = 0;
+    private final int autonChooserWidth = 5;
+    private final int autonChooserHeight = 5;
+    private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
+    private final int autonChooserRowIndex = 0; //where it is on shuffleboard
     
     public Dashboard() {
         
@@ -62,13 +61,13 @@ public class Dashboard {
 
         m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(15, 14)
+            .withSize(4,4)
             .withPosition(0, 0);
 
         m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(5, 5)
-            .withPosition(16, 0);
+            .withSize(4, 4)
+            .withPosition(10, 0);
 
             for (Constants.Objective o: Objective.values()) {
                 m_autoObjective.addOption(o.getDashboardDescript(), o);
@@ -82,7 +81,7 @@ public class Dashboard {
 
     } //end constructor
 
-    //TODO place AUTO POSITION code here so we can choose our auto path
+    //TODO place AUTO OBJECTIVE code here so we can choose our auto path
     public Objective getObjective() {
         return m_autoObjective.getSelected();
     } 

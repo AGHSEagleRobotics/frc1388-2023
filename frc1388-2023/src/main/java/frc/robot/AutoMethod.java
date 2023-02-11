@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Objective;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
+import frc.robot.commands.AutoScore;
 
 /** Add your docs here. */
 public class AutoMethod {
@@ -17,27 +18,37 @@ public class AutoMethod {
 
     }
 
-    public static Command LeaveCommunity()
+    public static Command LeaveCommunityFar()
     {
         return 
-        new AutoMove(10, 0.10)
+        new AutoMove( Constants.FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + Constants.FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+        ;
+    }
+
+    public static Command LeaveCommunityNear()
+    {
+        return 
+        new AutoMove( Constants.FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + Constants.FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
     public static Command Score()
     {
         return
-        null //AutoScore command here
-        ;
+        new AutoScore()
+        ; 
     }
 
     public static Command ScoreLeave()
     {
         return 
-        //new AutoScore command
-        //.andThen(
-        new AutoMove(0, 0)
-        //         )
+            new AutoScore()
+        .andThen(
+            new AutoMove(0, 0)
+                )
+        .andThen(
+            new AutoMove(0, 0)
+                )
         ;
     }
 

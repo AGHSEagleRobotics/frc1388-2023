@@ -96,9 +96,13 @@ public class RobotContainer {
     Objective objective = m_constants.getObjective();
 
     switch ( objective ) {
-      case LEAVECOMMUNITY:
+      case LEAVECOMMUNITYFAR:
       return    
-      AutoMethod.LeaveCommunity();
+      AutoMethod.LeaveCommunityFar();
+
+      case LEAVECOMMUNITYNEAR:
+      return
+      AutoMethod.LeaveCommunityNear();
 
       case SCORE:
       return

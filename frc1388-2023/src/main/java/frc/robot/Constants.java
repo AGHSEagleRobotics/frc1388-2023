@@ -47,7 +47,8 @@ public final class Constants {
   
   public enum Objective
   {
-    LEAVECOMMUNITY ("Leave community" ),
+    LEAVECOMMUNITYFAR ("Leave community far" ),
+    LEAVECOMMUNITYNEAR( "Leave community near" ),
     SCORE( "Score" ),
     SCOREANDLEAVE ( "Score and leave community" ),
     SCORELEAVEPICKUP ( "Score, leave, pickup" ),
@@ -76,9 +77,11 @@ public final class Constants {
   public final class FieldConstants
   {
     //all measurements in inches
-    public static final double ROBOT_WIDTH = 28;
-    public static final double ROBOT_LENGTH = 29;
-    public static final double BUMPER_SIZE = 3.0;
+    public static final double ROBOT_WIDTH = 28; //delete?
+    public static final double ROBOT_LENGTH = 29; //delete?
+    public static final double BUMPER_SIZE = 3.0; //delete?
+    public static final double ROBOT_WIDTH_BUMPERS = 31;
+    public static final double ROBOT_LENGTH_BUMPERS = 32;
 
     public static final double CHARGE_STATION_WIDTH = 76.1;
 
