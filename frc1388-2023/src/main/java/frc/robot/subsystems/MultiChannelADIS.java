@@ -475,9 +475,7 @@ public class MultiChannelADIS implements AutoCloseable, NTSendable {
       System.out.println("Setting up a new SPI port.");
       m_spi = new SPI(m_spi_port);
       m_spi.setClockRate(2000000);
-      m_spi.setMSBFirst();
-      m_spi.setSampleDataOnTrailingEdge();
-      m_spi.setClockActiveLow();
+      m_spi.setMode(SPI.Mode.kMode3);
       m_spi.setChipSelectActiveLow();
       readRegister(PROD_ID); // Dummy read
 
@@ -1001,19 +999,16 @@ public class MultiChannelADIS implements AutoCloseable, NTSendable {
           return m_simGyroAngleX.get();
         }
         return m_integ_angle_x;
-        break;
       case kY:
         if (m_simGyroAngleY != null) {
           return m_simGyroAngleY.get();
         }
         return m_integ_angle_y;
-        break;
       case kZ:
         if (m_simGyroAngleZ != null) {
           return m_simGyroAngleZ.get();
         }
         return m_integ_angle_z;
-        break;
     }
     return 0.0;
   }
