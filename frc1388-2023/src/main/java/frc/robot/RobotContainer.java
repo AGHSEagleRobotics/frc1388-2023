@@ -99,7 +99,7 @@ public class RobotContainer {
     // An example command will be run in autonomous
     
     System.out.println("Get Auto Command");
-    return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
+    return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 10)
       .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
   }
 

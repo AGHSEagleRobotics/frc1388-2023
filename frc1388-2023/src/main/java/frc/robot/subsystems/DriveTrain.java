@@ -120,7 +120,7 @@ public class DriveTrain extends SubsystemBase {
     m_leftFront.set(ControlMode.Velocity, velocity);      
     m_rightFront.set(ControlMode.Velocity, velocity);
 
-    System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
+    // System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
     SmartDashboard.putNumber("speed", speed);
     SmartDashboard.putNumber("velocity", velocity);
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
