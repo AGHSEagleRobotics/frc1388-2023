@@ -16,13 +16,15 @@ public class DriveTrainCommand extends CommandBase {
   // }
   // private DriveMode m_driveMode = DriveMode.arcade;
   private boolean m_quickTurn;
-
+  private boolean m_inReverse;
 
   private final DriveTrain m_driveTrain;
   
   private Supplier<Double> m_driveLeftStickYAxis;
   private Supplier<Double> m_driveRightStickXAxis;
   private Supplier<Boolean> m_rightStickButton;
+  private Supplier<Boolean> m_aButton;
+  private Supplier<Boolean> m_bButton;
 
   private boolean m_lastStick = false;
   /** Creates a new DriveTrainCommand. */
@@ -30,7 +32,9 @@ public class DriveTrainCommand extends CommandBase {
     DriveTrain driveTrain,
     Supplier<Double> driveLeftStickYAxis, 
     Supplier<Double> driveRightStickXAxis,
-    Supplier<Boolean> rightStickButton
+    Supplier<Boolean> rightStickButton,
+    Supplier<Boolean> m_aButton,
+    Supplier<Boolean> m_bButton
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -49,14 +53,22 @@ public class DriveTrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // if (m_aButton.get()) m_inReverse = false;
+    // if (m_bButton.get()) m_inReverse = true;
+
     double speed = -m_driveLeftStickYAxis.get();
-    double  rotation = -m_driveRightStickXAxis.get();
     speed = MathUtil.applyDeadband(speed, .1);
+
+    double  rotation = -m_driveRightStickXAxis.get();
     rotation = MathUtil.applyDeadband(rotation, .1);
+
     if (m_rightStickButton.get() && !m_lastStick) {
       m_quickTurn = !m_quickTurn;
     }
-    m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
+
+    if (!m_inReverse) m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
+    if (m_inReverse)  m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
+
     m_lastStick = m_rightStickButton.get();
     System.out.println("speed: " + speed + " rotation: " + rotation);
   }
@@ -79,7 +91,17 @@ public class DriveTrainCommand extends CommandBase {
         //     break;
     //???????????????????????????????????????????
 
+  public void setInReverse() {
+    m_inReverse = true;
+  }
 
+  public void setNotReverse() {
+    m_inReverse = false;
+  }
+
+  public void foo() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -14,8 +14,12 @@ import frc.robot.subsystems.GyroSubsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -43,16 +47,22 @@ public class RobotContainer {
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
    new ADIS16470_IMU()
    );
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
 
-    m_driveTrain.setDefaultCommand(
-    new DriveTrainCommand( 
+   final DriveTrainCommand m_driveCommand = new DriveTrainCommand( 
     m_driveTrain,
     ()-> m_driverController.getLeftY(),
     ()-> m_driverController.getRightX(),
-    ()-> m_driverController.rightStick().getAsBoolean()
-    ));
+    ()-> m_driverController.rightStick().getAsBoolean(),
+    ()-> m_driverController.a().getAsBoolean(),
+    ()-> m_driverController.b().getAsBoolean()
+  );
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+
+
+      
+    m_driveTrain.setDefaultCommand(m_driveCommand);
 
     // Configure the trigger bindings
     configureBindings();
@@ -73,8 +83,34 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+
+    // /* ???
+    m_driverController.a()
+      .onTrue(Commands.startEnd(m_driveCommand::setNotReverse, m_driveCommand::foo, m_driveTrain));
+    
+    m_driverController.b()
+      .onTrue(Commands.startEnd(m_driveCommand::setInReverse, m_driveCommand::foo, m_driveTrain));
+    
+
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
+    //   .onTrue(Commands.startEnd(m_driveCommand::setInReverse, null, m_driveTrain));
+
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
+    //   .onTrue(new );
+
+    Trigger aButton = m_driverController.a();
+    aButton.getAsBoolean();
+    // ??? */
    
   }
+
+  // public void setInReverse() {
+  //   m_driveCommand.setInReverse(true);
+  // }
+
+  // public void setNotReverse() {
+  //   m_driveCommand.setInReverse(false);
+  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
