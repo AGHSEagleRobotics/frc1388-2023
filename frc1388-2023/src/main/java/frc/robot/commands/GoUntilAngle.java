@@ -50,7 +50,7 @@ public class GoUntilAngle extends CommandBase {
     boolean finished = (Math.abs(m_gyroSubsystem.getYAngle()) > m_angle);
 
     if (finished) {
-      System.out.println("####################finishing gountilangle#########################");
+      System.out.println("####################finishing go until angle#########################");
     }
     return finished;
   }
