@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -31,11 +32,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    DataLogManager.start();
+    DataLogManager.log("####### RobotInit");
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    DataLogManager.start();
     m_robotContainer = new RobotContainer();
     
+    CommandScheduler.getInstance().onCommandInitialize(command -> DataLogManager.log("++ " + command.getName() + " Initialized" ));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> DataLogManager.log("-- " + command.getName() + " Interrupted" ));
+    CommandScheduler.getInstance().onCommandFinish(command -> DataLogManager.log("-- " + command.getName() + " Finished" ));
   }
 
   /**
@@ -62,7 +68,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    DataLogManager.log("####### Disabled Robot");
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -70,7 +78,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    System.out.println("autonomous innit:getting autonomous command");
+    DataLogManager.log("####### Autonomous Init");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
@@ -79,6 +87,25 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    // Get match info from FMS
+    if (DriverStation.isFMSAttached()) {
+      String fmsInfo = "FMS info: ";
+      fmsInfo += " " + DriverStation.getEventName();
+      fmsInfo += " " + DriverStation.getMatchType();
+      fmsInfo += " match " + DriverStation.getMatchNumber();
+      fmsInfo += " replay " + DriverStation.getReplayNumber();
+      fmsInfo += ";  " + DriverStation.getAlliance() + " alliance";
+      fmsInfo += ",  Driver Station " + DriverStation.getLocation();
+      DataLogManager.log(fmsInfo);
+    } else {
+      DataLogManager.log("FMS not connected");
+
+      DataLogManager.log("Match type:\t" + DriverStation.getMatchType());
+      DataLogManager.log("Event name:\t" + DriverStation.getEventName());
+      DataLogManager.log("Alliance:\t" + DriverStation.getAlliance());
+      DataLogManager.log("Match number:\t" + DriverStation.getMatchNumber());
+  }
   }
 
   /** This function is called periodically during autonomous. */
@@ -87,6 +114,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    DataLogManager.log("####### Teleop Init");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -104,6 +132,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    DataLogManager.log("####### Test Init");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
@@ -116,6 +145,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {
+    DataLogManager.log("####### Simulation Init");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
   }
 

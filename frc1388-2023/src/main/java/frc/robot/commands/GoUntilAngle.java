@@ -35,7 +35,7 @@ public class GoUntilAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  if (m_gyroSubsystem.getYAngle() < m_angle) m_driveTrain.constantSpeedDrive(12);
+  if (m_gyroSubsystem.getYAngle() < m_angle) m_driveTrain.constantSpeedDrive(24);
   }
 
   // Called once the command ends or is interrupted.
