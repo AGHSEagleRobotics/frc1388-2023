@@ -62,11 +62,12 @@ public final class Constants {
     public static final double AUTO_DRIVE_SPEED = 0.5;
     public static final double AUTO_TURN_SPEED = 0.25;
     public static final double AUTO_TURN_ANGLE_MAX = 75;
+  }
  
-  public static class AutoBalanceConstants{
+  public final class AutoBalanceConstants
+  {
     public static final double HIGH_SPEED = 18.0;
     public static final double LOW_SPEED = 12.0;
-
 
   }
   

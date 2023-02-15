@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.Constants.Objective;
-import frc.robot.Constants.Position;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.Objective;
+import frc.robot.Constants.Position;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;

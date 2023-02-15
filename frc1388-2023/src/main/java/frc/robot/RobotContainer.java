@@ -12,10 +12,7 @@ import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.commands.AutoBalance;
-
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MultiChannelADIS;
