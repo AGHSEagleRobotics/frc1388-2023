@@ -6,13 +6,14 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.Command;
+// import org.apache.logging.log4j.core.tools.picocli.CommandLine.Command;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveTrain;
+
 
 public class DriveTrainCommand extends CommandBase {
   // public enum DriveMode{
@@ -38,6 +39,7 @@ public class DriveTrainCommand extends CommandBase {
 
   private final CommandXboxController m_controller;
   /** Creates a new DriveTrainCommand. */
+
   public DriveTrainCommand(
     DriveTrain driveTrain,
     // Supplier<Double> driveLeftStickYAxis, 
@@ -93,6 +95,7 @@ public class DriveTrainCommand extends CommandBase {
     // SmartDashboard.putBoolean("is the robot in reverse", m_inReverse);
     SmartDashboard.putString("direction: ", m_direction.name());
     SmartDashboard.putNumber("speed: ", speed);
+    m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
   }
 
     // ??????????????????????????????????????????????????

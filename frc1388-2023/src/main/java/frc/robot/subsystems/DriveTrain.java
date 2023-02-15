@@ -4,13 +4,16 @@
 
 package frc.robot.subsystems;
 
-import org.opencv.core.RotatedRect;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
@@ -27,6 +30,11 @@ public class DriveTrain extends SubsystemBase {
     m_leftBack = leftBack;
     m_rightFront = rightFront;
     m_rightBack = rightBack;
+   
+    m_leftFront.configFactoryDefault();
+    m_leftBack.configFactoryDefault();
+    m_rightFront.configFactoryDefault();
+    m_rightBack.configFactoryDefault();
 
     m_leftBack.follow(m_leftFront);
     m_rightBack.follow(m_rightFront);
@@ -46,7 +54,28 @@ public class DriveTrain extends SubsystemBase {
    
     // Differential Drive
     m_differentialDrive = new DifferentialDrive(m_leftFront, m_rightFront);
+
+    // constant speed motor setting and PID
+    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //m_leftFront.setSensorPhase(false);
+    m_leftFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
+    m_leftFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
+    m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
+    m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
+
+    m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //m_leftFront.setSensorPhase(false);
+    m_rightFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
+    m_rightFront.config_kP(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_P);
+    m_rightFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
+    m_rightFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
+
+    SmartDashboard.putNumber("speed", 0);
+    SmartDashboard.putNumber("velocity", 0);
+    SmartDashboard.putNumber("TargetSpeed", 0);
+    SmartDashboard.putNumber("angle", 0);
   }
+    
 
   public void arcadeDrive( double xSpeed, double zRotation) {
     m_differentialDrive.arcadeDrive(xSpeed, zRotation);
@@ -57,7 +86,55 @@ public class DriveTrain extends SubsystemBase {
   public void tankDrive( double leftSpeed, double rightSpeed) {
     m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
+  
+  /**
+   * Constant speed drive method for differential drive platform.
+   *
+   * <p> This drives the robot motors at a constant speed rather than a constant voltage
+   *
+   * @param speed The robot's speed along the X axis in inches per second. Forward is positive.
+   */
+  public void constantSpeedDrive(double speed) {
+    //  //TESTING
+    //  double F = SmartDashboard.getNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
+    //  double P = SmartDashboard.getNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
+    //  double I = SmartDashboard.getNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
+    //  double D = SmartDashboard.getNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
+    //  speed = SmartDashboard.getNumber("speed", speed);
+  
+    //  m_leftFront.config_kF(DriveTrainConstants.PID_IDX, F);
+    //  m_leftFront.config_kP(DriveTrainConstants.PID_IDX, P);
+    //  m_leftFront.config_kI(DriveTrainConstants.PID_IDX, I);
+    //  m_leftFront.config_kD(DriveTrainConstants.PID_IDX, D);
+ 
+    //  m_rightFront.config_kF(DriveTrainConstants.PID_IDX, F);
+    //  m_rightFront.config_kP(DriveTrainConstants.PID_IDX, P);
+    //  m_rightFront.config_kI(DriveTrainConstants.PID_IDX, I);
+    //  m_rightFront.config_kD(DriveTrainConstants.PID_IDX, D);
+    //  //END TESTING
+    
+    //Speed units are inches per second
+    //Velocity is in ticks per 100 miliseconds
+    //The velocity = speed(inps)/INCHES_PER_ENCODER_UNITS/SENSOR_CYCLES_PER_SECOND
+    double velocity = speed / DriveTrainConstants.INCHES_PER_ENCODER_UNITS / DriveTrainConstants.SENSOR_CYCLES_PER_SECOND;
+    m_leftFront.set(ControlMode.Velocity, velocity);      
+    m_rightFront.set(ControlMode.Velocity, velocity);
 
+    System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
+    SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("velocity", velocity);
+    SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("motor output", m_leftFront.getMotorOutputPercent());
+  }
+  public void resetLeftEncoder(){
+    m_leftFront.setSelectedSensorPosition(0);
+  };
+  public void resetRightEncoder(){
+    m_rightFront.setSelectedSensorPosition(0);
+  }
+  public void setDeadbandZero() {
+    m_differentialDrive.setDeadband(0); 
+  }
   /**
  * gets raw left sensor units
  * @return distance in raw sensor units
@@ -72,6 +149,14 @@ public class DriveTrain extends SubsystemBase {
   public double getRightEncoderDistance(){
     return m_rightFront.getSelectedSensorPosition();
   }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_leftFront.setNeutralMode(mode);
+    m_leftBack.setNeutralMode(mode);
+    m_rightFront.setNeutralMode(mode);
+    m_rightBack.setNeutralMode(mode);
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
