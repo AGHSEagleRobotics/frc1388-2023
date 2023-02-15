@@ -28,8 +28,8 @@ public class GyroSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    log.debug("Test 1: Rotation: {}, X angle: {}, Y angle: {}", m_gyro.getAngle(), m_gyro.getXComplementaryAngle(), m_gyro.getYComplementaryAngle());
-    System.out.println("Test 1: Rotation: " + m_gyro.getAngle() + ", X angle: " + m_gyro.getXComplementaryAngle() + ", Y angle: " + m_gyro.getYComplementaryAngle());
+    // log.debug("Test 1: Rotation: {}, X angle: {}, Y angle: {}", m_gyro.getAngle(), m_gyro.getXComplementaryAngle(), m_gyro.getYComplementaryAngle());
+    // System.out.println("Test 1: Rotation: " + m_gyro.getAngle() + ", X angle: " + m_gyro.getXComplementaryAngle() + ", Y angle: " + m_gyro.getYComplementaryAngle());
     // log.debug("Y angle: {}", m_gyro.getAngle());
 
   //    m_gyro.setYawAxis(IMUAxis.kX);

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -50,11 +51,12 @@ public class RobotContainer {
 
    final DriveTrainCommand m_driveCommand = new DriveTrainCommand( 
     m_driveTrain,
-    ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightX(),
-    ()-> m_driverController.rightStick().getAsBoolean(),
-    ()-> m_driverController.a().getAsBoolean(),
-    ()-> m_driverController.b().getAsBoolean()
+    // ()-> m_driverController.getLeftY(),
+    // ()-> m_driverController.getRightX(),
+    // ()-> m_driverController.rightStick().getAsBoolean(),
+    // ()-> m_driverController.a().getAsBoolean(),
+    // ()-> m_driverController.b().getAsBoolean(),
+    m_driverController
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -85,11 +87,27 @@ public class RobotContainer {
     // cancelling on release.
 
     // /* ???
-    m_driverController.a()
-      .onTrue(Commands.startEnd(m_driveCommand::setNotReverse, m_driveCommand::foo, m_driveTrain));
+    // m_driverController.a()
+    //   .onTrue(Commands.startEnd(m_driveCommand::setNotReverse, m_driveCommand::foo, m_driveTrain));
     
-    m_driverController.b()
-      .onTrue(Commands.startEnd(m_driveCommand::setInReverse, m_driveCommand::foo, m_driveTrain));
+    // m_driverController.b()
+    //   .onTrue(Commands.startEnd(m_driveCommand::setInReverse, m_driveCommand::foo, m_driveTrain));
+
+    // m_driverController.b().onTrue(new RunCommand(new Runnable() {
+    //   @Override
+    //   public void run() {
+    //     m_driveCommand.setReverse();
+    //     // TODO Auto-generated method stub
+    //   }
+    // }, m_driveTrain));
+
+    // m_driverController.a().onTrue(new RunCommand(new Runnable() {
+    //   @Override
+    //   public void run() {
+    //     m_driveCommand.setForwards();
+    //     // TODO Auto-generated method stub
+    //   }
+    // }, m_driveTrain));
     
 
     // new JoystickButton(m_driverController, XboxController.Button.kA.value)

@@ -6,8 +6,12 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.apache.logging.log4j.core.tools.picocli.CommandLine.Command;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveTrainCommand extends CommandBase {
@@ -15,34 +19,42 @@ public class DriveTrainCommand extends CommandBase {
   //   curvature, arcade
   // }
   // private DriveMode m_driveMode = DriveMode.arcade;
+  public enum Direction {
+    forwards, reverse;
+  }
+  private Direction m_direction = Direction.forwards;
   private boolean m_quickTurn;
-  private boolean m_inReverse;
+  // private boolean m_inReverse;
 
   private final DriveTrain m_driveTrain;
   
-  private Supplier<Double> m_driveLeftStickYAxis;
-  private Supplier<Double> m_driveRightStickXAxis;
-  private Supplier<Boolean> m_rightStickButton;
-  private Supplier<Boolean> m_aButton;
-  private Supplier<Boolean> m_bButton;
+  // private Supplier<Double> m_driveLeftStickYAxis;
+  // private Supplier<Double> m_driveRightStickXAxis;
+  // private Supplier<Boolean> m_rightStickButton;
+  // private Supplier<Boolean> m_aButton;
+  // private Supplier<Boolean> m_bButton;
 
   private boolean m_lastStick = false;
+
+  private final CommandXboxController m_controller;
   /** Creates a new DriveTrainCommand. */
   public DriveTrainCommand(
     DriveTrain driveTrain,
-    Supplier<Double> driveLeftStickYAxis, 
-    Supplier<Double> driveRightStickXAxis,
-    Supplier<Boolean> rightStickButton,
-    Supplier<Boolean> m_aButton,
-    Supplier<Boolean> m_bButton
+    // Supplier<Double> driveLeftStickYAxis, 
+    // Supplier<Double> driveRightStickXAxis,
+    // Supplier<Boolean> rightStickButton,
+    // Supplier<Boolean> m_aButton,
+    // Supplier<Boolean> m_bButton,
+    CommandXboxController xboxController
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
     m_driveTrain = driveTrain;
-    m_driveLeftStickYAxis = driveLeftStickYAxis;
-    m_driveRightStickXAxis = driveRightStickXAxis;
-    m_rightStickButton = rightStickButton;
+    // m_driveLeftStickYAxis = driveLeftStickYAxis;
+    // m_driveRightStickXAxis = driveRightStickXAxis;
+    // m_rightStickButton = rightStickButton;
+    m_controller = xboxController;
   }
 
   // Called when the command is initially scheduled.
@@ -53,24 +65,34 @@ public class DriveTrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (m_aButton.get()) m_inReverse = false;
-    // if (m_bButton.get()) m_inReverse = true;
+    if (m_controller.a().getAsBoolean()) m_direction = Direction.forwards;
+    if (m_controller.b().getAsBoolean()) m_direction = Direction.reverse;
 
-    double speed = -m_driveLeftStickYAxis.get();
+    double speed = -m_controller.getLeftY();
     speed = MathUtil.applyDeadband(speed, .1);
 
-    double  rotation = -m_driveRightStickXAxis.get();
+    double  rotation = -m_controller.getRightX();
     rotation = MathUtil.applyDeadband(rotation, .1);
 
-    if (m_rightStickButton.get() && !m_lastStick) {
+    if (m_controller.rightStick().getAsBoolean() && !m_lastStick) {
       m_quickTurn = !m_quickTurn;
     }
 
-    if (!m_inReverse) m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
-    if (m_inReverse)  m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
+    if (m_direction == Direction.forwards) {
+      m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
+      System.out.println("forwards");
+    }
+    if (m_direction == Direction.reverse) {
+      m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
+      System.out.println("reverse");
+    }
 
-    m_lastStick = m_rightStickButton.get();
-    System.out.println("speed: " + speed + " rotation: " + rotation);
+    m_lastStick = m_controller.rightStick().getAsBoolean();
+    // System.out.println("speed: " + speed + " rotation: " + rotation);
+    // System.out.println("is the robot in reverse? " + m_inReverse);
+    // SmartDashboard.putBoolean("is the robot in reverse", m_inReverse);
+    SmartDashboard.putString("direction: ", m_direction.name());
+    SmartDashboard.putNumber("speed: ", speed);
   }
 
     // ??????????????????????????????????????????????????
@@ -90,13 +112,14 @@ public class DriveTrainCommand extends CommandBase {
         //   case curvature: m_driveMode = DriveMode.arcade;
         //     break;
     //???????????????????????????????????????????
+    public void setForwards() {
+      // m_inReverse = false;
+      m_direction = Direction.forwards;
+    }
 
-  public void setInReverse() {
-    m_inReverse = true;
-  }
-
-  public void setNotReverse() {
-    m_inReverse = false;
+  public void setReverse() {
+    // m_inReverse = true;
+    m_direction = Direction.reverse;
   }
 
   public void foo() {
