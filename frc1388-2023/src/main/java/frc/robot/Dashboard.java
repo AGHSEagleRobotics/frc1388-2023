@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveTrainConstants;
@@ -31,7 +32,8 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
-    
+    private final SimpleWidget m_pitch;
+
     public Dashboard() {
         
         System.out.println("**********************************\n\n\n\n\n\n\n\ndashboard\n\n\n\n\n\n\n\n\n****************************************");
@@ -61,7 +63,12 @@ public class Dashboard {
             .withWidget(BuiltInWidgets.kCameraStream)
             .withSize(5, 5)
             .withPosition(16, 0);
-
+        
+        m_pitch = m_shuffleboardTab.add("Pitch", 0)
+            .withWidget(BuiltInWidgets.kTextView)
+            .withSize(2, 2)
+            .withPosition(16, 0);
+            
         //DELETEME: testing autobalance pid loop
         SmartDashboard.putNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
         SmartDashboard.putNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);

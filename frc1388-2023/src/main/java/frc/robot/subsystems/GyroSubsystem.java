@@ -139,5 +139,10 @@ public class GyroSubsystem extends SubsystemBase {
     m_logGyroZ.append(getZAngle());
     m_logGyroX.append(getXAngle());
     m_logGyroY.append(getYAngle());
+    
+    //competition dashboard
+    SmartDashboard.putNumber("Competition/Yaw", getZAngle());
+    SmartDashboard.putNumber("Competition/Roll", getXAngle());
+    SmartDashboard.putNumber("Competition/Pitch", getYAngle());
   }
 }

@@ -125,6 +125,9 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("velocity", velocity);
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
     SmartDashboard.putNumber("motor output", m_leftFront.getMotorOutputPercent());
+    SmartDashboard.putNumber("integrator", m_leftFront.getIntegralAccumulator());
+    SmartDashboard.putNumber("derivative", m_leftFront.getErrorDerivative());
+    SmartDashboard.putNumber("error", m_leftFront.getClosedLoopError());
   }
   public void resetLeftEncoder(){
     m_leftFront.setSelectedSensorPosition(0);
