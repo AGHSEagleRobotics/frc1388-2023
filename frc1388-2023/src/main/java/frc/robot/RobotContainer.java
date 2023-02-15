@@ -11,8 +11,10 @@ import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
 
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -46,7 +48,7 @@ public class RobotContainer {
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new ADIS16470_IMU()
+   new ADIS16448_IMU()
    );
 
    final DriveTrainCommand m_driveCommand = new DriveTrainCommand( 
