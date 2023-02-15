@@ -63,6 +63,9 @@ public class DriveTrain extends SubsystemBase {
     m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
     m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
 
+    m_leftFront.configClosedloopRamp(DriveTrainConstants.CLOSED_LOOP_RAMP_RATE);
+    m_rightFront.configClosedloopRamp(DriveTrainConstants.CLOSED_LOOP_RAMP_RATE);
+
     m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     //m_leftFront.setSensorPhase(false);
     m_rightFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
