@@ -11,19 +11,25 @@ import frc.robot.Constants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
+import frc.robot.commands.AutoBalance;
+import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.commands.AutoBalance;
+
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MultiChannelADIS;
 
 import javax.lang.model.util.ElementScanner14;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -45,17 +51,20 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+
   private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
+
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
    new MultiChannelADIS()
    );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
 
     m_driveTrain.setDefaultCommand(
     new DriveTrainCommand( 
@@ -81,10 +90,11 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-
+    // TESTING: testing out constant speed drive
+    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
+    m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-   
   }
 
   /**
@@ -156,4 +166,8 @@ public class RobotContainer {
     
     return null;
   }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_driveTrain.setNeutralMode(mode);
+}
 }

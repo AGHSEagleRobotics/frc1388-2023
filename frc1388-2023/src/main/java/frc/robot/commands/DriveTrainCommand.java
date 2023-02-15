@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
+
 public class DriveTrainCommand extends CommandBase {
   // public enum DriveMode{
   //   curvature, arcade
@@ -26,6 +27,7 @@ public class DriveTrainCommand extends CommandBase {
 
   private boolean m_lastStick = false;
   /** Creates a new DriveTrainCommand. */
+
   public DriveTrainCommand(
     DriveTrain driveTrain,
     Supplier<Double> driveLeftStickYAxis, 
@@ -58,7 +60,7 @@ public class DriveTrainCommand extends CommandBase {
     }
     m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
     m_lastStick = m_rightStickButton.get();
-    //System.out.println(" " + speed + " rotation: " + rotation);
+    // System.out.println("speed: " + speed + " rotation: " + rotation);
   }
 
     // ??????????????????????????????????????????????????
