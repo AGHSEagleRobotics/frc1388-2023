@@ -4,20 +4,41 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.AutoBalanceConstants;
 import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.Objective;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.AutoTurn;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.MultiChannelADIS;
 
 /** Add your docs here. */
 public class AutoMethod {
+
+    private static DriveTrain m_driveTrain = new DriveTrain
+    (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
+    
+  
+     private static GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
+     new MultiChannelADIS()
+     );
+     
     public AutoMethod()
     {
+        DriveTrain driveTrain;
+        driveTrain = m_driveTrain;
 
+        GyroSubsystem gyroSubsystem;
+        gyroSubsystem = m_gyroSubsystem;
     }
 
     public static Command LeaveCommunityFar()
@@ -100,9 +121,9 @@ public class AutoMethod {
     {
         return 
         new AutoMove(40, 0.5)
-        //.andThen(
-        // new AutoBalance()
-        //        )
+        .andThen(
+         new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+                )
         ;
     }
 
@@ -116,9 +137,9 @@ public class AutoMethod {
         .andThen(
             new AutoMove(40, 0.5)
         )
-        //.andThen(
-        // new AutoBalance()
-        //        )
+        .andThen(
+         new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0  )
+                )
         ;
     }
 
@@ -133,9 +154,9 @@ public class AutoMethod {
     {
         return
         new AutoMove(190, 0.5)
-        //.andThen(
-        //new AutoBalance()
-        //        )
+        .andThen(
+        new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+                )
         ;
     }
 }
