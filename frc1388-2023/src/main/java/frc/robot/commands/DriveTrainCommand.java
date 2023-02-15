@@ -95,7 +95,14 @@ public class DriveTrainCommand extends CommandBase {
     // SmartDashboard.putBoolean("is the robot in reverse", m_inReverse);
     SmartDashboard.putString("direction: ", m_direction.name());
     SmartDashboard.putNumber("speed: ", speed);
-    m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
+
+    if (m_direction == Direction.forwards) {
+      m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
+    }
+    
+    if (m_direction == Direction.reverse) {
+      m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
+    }
   }
 
     // ??????????????????????????????????????????????????
