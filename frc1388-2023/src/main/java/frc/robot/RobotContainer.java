@@ -41,29 +41,31 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
-  private final AutoMethod m_autoMethod = new AutoMethod();
-
-
+  
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-
+  new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  
+  
   private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
+  
+  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
+    new MultiChannelADIS()
+    );
 
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-   new MultiChannelADIS()
-   );
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-
-
-    m_driveTrain.setDefaultCommand(
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
+  
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    public RobotContainer() {
+      
+      
+      m_driveTrain.setDefaultCommand(
     new DriveTrainCommand( 
     m_driveTrain,
     ()-> m_driverController.getLeftY(),
@@ -109,11 +111,11 @@ public class RobotContainer {
       case LEAVECOMMUNITY:
       if ( position == Position.C ){
       return    
-      AutoMethod.LeaveCommunityFar();
+      new LeaveCommunityFar();
       }
       else {
       return 
-      AutoMethod.LeaveCommunityNear();
+      new AutoMethod.LeaveCommunityNear();
       }
 
       case SCORE:

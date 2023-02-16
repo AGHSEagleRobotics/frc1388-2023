@@ -20,49 +20,37 @@ import frc.robot.subsystems.MultiChannelADIS;
 
 /** Add your docs here. */
 public class AutoMethod {
-
-    private static DriveTrain m_driveTrain = new DriveTrain
-    (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
-     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
-     new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
-    
-  
-     private static GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-     new MultiChannelADIS()
-     );
      
-    public AutoMethod()
+    private DriveTrain m_driveTrain;
+    private GyroSubsystem m_gyroSubsystem;
+    public AutoMethod( DriveTrain driveTrain, GyroSubsystem gyroSubsystem )
     {
-        DriveTrain driveTrain;
         driveTrain = m_driveTrain;
-
-        GyroSubsystem gyroSubsystem;
         gyroSubsystem = m_gyroSubsystem;
     }
 
-    public static Command LeaveCommunityFar()
+    public Command LeaveCommunityFar()
     {
         return 
         new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
-    public static Command LeaveCommunityNear()
+    public Command LeaveCommunityNear()
     {
         return 
         new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
-    public static Command Score()
+    public Command Score()
     {
         return
         new AutoScore() //move arm
         ; 
     }
 
-    public static Command ScoreLeaveNear()
+    public Command ScoreLeaveNear()
     {
         return 
             new AutoScore()
@@ -73,7 +61,7 @@ public class AutoMethod {
     }
 
 
-    public static Command ScoreLeaveFar()
+    public Command ScoreLeaveFar()
     {
         return 
             new AutoScore()
@@ -83,7 +71,7 @@ public class AutoMethod {
         ;
     }
 
-    public static Command ScoreLeavePickUpNear()
+    public Command ScoreLeavePickUpNear()
     {
         return 
             new AutoScore()
@@ -99,7 +87,7 @@ public class AutoMethod {
         ;
     }
 
-    public static Command ScoreLeavePickUpFar()
+    public Command ScoreLeavePickUpFar()
     {
         return 
             new AutoScore()
@@ -117,7 +105,7 @@ public class AutoMethod {
 
     //Position B specific commands
 
-    public static Command ChargeStation()
+    public Command ChargeStation()
     {
         return 
         new AutoMove(40, 0.5)
@@ -127,7 +115,7 @@ public class AutoMethod {
         ;
     }
 
-    public static Command ScoreThenCharge()
+    public Command ScoreThenCharge()
     {
         return
         new AutoScore()
@@ -143,14 +131,14 @@ public class AutoMethod {
         ;
     }
 
-    public static Command OverChargeStation()
+    public Command OverChargeStation()
     {
         return
         new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station 
         ;
     }
 
-    public static Command OverChargeAndBack()
+    public Command OverChargeAndBack()
     {
         return
         new AutoMove(190, 0.5)
