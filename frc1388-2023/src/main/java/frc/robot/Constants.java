@@ -84,6 +84,16 @@ public final class Constants {
     public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
     public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
     public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
+  }
 
-}
+  public final class GrabberConstants {
+    public static final int GRABBER_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int GRABBER_POSITION_OPEN = 10; // TODO  definitely change this
+    public static final int GRABBER_POSITION_CLOSED = 3; // TODO  definitely change this
+    public static final int GRABBER_ENCODER_DEADBAND = 1;
+  }
+
+  public final class ArmConstatns {
+    public static final int DEADBAND = 10;
+  }
 }
