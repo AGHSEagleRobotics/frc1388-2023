@@ -4,6 +4,8 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;
@@ -32,7 +35,7 @@ public class Dashboard {
 
     private final ComplexWidget m_largeCameraComplexWidget;
     private final ComplexWidget m_smallCameraComplexWidget;
-    private final SimpleWidget m_pitch;
+    private final GenericEntry m_pitch;
 
     public Dashboard() {
         
@@ -64,11 +67,12 @@ public class Dashboard {
             .withSize(5, 5)
             .withPosition(16, 0);
         
-        m_pitch = m_shuffleboardTab.add("Pitch", 0)
+        m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
             .withSize(2, 2)
-            .withPosition(16, 0);
-            
+            .withPosition(16, 0)
+            .getEntry();
+
         //DELETEME: testing autobalance pid loop
         SmartDashboard.putNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
         SmartDashboard.putNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
@@ -77,5 +81,8 @@ public class Dashboard {
         SmartDashboard.putNumber("speed", 6);
 
     } // end constructor
+    public void setPitchEntry(double value){
+        m_pitch.setValue(value);
+    }
 }
  
