@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Dashboard;
 import edu.wpi.first.wpilibj.DataLogManager;
 public class GyroSubsystem extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
   private MultiChannelADIS m_gyro16470Multi;
+  private Dashboard m_Dashboard;
   private int counter;
 
   private DataLog m_log = DataLogManager.getLog();
@@ -43,10 +45,11 @@ public class GyroSubsystem extends SubsystemBase {
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
   }
-  public GyroSubsystem(MultiChannelADIS gyro){
+  public GyroSubsystem(MultiChannelADIS gyro, Dashboard dashboard){
     m_gyro16470Multi = gyro;
     m_gyro16470Multi.resetAllAngles();
     m_gyroType = gyroType.ADIS16470Multi;
+    m_Dashboard = dashboard;
   }
   
 // robot orientation is x foward y left and z up
@@ -79,6 +82,18 @@ public class GyroSubsystem extends SubsystemBase {
     return xAngle;
   }
     
+  public void resetXAngle(){
+    switch (m_gyroType){
+      case ADIS16470Multi:
+        m_gyro16470Multi.setGyroAngleX(0);
+        break;
+
+      default:
+        break;
+    }
+    
+  }
+
   public double getYAngle() {
     double yAngle;
     switch (m_gyroType) {
@@ -103,6 +118,18 @@ public class GyroSubsystem extends SubsystemBase {
     }
     return yAngle;
   }
+
+  public void resetYAngle(){
+    switch (m_gyroType){
+      case ADIS16470Multi:
+        m_gyro16470Multi.setGyroAngleY(0);
+        break;
+
+      default:
+        break;
+    }
+    
+  }
   
   public double getZAngle() {
     double zAngle;
@@ -126,6 +153,18 @@ public class GyroSubsystem extends SubsystemBase {
     return zAngle;
   } 
 
+  public void resetZAngle(){
+    switch (m_gyroType){
+      case ADIS16470Multi:
+        m_gyro16470Multi.setGyroAngleZ(0);
+        break;
+
+      default:
+        break;
+    }
+    
+  }  
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -139,5 +178,13 @@ public class GyroSubsystem extends SubsystemBase {
     m_logGyroZ.append(getZAngle());
     m_logGyroX.append(getXAngle());
     m_logGyroY.append(getYAngle());
+    
+    //competition dashboard
+    SmartDashboard.putNumber("Competition/Yaw", getZAngle());
+    SmartDashboard.putNumber("Competition/Roll", getXAngle());
+    SmartDashboard.putNumber("Competition/Pitch", getYAngle());
+    
+    m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
+
   }
 }
