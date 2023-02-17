@@ -143,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
     m_rightFront.setNeutralMode(mode);
     m_rightBack.setNeutralMode(mode);
   }
-  
+
   public void resetLeftEncoder(){
     m_leftFront.setSelectedSensorPosition(0);
   };
@@ -193,8 +193,6 @@ public class DriveTrain extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("leftDistance",getLeftEncoderDistance());
-    SmartDashboard.putNumber("rightDistance",getRightEncoderDistance());
     // This method will be called once per scheduler run
   }
 }
