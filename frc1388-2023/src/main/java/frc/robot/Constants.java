@@ -44,30 +44,52 @@ public final class Constants {
     public static final double GAINS_VELOCITY_D = 0.00001;
     public static final int PID_IDX = 0;
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
-  } 
+  }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
 
     
   }
+
  
-  public static class AutoBalanceConstants{
+  public final class AutoBalanceConstants
+  {
     public static final double HIGH_SPEED = 18.0;
     public static final double LOW_SPEED = 15.0;
 
-
   }
-  public final class AutoConstants {
+  
+  public enum Objective
+  {
+    LEAVECOMMUNITY( "Leave community" ),
+    SCORE( "Score" ),
+    SCOREANDLEAVE ( "Score and leave community" ),
+    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
+    CHARGESTATION ( "Balance on charge station" ),
+    SCORETHENCHARGE( "Score then charge balance" ),
+    OVERCHARGESTATION( "Straight over charge station" ),
+    CHARGESTATIONBACK( "Over station and back" );
+
+    
+    private String m_dashboardDescript; //This is what will show on dashboard
+    private Objective ( String dashboardDescript ) {
+      	m_dashboardDescript = dashboardDescript;
+    	}
+
+    public String getDashboardDescript() {
+      return m_dashboardDescript;
+	    }  
+  }
+    public final class AutoConstants {
     //TEST P VALUE LATER
     
     public static final double TURN_P_VALUE = 0.03;
     public static final double TURN_P_TOLERANCE = 1.25;
-    public static final double MOVE_P_VALUE = 0.02;
+    public static final double MOVE_P_VALUE = 0.04;
     public static final double MOVE_P_TOLERANCE = 0.5;
 
     public static final double MOVE_F_VALUE = 0;
- 
 
     public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
 
@@ -89,5 +111,42 @@ public final class Constants {
     public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
     public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
 
-}
+    }
+
+  public enum Position
+  {
+    A("A"),
+    B("B"),
+    C("C");
+
+    private String m_dashboardDescript; //This is what will show on dashboard
+    private Position ( String dashboardDescript )
+    {
+      m_dashboardDescript = dashboardDescript;
+    }
+
+    public String getDashboardDescript(){
+      return m_dashboardDescript;
+    }
+  }
+    
+  public final class FieldConstants
+  {
+    //all measurements in inches
+    public static final double ROBOT_WIDTH = 28; //delete?
+    public static final double ROBOT_LENGTH = 29; //delete?
+    public static final double BUMPER_SIZE = 3.0; //delete?
+    public static final double ROBOT_WIDTH_BUMPERS = 31;
+    public static final double ROBOT_LENGTH_BUMPERS = 32;
+
+    public static final double CHARGE_STATION_WIDTH = 76.1;
+
+    public static final double SCORE_ZONE_TO_CHARGE_STATION = 60.7;
+    public static final double SCORE_ZONE_TO_FAR_COMMUNITY = SCORE_ZONE_TO_CHARGE_STATION + CHARGE_STATION_WIDTH; //138.6 //blue right, red left
+    public static final double SCORE_ZONE_TO_NEAR_COMMUNITY = 88; // blue left, red right
+    public static final double SCORE_ZONE_TO_GAME_PIECE = 224;
+
+    public static final double DOUBLE_SUBSTATION_HEIGHT = 37;
+  }
+
 }

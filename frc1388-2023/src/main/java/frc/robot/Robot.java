@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -23,6 +24,7 @@ import frc.robot.subsystems.GyroSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private final Timer m_timer = new Timer();
 
   private RobotContainer m_robotContainer;
 
@@ -80,6 +82,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_timer.reset();
+    m_timer.start();
+
     System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
     System.out.println("starting auto command");
@@ -110,7 +115,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    if( m_timer.get() < 15 )
+    {
+        m_autonomousCommand.isFinished();
+        //stop robot
+    }
+  }
 
   @Override
   public void teleopInit() {
