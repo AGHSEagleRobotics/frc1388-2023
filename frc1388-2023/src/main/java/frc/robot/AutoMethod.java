@@ -110,7 +110,7 @@ public class AutoMethod {
         return 
             new AutoMove(40, 0.5)
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem)
                 )
         ;
     }
@@ -126,7 +126,7 @@ public class AutoMethod {
             new AutoMove(40, 0.5)
         )
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0  )
+            new AutoBalance(m_driveTrain, m_gyroSubsystem)
                 )
         ;
     }
@@ -143,7 +143,7 @@ public class AutoMethod {
         return
             new AutoMove(190, 0.5)
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem)
                 )
         ;
     }

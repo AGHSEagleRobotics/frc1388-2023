@@ -63,6 +63,9 @@ public class DriveTrain extends SubsystemBase {
     m_leftFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
     m_leftFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
 
+    m_leftFront.configClosedloopRamp(DriveTrainConstants.CLOSED_LOOP_RAMP_RATE);
+    m_rightFront.configClosedloopRamp(DriveTrainConstants.CLOSED_LOOP_RAMP_RATE);
+
     m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     //m_leftFront.setSensorPhase(false);
     m_rightFront.config_kF(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_F);
@@ -125,6 +128,18 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("velocity", velocity);
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
     SmartDashboard.putNumber("motor output", m_leftFront.getMotorOutputPercent());
+    SmartDashboard.putNumber("integrator", m_leftFront.getIntegralAccumulator());
+    SmartDashboard.putNumber("derivative", m_leftFront.getErrorDerivative());
+    SmartDashboard.putNumber("error", m_leftFront.getClosedLoopError());
+  }
+  public void resetLeftEncoder(){
+    m_leftFront.setSelectedSensorPosition(0);
+  };
+  public void resetRightEncoder(){
+    m_rightFront.setSelectedSensorPosition(0);
+  }
+  public void setDeadbandZero() {
+    m_differentialDrive.setDeadband(0); 
   }
   /**
  * gets raw left sensor units

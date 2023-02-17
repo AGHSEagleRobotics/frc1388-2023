@@ -12,6 +12,7 @@ import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.DriveTrain;
@@ -20,10 +21,13 @@ import frc.robot.subsystems.MultiChannelADIS;
 import javax.lang.model.util.ElementScanner14;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.subsystems.MultiChannelADIS;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -55,9 +59,9 @@ public class RobotContainer {
   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
   
-  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-    new MultiChannelADIS()
-    );
+   //private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem( new MultiChannelADIS() );
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
+
 
   private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
 
@@ -87,13 +91,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+
+   
+    m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
     // TESTING: testing out constant speed drive
     m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
     m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
   }
 
   /**
@@ -168,5 +172,5 @@ public class RobotContainer {
 
   public void setNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
-}
+  }
 }
