@@ -37,12 +37,12 @@ public final class Constants {
     public final static int SEC_PER_MIN = 60;
 
     //tuned for constant speed drive lint2023 
-    public static final double GAINS_VELOCITY_F = 0.05;
-    public static final double GAINS_VELOCITY_P = 0.02; 
+    public static final double GAINS_VELOCITY_F = 0.055;
+    public static final double GAINS_VELOCITY_P = 0.03; 
     public static final double GAINS_VELOCITY_I = 0.0001;
-    public static final double GAINS_VELOCITY_D = 0.00001;
+    public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
-    public static final double CLOSED_LOOP_RAMP_RATE = 3;
+    public static final double CLOSED_LOOP_RAMP_RATE = 4;
   } 
 
   public static class OperatorConstants {
