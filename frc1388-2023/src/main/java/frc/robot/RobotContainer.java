@@ -6,15 +6,26 @@ package frc.robot;
 
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoBalance;
+import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.AutoBalance;
+
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IMUSubsystem16448;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.subsystems.MultiChannelADIS;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -34,24 +45,26 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+
   private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(DriveTrainConstants.CANID_RIGHT_BACK));
+  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
-   private final IMUSubsystem16448 m_gyroSubsystem = new IMUSubsystem16448(
-   new ADIS16448_IMU()
-   );
+
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
 
     m_driveTrain.setDefaultCommand(
     new DriveTrainCommand( 
     m_driveTrain,
     ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightY(),
-    ()-> m_driverController.getRightX()
+    ()-> m_driverController.getRightX(),
+    ()-> m_driverController.rightStick().getAsBoolean()
     ));
 
     // Configure the trigger bindings
@@ -68,12 +81,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
    
+    m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
+
+    // TESTING: testing out constant speed drive
+    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
+    m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
   }
 
   /**
@@ -84,6 +97,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     
-    return null;
+    System.out.println("Get Auto Command");
+    return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
+      .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+  }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_driveTrain.setNeutralMode(mode);
   }
 }
