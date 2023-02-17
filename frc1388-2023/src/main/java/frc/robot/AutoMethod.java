@@ -25,8 +25,8 @@ public class AutoMethod {
     private GyroSubsystem m_gyroSubsystem;
     public AutoMethod( DriveTrain driveTrain, GyroSubsystem gyroSubsystem )
     {
-        driveTrain = m_driveTrain;
-        gyroSubsystem = m_gyroSubsystem;
+        m_driveTrain = driveTrain;
+        m_gyroSubsystem = gyroSubsystem;
     }
 
     public Command LeaveCommunityFar()
@@ -38,6 +38,7 @@ public class AutoMethod {
 
     public Command LeaveCommunityNear()
     {
+        System.out.println("LEAVECOMMUNITYNEARRRR");
         return 
             new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;

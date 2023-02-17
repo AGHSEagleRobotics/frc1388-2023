@@ -72,7 +72,7 @@ public class Dashboard {
 
         m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(4,4)
+            .withSize(2,2)
             .withPosition(0, 0);
 
         m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
@@ -90,8 +90,8 @@ public class Dashboard {
 
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 5)
-            .withPosition(1, 1);
+            .withSize(4, 4)
+            .withPosition(1, 7);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
@@ -101,8 +101,8 @@ public class Dashboard {
 
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 5)
-            .withPosition(1, 1);
+            .withSize(4, 4)
+            .withPosition(5, 7);
 
 
         //DELETEME: testing autobalance pid loop
