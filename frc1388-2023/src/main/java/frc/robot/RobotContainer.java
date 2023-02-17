@@ -60,7 +60,7 @@ public class RobotContainer {
     );
 
   private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
-  
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
       
@@ -111,55 +111,55 @@ public class RobotContainer {
       case LEAVECOMMUNITY:
       if ( position == Position.C ){
       return    
-      new LeaveCommunityFar();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
       }
       else {
       return 
-      new AutoMethod.LeaveCommunityNear();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
       }
 
       case SCORE:
       return
-      AutoMethod.Score();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
 
       case SCOREANDLEAVE:
       if( position == Position.C )
       {
       return
-      AutoMethod.ScoreLeaveFar();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
       } 
       else{
         return 
-        AutoMethod.ScoreLeaveNear();
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
       }
 
       case SCORELEAVEPICKUP:
       if ( position == Position.C )
       {
       return
-      AutoMethod.ScoreLeavePickUpFar();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
       }
       else
       {
         return
-        AutoMethod.ScoreLeavePickUpNear();
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
       }
 
       case CHARGESTATION:
       return
-      AutoMethod.ChargeStation();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
 
       case SCORETHENCHARGE:
       return
-      AutoMethod.ScoreThenCharge();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
 
       case OVERCHARGESTATION:
       return
-      AutoMethod.OverChargeStation();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
 
       case CHARGESTATIONBACK:
       return
-      AutoMethod.OverChargeAndBack();
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
 
     }
     

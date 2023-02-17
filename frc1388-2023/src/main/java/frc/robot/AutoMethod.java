@@ -32,21 +32,21 @@ public class AutoMethod {
     public Command LeaveCommunityFar()
     {
         return 
-        new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
     public Command LeaveCommunityNear()
     {
         return 
-        new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
         ;
     }
 
     public Command Score()
     {
         return
-        new AutoScore() //move arm
+            new AutoScore() //move arm
         ; 
     }
 
@@ -108,9 +108,9 @@ public class AutoMethod {
     public Command ChargeStation()
     {
         return 
-        new AutoMove(40, 0.5)
+            new AutoMove(40, 0.5)
         .andThen(
-         new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
                 )
         ;
     }
@@ -126,7 +126,7 @@ public class AutoMethod {
             new AutoMove(40, 0.5)
         )
         .andThen(
-         new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0  )
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0  )
                 )
         ;
     }
@@ -134,16 +134,16 @@ public class AutoMethod {
     public Command OverChargeStation()
     {
         return
-        new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station 
+            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station 
         ;
     }
 
     public Command OverChargeAndBack()
     {
         return
-        new AutoMove(190, 0.5)
+            new AutoMove(190, 0.5)
         .andThen(
-        new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, AutoBalanceConstants.LOW_SPEED, 0)
                 )
         ;
     }
