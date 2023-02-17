@@ -94,7 +94,14 @@ public final class Constants {
     public static final int GRABBER_ENCODER_DEADBAND = 1;
   }
 
-  public final class ArmConstatns {
+  public final class ArmConstants {
     public static final int DEADBAND = 10;
+    public static final int PRIMARY_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int PRIMARY_ARM_POSITION_UP = 10; // TODO  definitely change this
+    public static final int PRIMARY_ARM_POSITION_DOWN = 3; // TODO  definitely change this
+
+    public static final int MID_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int MID_ARM_POSITION_UP = 10; // TODO  definitely change this
+    public static final int MID_ARM_POSITION_DOWN = 3; // TODO  definitely change this
   }
 }
