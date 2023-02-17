@@ -42,6 +42,7 @@ public final class Constants {
     public static final double GAINS_VELOCITY_I = 0.0001;
     public static final double GAINS_VELOCITY_D = 0.00001;
     public static final int PID_IDX = 0;
+    public static final double CLOSED_LOOP_RAMP_RATE = 3;
   } 
 
   public static class OperatorConstants {
