@@ -98,6 +98,14 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
+sourceSets {
+   main {
+      java {
+         srcDir "${buildDir}/generated/sources/main/java"
+      }
+   }
+}
+
 def runCommand(String... args) {
     new ByteArrayOutputStream().withStream { os ->
         exec {
