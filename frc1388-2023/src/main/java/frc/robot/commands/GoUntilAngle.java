@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
@@ -35,7 +36,7 @@ public class GoUntilAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  if (m_gyroSubsystem.getYAngle() < m_angle) m_driveTrain.constantSpeedDrive(12);
+  if (Math.abs(m_gyroSubsystem.getYAngle()) < m_angle) m_driveTrain.constantSpeedDrive(36);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,6 +48,6 @@ public class GoUntilAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_gyroSubsystem.getYAngle() > m_angle);
+    return (Math.abs(m_gyroSubsystem.getYAngle()) > m_angle);  
   }
 }

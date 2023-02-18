@@ -42,7 +42,7 @@ public final class Constants {
     public static final double GAINS_VELOCITY_I = 0.0001;
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
-    public static final double CLOSED_LOOP_RAMP_RATE = 4;
+    public static final double CLOSED_LOOP_RAMP_RATE = 3;
   } 
 
   public static class OperatorConstants {
@@ -50,7 +50,7 @@ public final class Constants {
   }
  
   public static class AutoBalanceConstants{
-    public static final double HIGH_SPEED = 18.0;
+    public static final double HIGH_SPEED = 15.0;
     public static final double LOW_SPEED = 15.0;
 
 
@@ -74,17 +74,5 @@ public final class Constants {
 
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
-
-    public static final double AUTO_TIME = 15.0; //seconds
-    public static final double AUTO_LEAVE_TARMAC_DISTANCE = 70; //inches
-
-    public static final double AUTO_TURN_SPEED = 0.25;
-    public static final double AUTO_TURN_ANGLE_MAX = 75; //degrees //changed from 79
-
-    public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
-    public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
-    public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
-    public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
-
 }
 }
