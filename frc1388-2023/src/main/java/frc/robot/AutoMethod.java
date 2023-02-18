@@ -14,6 +14,7 @@ import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.AutoTurn;
+import frc.robot.commands.GoUntilAngle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -27,6 +28,13 @@ public class AutoMethod {
     {
         m_driveTrain = driveTrain;
         m_gyroSubsystem = gyroSubsystem;
+    }
+
+    public Command SitStillLookPretty()
+    {
+        return 
+            new AutoMove( 0, 0 )
+        ;
     }
 
     public Command LeaveCommunityFar()
@@ -144,7 +152,13 @@ public class AutoMethod {
         return
             new AutoMove(190, 0.5)
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+            new AutoMove( -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
+        )
+        .andThen(
+            new AutoTurn(0.1, 180)
+        )
+        .andThen(
+            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
                 )
         ;
     }

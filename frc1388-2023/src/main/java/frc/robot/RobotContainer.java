@@ -133,14 +133,20 @@ public class RobotContainer {
     System.out.println(objective);
 
     switch ( objective ) {
+
+      case SITSTILL:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
+
       case LEAVECOMMUNITY:
       if ( position == Position.C ){
       return    
       new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
       }
-      else {
-      return 
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+      else 
+      {
+        return 
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
       }
 
       case SCORE:
@@ -153,7 +159,8 @@ public class RobotContainer {
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
       } 
-      else{
+      else
+      {
         return 
         new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
       }

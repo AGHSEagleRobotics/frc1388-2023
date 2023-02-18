@@ -59,14 +59,15 @@ public final class Constants {
   
   public enum Objective
   {
-    LEAVECOMMUNITY( "Leave community" ),
-    SCORE( "Score" ),
-    SCOREANDLEAVE ( "Score and leave community" ),
-    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
-    CHARGESTATION ( "Balance on charge station" ),
-    SCORETHENCHARGE( "Score then charge balance" ),
-    OVERCHARGESTATION( "Straight over charge station" ),
-    CHARGESTATIONBACK( "Over station and back" );
+    SITSTILL ( "LookPretty"),
+    LEAVECOMMUNITY( "LeaveCommunity" ),
+    SCORE( "ArmScore" ),
+    SCOREANDLEAVE ( "Score, Leave" ),
+    SCORELEAVEPICKUP ( "Score, Leave, Pickup" ),
+    CHARGESTATION ( "Balance" ),
+    SCORETHENCHARGE( "Score, Balance" ),
+    OVERCHARGESTATION( "OverChargeStation" ),
+    CHARGESTATIONBACK( "OverCharge, Return" );
 
     
     private String m_dashboardDescript; //This is what will show on dashboard
@@ -136,10 +137,10 @@ public final class Constants {
     public static final double ROBOT_WIDTH_BUMPERS = 31;
     public static final double ROBOT_LENGTH_BUMPERS = 32;
 
-    public static final double CHARGE_STATION_WIDTH = 76.1;
+    public static final double CHARGE_STATION_LENGTH = 76.1;
 
     public static final double SCORE_ZONE_TO_CHARGE_STATION = 60.7;
-    public static final double SCORE_ZONE_TO_FAR_COMMUNITY = SCORE_ZONE_TO_CHARGE_STATION + CHARGE_STATION_WIDTH; //138.6 //blue right, red left
+    public static final double SCORE_ZONE_TO_FAR_COMMUNITY = SCORE_ZONE_TO_CHARGE_STATION + CHARGE_STATION_LENGTH; //138.6 //blue right, red left
     public static final double SCORE_ZONE_TO_NEAR_COMMUNITY = 88; // blue left, red right
     public static final double SCORE_ZONE_TO_GAME_PIECE = 224;
 
