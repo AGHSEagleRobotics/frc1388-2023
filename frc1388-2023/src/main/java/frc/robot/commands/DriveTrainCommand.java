@@ -82,11 +82,11 @@ public class DriveTrainCommand extends CommandBase {
 
     if (m_direction == Direction.forwards) {
       m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
-      System.out.println("forwards");
+      //System.out.println("forwards");
     }
     if (m_direction == Direction.reverse) {
       m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
-      System.out.println("reverse");
+      //System.out.println("reverse");
     }
 
     m_lastStick = m_controller.rightStick().getAsBoolean();

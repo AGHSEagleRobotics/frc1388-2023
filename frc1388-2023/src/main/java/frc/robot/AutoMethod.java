@@ -142,8 +142,14 @@ public class AutoMethod {
 
     public Command OverChargeStation()
     {
+        /* 
+        if ( m_driveTrain.getLeftEncoderDistance() != 190 )
+        {
+            return new AutoMove(190, 0.5 );
+        }
+        */
         return
-            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station 
+            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station
         ;
     }
 

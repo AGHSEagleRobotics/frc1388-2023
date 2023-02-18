@@ -131,36 +131,43 @@ public class RobotContainer {
     Objective objective = m_Dashboard.getObjective();
     Position position = m_Dashboard.getPosition();
     System.out.println(objective);
+    System.out.println(position);
 
     switch ( objective ) {
 
       case SITSTILL:
+      System.out.println("SIT STILL");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
 
       case LEAVECOMMUNITY:
       if ( position == Position.C ){
-      return    
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-      }
-      else 
-      {
-        return 
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
-      }
+        System.out.println("LEAVE COMMUNITY FAR");
+        return    
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+        }
+        else 
+        {
+          System.out.println("LEAVE COMMUNITY NEAR");
+          return 
+          new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+        }
 
       case SCORE:
+      System.out.println("SCORE");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
 
       case SCOREANDLEAVE:
       if( position == Position.C )
       {
+        System.out.println("SCORE, LEAVE COMMUNITY FAR");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
       } 
       else
       {
+        System.out.println("SCORE, LEAVE COMMUNITY NEAR");
         return 
         new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
       }
@@ -168,16 +175,19 @@ public class RobotContainer {
       case SCORELEAVEPICKUP:
       if ( position == Position.C )
       {
+        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
       }
       else
       {
+        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
         return
         new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
       }
 
       case CHARGESTATION:
+      System.out.println("CHARGE STATION");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
 
@@ -197,8 +207,8 @@ public class RobotContainer {
     
     return null;
   }
-
   public void setNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
   }
+
 }

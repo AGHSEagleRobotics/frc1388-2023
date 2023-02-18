@@ -45,10 +45,10 @@ public class Dashboard {
     private final ComplexWidget m_complexWidgetPosition;
     private final GenericEntry m_pitch;
 
-    private final int autonChooserWidth = 5;
-    private final int autonChooserHeight = 5;
-    private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
-    private final int autonChooserRowIndex = 1; //where it is on shuffleboard
+    //private final int autonChooserWidth = 5;
+    //private final int autonChooserHeight = 5;
+    //private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
+    //private final int autonChooserRowIndex = 1; //where it is on shuffleboard
     
     public Dashboard() {
         
@@ -91,7 +91,7 @@ public class Dashboard {
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(1, 7);
+            .withPosition(10, 7);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
@@ -102,7 +102,7 @@ public class Dashboard {
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(5, 7);
+            .withPosition(16, 7);
 
 
         //DELETEME: testing autobalance pid loop
