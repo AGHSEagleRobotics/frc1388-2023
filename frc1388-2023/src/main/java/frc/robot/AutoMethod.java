@@ -14,6 +14,7 @@ import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.AutoTurn;
+import frc.robot.commands.GoUntilAngle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -56,7 +57,7 @@ public class AutoMethod {
             new AutoScore()
         .andThen(
             new AutoMove(-(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
-                )
+        )
         ;
     }
 
@@ -67,7 +68,7 @@ public class AutoMethod {
             new AutoScore()
         .andThen(
             new AutoMove(-(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
-                )
+        )
         ;
     }
 
@@ -80,7 +81,7 @@ public class AutoMethod {
         )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
-                )
+        )
         .andThen(
             new AutoPickUp()
         )
@@ -96,7 +97,7 @@ public class AutoMethod {
         )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
-                )
+        )
         .andThen(
             new AutoPickUp()
         )
@@ -107,12 +108,20 @@ public class AutoMethod {
 
     public Command ChargeStation()
     {
+        // return 
+        //     new AutoMove(40, 0.5)
+        // .andThen(
+        //     new AutoBalance(m_driveTrain, m_gyroSubsystem)
+        //     )
+        // ; 
+
         return 
-            new AutoMove(40, 0.5)
+            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
         .andThen(
             new AutoBalance(m_driveTrain, m_gyroSubsystem)
-                )
+        )
         ;
+
     }
 
     public Command ScoreThenCharge()
@@ -127,7 +136,7 @@ public class AutoMethod {
         )
         .andThen(
             new AutoBalance(m_driveTrain, m_gyroSubsystem)
-                )
+        )
         ;
     }
 
@@ -144,7 +153,7 @@ public class AutoMethod {
             new AutoMove(190, 0.5)
         .andThen(
             new AutoBalance(m_driveTrain, m_gyroSubsystem)
-                )
+        )
         ;
     }
 }
