@@ -149,4 +149,8 @@ public final class Constants {
     public static final double DOUBLE_SUBSTATION_HEIGHT = 37;
   }
 
+  public final class Logging {
+    public static final boolean LOG_ACCELERATION = true;
+  }
+
 }
