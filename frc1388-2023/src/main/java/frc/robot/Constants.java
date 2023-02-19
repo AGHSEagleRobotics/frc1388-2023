@@ -58,6 +58,8 @@ public final class Constants {
     public static final double HIGH_SPEED = 15.0;
     public static final double LOW_SPEED = 15.0;
 
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 14;
+
   }
 
   public enum Objective
