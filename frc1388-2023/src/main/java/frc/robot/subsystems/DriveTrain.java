@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveTrainConstants;
 
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -44,14 +45,17 @@ public class DriveTrain extends SubsystemBase {
     m_leftBack.setNeutralMode(NeutralMode.Brake);
     m_rightFront.setNeutralMode(NeutralMode.Brake);
     m_rightBack.setNeutralMode(NeutralMode.Brake);
-
+    
     // Invert left motors
     m_leftFront.setInverted(true);
     m_leftBack.setInverted(true);
     // Invert right motors
     m_rightFront.setInverted(false);
     m_rightBack.setInverted(false);
-   
+
+    // set distance to zero
+    setLeftEncoderDistance(0);
+    setRightEncoderDistance(0);
     // Differential Drive
     m_differentialDrive = new DifferentialDrive(m_leftFront, m_rightFront);
 
@@ -98,32 +102,14 @@ public class DriveTrain extends SubsystemBase {
    * @param speed The robot's speed along the X axis in inches per second. Forward is positive.
    */
   public void constantSpeedDrive(double speed) {
-    //  //TESTING
-    //  double F = SmartDashboard.getNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
-    //  double P = SmartDashboard.getNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
-    //  double I = SmartDashboard.getNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
-    //  double D = SmartDashboard.getNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
-    //  speed = SmartDashboard.getNumber("speed", speed);
-  
-    //  m_leftFront.config_kF(DriveTrainConstants.PID_IDX, F);
-    //  m_leftFront.config_kP(DriveTrainConstants.PID_IDX, P);
-    //  m_leftFront.config_kI(DriveTrainConstants.PID_IDX, I);
-    //  m_leftFront.config_kD(DriveTrainConstants.PID_IDX, D);
- 
-    //  m_rightFront.config_kF(DriveTrainConstants.PID_IDX, F);
-    //  m_rightFront.config_kP(DriveTrainConstants.PID_IDX, P);
-    //  m_rightFront.config_kI(DriveTrainConstants.PID_IDX, I);
-    //  m_rightFront.config_kD(DriveTrainConstants.PID_IDX, D);
-    //  //END TESTING
-    
-    //Speed units are inches per second
+
     //Velocity is in ticks per 100 miliseconds
     //The velocity = speed(inps)/INCHES_PER_ENCODER_UNITS/SENSOR_CYCLES_PER_SECOND
     double velocity = speed / DriveTrainConstants.INCHES_PER_ENCODER_UNITS / DriveTrainConstants.SENSOR_CYCLES_PER_SECOND;
     m_leftFront.set(ControlMode.Velocity, velocity);      
     m_rightFront.set(ControlMode.Velocity, velocity);
 
-    System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
+    // System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
     SmartDashboard.putNumber("speed", speed);
     SmartDashboard.putNumber("velocity", velocity);
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
@@ -132,6 +118,14 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("derivative", m_leftFront.getErrorDerivative());
     SmartDashboard.putNumber("error", m_leftFront.getClosedLoopError());
   }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_leftFront.setNeutralMode(mode);
+    m_leftBack.setNeutralMode(mode);
+    m_rightFront.setNeutralMode(mode);
+    m_rightBack.setNeutralMode(mode);
+  }
+
   public void resetLeftEncoder(){
     m_leftFront.setSelectedSensorPosition(0);
   };
@@ -142,25 +136,42 @@ public class DriveTrain extends SubsystemBase {
     m_differentialDrive.setDeadband(0); 
   }
   /**
- * gets raw left sensor units
- * @return distance in raw sensor units
+ * gets left encoder distance
+ * @return distance in inches
  */
   public double getLeftEncoderDistance(){
-    return m_leftFront.getSelectedSensorPosition();
-  }
-  /**
-   * gets raw right sensor units
-   * @return distance in raw sensor units
-   */
-  public double getRightEncoderDistance(){
-    return m_rightFront.getSelectedSensorPosition();
+    return m_leftFront.getSelectedSensorPosition()
+    * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
 
-  public void setNeutralMode(NeutralMode mode) {
-    m_leftFront.setNeutralMode(mode);
-    m_leftBack.setNeutralMode(mode);
-    m_rightFront.setNeutralMode(mode);
-    m_rightBack.setNeutralMode(mode);
+  /**
+   * set encoder distance
+   * 
+   * @param distance in inches
+   */
+  public void setLeftEncoderDistance(double distance) {
+    m_leftFront.setSelectedSensorPosition(distance / DriveTrainConstants.INCHES_PER_ENCODER_UNITS);
+    
+  }
+
+  /**
+   * set encoder distance
+   * 
+   * @param distance in inches
+   */
+  public void setRightEncoderDistance(double distance) {
+    m_rightFront.setSelectedSensorPosition(distance / DriveTrainConstants.INCHES_PER_ENCODER_UNITS);
+    
+  }
+
+  /**
+   * gets right encoder distance
+   * 
+   * @return distance in inches
+   */
+  public double getRightEncoderDistance() {
+    return m_rightFront.getSelectedSensorPosition()
+        * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
 
   /**feet/sec */
