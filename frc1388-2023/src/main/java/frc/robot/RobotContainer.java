@@ -30,6 +30,13 @@ import javax.lang.model.util.ElementScanner14;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -79,6 +86,9 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    // Suppress joystick messages
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
 
   /**

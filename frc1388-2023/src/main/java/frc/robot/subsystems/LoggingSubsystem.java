@@ -40,7 +40,7 @@ public class LoggingSubsystem extends SubsystemBase {
   private BuiltInAccelerometer m_accel = new BuiltInAccelerometer();
 
   // Log entries
-  private DataLog m_log;
+  private DataLog m_log = DataLogManager.getLog();
 
   private DoubleLogEntry m_logGX;
   private DoubleLogEntry m_logGY;
@@ -51,8 +51,7 @@ public class LoggingSubsystem extends SubsystemBase {
 
   /** Creates a new LoggingSubsystem. */
   public LoggingSubsystem() {
-    DataLog m_log = DataLogManager.getLog();
-
+    
     if (Constants.Logging.LOG_ACCELERATION)
     {
       m_logGX = new DoubleLogEntry(m_log, "/robot/gX");

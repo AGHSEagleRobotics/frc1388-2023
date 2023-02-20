@@ -24,7 +24,6 @@ import frc.robot.subsystems.GyroSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private final Timer m_timer = new Timer();
 
   private RobotContainer m_robotContainer;
 
@@ -36,8 +35,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     DataLogManager.start();
     DataLogManager.log("####### RobotInit");
-    // DataLogManager.log("Git version: " + BuildInfo.GIT_VERSION + " (branch: " + BuildInfo.GIT_BRANCH + BuildInfo.GIT_STATUS + ")");
-    // DataLogManager.log("      Built: " + BuildInfo.BUILD_DATE + "  " + BuildInfo.BUILD_TIME);
+    DataLogManager.log("Git version: " + BuildInfo.GIT_VERSION + " (branch: " + BuildInfo.GIT_BRANCH + " " + BuildInfo.GIT_STATUS + ")");
+    DataLogManager.log("      Built: " + BuildInfo.BUILD_DATE + "  " + BuildInfo.BUILD_TIME);
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -84,8 +83,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_timer.reset();
-    m_timer.start();
 
     System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
@@ -118,11 +115,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if( m_timer.get() < 15 )
-    {
-        m_autonomousCommand.isFinished();
-        //stop robot
-    }
   }
 
   @Override
