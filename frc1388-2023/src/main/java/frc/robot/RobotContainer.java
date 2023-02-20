@@ -15,6 +15,7 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MultiChannelADIS;
 
@@ -79,6 +80,7 @@ public class RobotContainer {
   );
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
 
+  private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
   private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
 
