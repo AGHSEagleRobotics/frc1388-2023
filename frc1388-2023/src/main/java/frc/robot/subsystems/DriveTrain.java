@@ -58,6 +58,7 @@ public class DriveTrain extends SubsystemBase {
     setRightEncoderDistance(0);
     // Differential Drive
     m_differentialDrive = new DifferentialDrive(m_leftFront, m_rightFront);
+    m_differentialDrive.setDeadband(0);
 
     // constant speed motor setting and PID
     m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);

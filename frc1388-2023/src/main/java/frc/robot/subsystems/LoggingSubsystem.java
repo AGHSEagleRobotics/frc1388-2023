@@ -11,6 +11,7 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -85,6 +86,8 @@ public class LoggingSubsystem extends SubsystemBase {
       m_logGY.append(gY);
       m_logGZ.append(gZ);
       m_logGTotal.append(gTotal);
+      // SmartDashboard.putNumber("total g", gTotal - 1.0);
+      SmartDashboard.putNumber("translational acceleration ", Math.sqrt(gX * gX + gY * gY));
     }
 
     // Log robot mode

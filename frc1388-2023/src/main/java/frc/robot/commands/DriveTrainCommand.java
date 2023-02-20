@@ -61,37 +61,40 @@ public class DriveTrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     double speed = -m_driveLeftStickYAxis.get();
-    speed = MathUtil.applyDeadband(speed, 0.1);
+    // speed = MathUtil.applyDeadband(speed, 0.03);
     speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
 
     double  rotation = -m_driveRightStickXAxis.get();
-    rotation = MathUtil.applyDeadband(rotation, 0.1);
+    // rotation = MathUtil.applyDeadband(rotation, 0.03);
     rotation = Math.tan(rotation * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
 
-    double opSpeed = m_opLeftStickYAxis.get();
-    opSpeed = MathUtil.applyDeadband(opSpeed, 0.1);
-
-    double opRotation = m_opRightStickXAxis.get();
-    opRotation = MathUtil.applyDeadband(opRotation, 0.1);
-
+    // maybe add this later
+    // double opSpeed = m_opLeftStickYAxis.get();
+    // opSpeed = MathUtil.applyDeadband(opSpeed, 0.1);
+    
+    // double opRotation = m_opRightStickXAxis.get();
+    // opRotation = MathUtil.applyDeadband(opRotation, 0.1);
+    
     if (m_driveRightStickButton.get() && !m_lastStick) {
       m_quickTurn = !m_quickTurn;
     }
-
+    
     if (m_direction == Direction.forwards) {
       m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
     } else {
       m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
     }
-
+    
+    // maybe add this later
     // if (opSpeed != 0) {
     //   m_driveTrain.constantSpeedDrive(12.0 * m_opLeftStickYAxis.get());
     // }
     // if (opRotation != 0) {
     //   m_driveTrain.tankDrive(0.5 * opRotation, -0.5 * opRotation);
     // }
-
+    
     m_lastStick = m_driveRightStickButton.get();
     SmartDashboard.putString("direction ", m_direction.name());
     SmartDashboard.putNumber("speed ", speed);
@@ -104,7 +107,9 @@ public class DriveTrainCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_driveTrain.tankDrive(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override
