@@ -27,7 +27,6 @@ public class LoggingSubsystem extends SubsystemBase {
     TEST(3);
 
     private int value;
-
     private RobotMode(int value) {
       this.value = value;
     }
@@ -83,9 +82,9 @@ public class LoggingSubsystem extends SubsystemBase {
       double gTotal = Math.sqrt((gX*gX) + (gY*gY) + (gZ*gZ));   // Total acceleration vector magnitude
   
       m_logGX.append(gX);
-      m_logGX.append(gY);
-      m_logGX.append(gZ);
-      m_logGX.append(gTotal);
+      m_logGY.append(gY);
+      m_logGZ.append(gZ);
+      m_logGTotal.append(gTotal);
     }
 
     // Log robot mode
