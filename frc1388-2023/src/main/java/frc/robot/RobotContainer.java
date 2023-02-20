@@ -5,16 +5,23 @@
 package frc.robot;
 
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.Objective;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.Position;
+import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoPickUp;
+import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand.Direction;
-import frc.robot.commands.Autos;
+// import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.commands.AutoBalance;
-
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.MultiChannelADIS;
+
+import javax.lang.model.util.ElementScanner14;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -35,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -45,20 +53,20 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Dashboard m_Dashboard = new Dashboard();
-
-
+  
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-
+  new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  
+  
   private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+  new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
   
-
+  
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
@@ -74,10 +82,12 @@ public class RobotContainer {
   );
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
 
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    public RobotContainer() {
       
     m_driveTrain.setDefaultCommand( new DriveTrainCommand( 
       m_driveTrain,
@@ -100,12 +110,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
    
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
     // TESTING: testing out constant speed drive
-    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
-    m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
+    // m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
+    // m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
+    
     m_driverController.a().onTrue(new RepeatCommand(new InstantCommand(
       ()-> {m_driveCommand.setForwards(Direction.reverse);}
     )));
@@ -122,11 +134,71 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+
+    Objective objective = m_Dashboard.getObjective();
+    Position position = m_Dashboard.getPosition();
+    System.out.println(objective);
+
+    switch ( objective ) {
+      case LEAVECOMMUNITY:
+      if ( position == Position.C ){
+      return    
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+      }
+      else {
+      return 
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+      }
+
+      case SCORE:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
+
+      case SCOREANDLEAVE:
+      if( position == Position.C )
+      {
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
+      } 
+      else{
+        return 
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
+      }
+
+      case SCORELEAVEPICKUP:
+      if ( position == Position.C )
+      {
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
+      }
+      else
+      {
+        return
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
+      }
+
+      case CHARGESTATION:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
+
+      case SCORETHENCHARGE:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
+
+      case OVERCHARGESTATION:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
+
+      case CHARGESTATIONBACK:
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
+
+    }
     
-    System.out.println("Get Auto Command");
-    return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
-      .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+    // System.out.println("Get Auto Command");
+    // return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
+    //   .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+    return null;
   }
 
   public void setNeutralMode(NeutralMode mode) {
