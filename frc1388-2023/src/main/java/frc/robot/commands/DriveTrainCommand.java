@@ -63,11 +63,11 @@ public class DriveTrainCommand extends CommandBase {
   public void execute() {
     
     double speed = -m_driveLeftStickYAxis.get();
-    // speed = MathUtil.applyDeadband(speed, 0.03);
+    speed = MathUtil.applyDeadband(speed, 0.03);
     speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
 
     double  rotation = -m_driveRightStickXAxis.get();
-    // rotation = MathUtil.applyDeadband(rotation, 0.03);
+    rotation = MathUtil.applyDeadband(rotation, 0.03);
     rotation = Math.tan(rotation * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
 
     // maybe add this later
