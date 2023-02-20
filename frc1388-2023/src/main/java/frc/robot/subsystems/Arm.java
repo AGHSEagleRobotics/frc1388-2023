@@ -11,33 +11,23 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-// import frc.robot.subsystems.Arm.ArmPositions.ArmSetPoint;
-// import frc.robot.subsystems.Arm.ArmPositions.MotorSetPoint;
 
 public class Arm extends SubsystemBase {
-  public enum PossibleArmPositions { // TODO add more positions
+  public enum ArmSetPoint { // TODO add more positions
     retracted, extended
   }
-  AnArmPosition m_extendedPos = new AnArmPosition(
-    PossibleArmPositions.extended,
+  public final AnArmPosition m_extendedPos = new AnArmPosition(
     ArmConstants.MID_ARM_POSITION_UP,
     ArmConstants.PRIMARY_ARM_POSITION_UP
   );
 
-  AnArmPosition m_retractedPos = new AnArmPosition(
-    PossibleArmPositions.retracted,
+  public final AnArmPosition m_retractedPos = new AnArmPosition(
     ArmConstants.MID_ARM_POSITION_DOWN,
     ArmConstants.PRIMARY_ARM_POSITION_DOWN
   );
 
-  private PossibleArmPositions m_armPosition = PossibleArmPositions.retracted;
-
-  // private final ArmPositions m_ArmPositions = new ArmPositions(
-  //   ArmConstants.MID_ARM_POSITION_UP,
-  //   ArmConstants.MID_ARM_POSITION_UP,
-  //   ArmConstants.PRIMARY_ARM_POSITION_DOWN,
-  //   ArmConstants.PRIMARY_ARM_POSITION_UP
-  // );
+  // currently not used
+  private ArmSetPoint m_armSetPoint = ArmSetPoint.retracted;
 
   // mid arm
   private final CANSparkMax m_midArmMotor;
@@ -68,18 +58,20 @@ public class Arm extends SubsystemBase {
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND) m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
   }
 
-  public void setArmPosition(PossibleArmPositions setPoint) {
-    m_armPosition = setPoint;
-    // setMidArmMotor(m_ArmPositions.getMotorSetPoint(MotorSetPoint.midArm));
-    // setPrimaryMotor(m_ArmPositions.getMotorSetPoint(MotorSetPoint.primary));
-
-    switch(m_armPosition) {
+  public void setArmPosition(ArmSetPoint setPoint) {
+    m_armSetPoint = setPoint;
+    switch (setPoint) {
+      case retracted: {
+        setMidArmMotor(m_retractedPos.midArmPosition);
+        setPrimaryMotor(m_retractedPos.primaryPosition);
+        break;
+      } 
       case extended: {
-        setMidArmMotor(m_retractedPos.m_midArmPosition);
-        setPrimaryMotor(m_retractedPos.m_primaryPosition);
+        setMidArmMotor(m_extendedPos.midArmPosition);
+        setPrimaryMotor(m_extendedPos.primaryPosition);
+        break;
       }
     }
-    
   }
 
   @Override
@@ -89,62 +81,15 @@ public class Arm extends SubsystemBase {
     if (m_primaryArmLimitSwitch.get()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_ENCODER);
   }
 
-  // public static class ArmPositions {
-  //   public enum ArmSetPoint {
-  //     low, high
-  //   }
-  //   ArmSetPoint m_ArmSetPoint = ArmSetPoint.low;
-
-  //   public enum MotorSetPoint {
-  //     midArm, primary
-  //   }
-
-  //   private final int m_midArmLow;
-  //   private final int m_midArmHigh;
-  //   private final int m_primaryLow;
-  //   private final int m_primaryHigh;
-
-  //   public ArmPositions(int midArmLow, int midArmHigh, int primaryLow, int primaryHigh) {
-  //     m_midArmLow = midArmLow;
-  //     m_midArmHigh = midArmHigh;
-  //     m_primaryLow = primaryLow;
-  //     m_primaryHigh = primaryHigh;
-  //   }
-
-  //   public void setSetPoint(ArmSetPoint setPoint){
-  //     m_ArmSetPoint = setPoint;
-  //   }
-
-  //   public int getMotorSetPoint(MotorSetPoint motorSetPoint) {
-  //     if (m_ArmSetPoint == ArmSetPoint.low && motorSetPoint == MotorSetPoint.midArm) return m_midArmLow;
-  //     if (m_ArmSetPoint == ArmSetPoint.high && motorSetPoint == MotorSetPoint.midArm) return m_midArmHigh;
-  //     if (m_ArmSetPoint == ArmSetPoint.low && motorSetPoint == MotorSetPoint.primary) return m_primaryLow;
-  //     if (m_ArmSetPoint == ArmSetPoint.high && motorSetPoint == MotorSetPoint.primary) return m_primaryHigh;
-  //     return 0;
-  //   }
-  // }
-
   public class AnArmPosition {
-    private final PossibleArmPositions m_thisArmPosition;
-    private final int m_midArmPosition;
-    private final int m_primaryPosition;
+    // private final PossibleArmPositions m_thisArmPosition;
+    private final int midArmPosition;
+    private final int primaryPosition;
 
-    AnArmPosition(PossibleArmPositions thisPosition, int midarmpos, int primaryArmPositon){
-      m_thisArmPosition = thisPosition;
-      m_midArmPosition = midarmpos;
-      m_primaryPosition = primaryArmPositon;
-    }
-
-    public PossibleArmPositions getThisArmPosition() {
-      return m_thisArmPosition;
-    }
-
-    public int getMidArmPos() {
-      return m_midArmPosition;
-    }
-
-    public int getPrimaryPos() {
-      return m_primaryPosition;
+    AnArmPosition(int midArmPosition, int primaryArmPosition) {
+      // m_thisArmPosition = thisPosition;
+      this.midArmPosition = midArmPosition;
+      this.primaryPosition = primaryArmPosition;
     }
   }
 }
