@@ -5,6 +5,9 @@
 package frc.robot.commands;
 
 import java.util.function.Supplier;
+
+import com.ctre.phoenix.motorcontrol.FollowerType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -60,11 +63,11 @@ public class DriveTrainCommand extends CommandBase {
   public void execute() {
     double speed = -m_driveLeftStickYAxis.get();
     speed = MathUtil.applyDeadband(speed, 0.1);
-    // Math.tan(speed * Math.atan(5)) / 5 // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
+    speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
 
     double  rotation = -m_driveRightStickXAxis.get();
     rotation = MathUtil.applyDeadband(rotation, 0.1);
-    // Math.tan(rotation * Math.atan(5)) / 5 // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
+    rotation = Math.tan(rotation * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
 
     double opSpeed = m_opLeftStickYAxis.get();
     opSpeed = MathUtil.applyDeadband(opSpeed, 0.1);
@@ -82,20 +85,21 @@ public class DriveTrainCommand extends CommandBase {
       m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
     }
 
-    if (opSpeed != 0) {
-      m_driveTrain.constantSpeedDrive(12.0 * m_opLeftStickYAxis.get());
-    }
-    if (opRotation != 0) {
-      m_driveTrain.tankDrive(0.5 * opRotation, -0.5 * opRotation);
-    }
+    // if (opSpeed != 0) {
+    //   m_driveTrain.constantSpeedDrive(12.0 * m_opLeftStickYAxis.get());
+    // }
+    // if (opRotation != 0) {
+    //   m_driveTrain.tankDrive(0.5 * opRotation, -0.5 * opRotation);
+    // }
 
     m_lastStick = m_driveRightStickButton.get();
-    SmartDashboard.putString("direction: ", m_direction.name());
-    SmartDashboard.putNumber("speed: ", speed);
+    SmartDashboard.putString("direction ", m_direction.name());
+    SmartDashboard.putNumber("speed ", speed);
   }
 
   public void setDirection(Direction direction) {
     m_direction = direction;
+    System.out.println(direction.name());
   }
 
   // Called once the command ends or is interrupted.

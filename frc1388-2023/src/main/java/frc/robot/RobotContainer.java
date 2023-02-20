@@ -16,7 +16,6 @@ import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -48,7 +47,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
       
-    m_driveTrain.setDefaultCommand( new DriveTrainCommand( 
+    m_driveTrain.setDefaultCommand(new DriveTrainCommand( 
       m_driveTrain,
       ()-> m_driverController.getLeftY(),
       ()-> m_driverController.getRightX(),
@@ -73,17 +72,16 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
-    // TESTING: testing out constant speed drive
-    m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
-    m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
+    //test: testing out constant speed drive
+    // m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
+    // m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
 
-    m_driverController.a().onTrue(new RepeatCommand(new InstantCommand(
+    m_driverController.a().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
-    )));
-    m_driverController.b().onTrue(new RepeatCommand(new InstantCommand(
+    ));
+    m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
-    )));
-    
+    ));
   }
   
 

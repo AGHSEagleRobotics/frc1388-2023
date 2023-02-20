@@ -162,9 +162,19 @@ public class DriveTrain extends SubsystemBase {
     m_rightFront.setNeutralMode(mode);
     m_rightBack.setNeutralMode(mode);
   }
-  
+
+  /**feet/sec */
+  public double getRobotSpeed() {
+    double encoderSpeed = (m_leftFront.getSelectedSensorVelocity() + m_rightFront.getSelectedSensorVelocity()) / 2;
+    return encoderSpeed * DriveTrainConstants.INCHES_PER_ENCODER_UNITS * 10 / 12;
+  } 
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    //debug===============
+    SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
+    //debug=end============
   }
 }
