@@ -4,35 +4,20 @@
 
 package frc.robot;
 
-import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand.Direction;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
-import frc.robot.commands.AutoBalance;
-
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.DriveTrain;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.subsystems.MultiChannelADIS;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -43,47 +28,33 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
   private final Dashboard m_Dashboard = new Dashboard();
 
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
+  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
 
   private final DriveTrain m_driveTrain = new DriveTrain
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
-  
 
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
-
-   final DriveTrainCommand m_driveCommand = new DriveTrainCommand( 
-    m_driveTrain,
-    ()-> m_driverController.getLeftY(),
-    ()-> m_driverController.getRightX(),
-    ()-> m_driverController.rightStick().getAsBoolean()
-    // ()-> m_driverController.a().getAsBoolean(),
-    // ()-> m_driverController.b().getAsBoolean(),
-    // m_driverController
-  );
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-
       
     m_driveTrain.setDefaultCommand( new DriveTrainCommand( 
       m_driveTrain,
       ()-> m_driverController.getLeftY(),
       ()-> m_driverController.getRightX(),
-      ()-> m_driverController.rightStick().getAsBoolean()
+      ()-> m_driverController.rightStick().getAsBoolean(),
+      ()-> m_opController.getLeftY(),
+      ()-> m_opController.getRightX()
     ));
 
     // Configure the trigger bindings
@@ -100,19 +71,19 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-   
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
     // TESTING: testing out constant speed drive
     m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
     m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
+
     m_driverController.a().onTrue(new RepeatCommand(new InstantCommand(
-      ()-> {m_driveCommand.setForwards(Direction.reverse);}
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
     )));
-  
     m_driverController.b().onTrue(new RepeatCommand(new InstantCommand(
-      ()-> {m_driveCommand.setForwards(Direction.forwards);}
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
     )));
+    
   }
   
 

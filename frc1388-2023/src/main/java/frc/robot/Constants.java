@@ -45,8 +45,10 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
   } 
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public static class ControllerConstants {
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int OP_CONTROLLER_PORT = 1;
+
   }
  
   public static class AutoBalanceConstants{
