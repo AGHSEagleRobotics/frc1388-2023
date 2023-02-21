@@ -11,17 +11,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class GoUntilAngle extends CommandBase {
   private double m_angle;
-  private DriveTrain m_driveTrain;
+  private DriveTrainSubsystem m_driveTrain;
   private GyroSubsystem m_gyroSubsystem;
   
   /** Creates a new AutoMove. */
 
-  public GoUntilAngle(DriveTrain driveTrain, GyroSubsystem gyroSubsystem, double angle) {
+  public GoUntilAngle(DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem, double angle) {
     m_driveTrain = driveTrain;
     m_gyroSubsystem = gyroSubsystem;
     m_angle = angle;

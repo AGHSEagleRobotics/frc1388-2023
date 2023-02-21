@@ -22,7 +22,7 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
 import javax.lang.model.util.ElementScanner14;
@@ -57,7 +57,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
 
-  private final DriveTrain m_driveTrain = new DriveTrain
+  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
   (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 

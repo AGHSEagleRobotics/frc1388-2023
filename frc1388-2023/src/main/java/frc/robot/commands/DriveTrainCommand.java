@@ -11,10 +11,10 @@ import com.ctre.phoenix.motorcontrol.FollowerType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveTrainCommand extends CommandBase {
-  private final DriveTrain m_driveTrain;
+  private final DriveTrainSubsystem m_driveTrain;
 
   // driver controller
   public enum Direction {
@@ -34,7 +34,7 @@ public class DriveTrainCommand extends CommandBase {
 
   /** Creates a new DriveTrainCommand. */
   public DriveTrainCommand(
-    DriveTrain driveTrain,
+    DriveTrainSubsystem driveTrain,
     Supplier<Double> driveLeftStickYAxis, 
     Supplier<Double> driveRightStickXAxis,
     Supplier<Boolean> rightStickButton,
