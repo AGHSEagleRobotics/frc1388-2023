@@ -103,8 +103,7 @@ public final class Constants {
     public static final double AUTO_DRIVE_SPEED = 0.5;
 }
 
-  public enum Position
-  {
+  public enum Position {
     A("A"),
     B("B"),
     C("C");
@@ -112,18 +111,41 @@ public final class Constants {
     public static final Position Default = A;
 
     private String m_dashboardDescript; //This is what will show on dashboard
-    private Position ( String dashboardDescript )
-    {
+    private Position ( String dashboardDescript ){
       m_dashboardDescript = dashboardDescript;
     }
 
     public String getDashboardDescript(){
       return m_dashboardDescript;
     }
+
+    public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
+    public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
+    public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
+    public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
   }
+
+  public final class GrabberConstants {
+    public static final int GRABBER_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int GRABBER_POSITION_OPEN = 10; // TODO  definitely change this
+    public static final int GRABBER_POSITION_CLOSED = 3; // TODO  definitely change this
+    public static final int GRABBER_ENCODER_DEADBAND = 1;
+  }
+
+  public final class ArmConstants {
+    public static final int DEADBAND = 10;
+    public static final int PRIMARY_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int PRIMARY_ARM_POSITION_UP = 10; // TODO  definitely change this
+    public static final int PRIMARY_ARM_POSITION_DOWN = 3; // TODO  definitely change this
+
+    public static final int MID_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
+    public static final int MID_ARM_POSITION_UP = 10; // TODO  definitely change this
+    public static final int MID_ARM_POSITION_DOWN = 3; // TODO  definitely change this
+  }
+
+  
     
-  public final class FieldConstants
-  {
+  public final class FieldConstants {
     //all measurements in inches
     public static final double ROBOT_WIDTH = 28; //delete?
     public static final double ROBOT_LENGTH = 29; //delete?

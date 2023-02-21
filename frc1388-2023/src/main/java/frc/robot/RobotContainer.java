@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand.Direction;
+import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.Objective;
 // import frc.robot.Constants.OperatorConstants;
@@ -22,7 +23,7 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
 import javax.lang.model.util.ElementScanner14;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -57,15 +59,13 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
 
-  private final DriveTrain m_driveTrain = new DriveTrain
-  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK)
+      );
 
-  //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-  //  new MultiChannelADIS()
-  //  );
    private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
@@ -81,8 +81,7 @@ public class RobotContainer {
       ()-> m_driverController.getRightX(),
       ()-> m_driverController.rightStick().getAsBoolean(),
       ()-> m_opController.getLeftY(),
-      ()-> m_opController.getRightX()
-    ));
+        () -> m_opController.getRightX()));
 
     // Configure the trigger bindings
     configureBindings();
@@ -101,17 +100,22 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    //These are the binding for the driver controller
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
-
-    //test: testing out constant speed drive
-    // m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
-    // m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
 
     m_driverController.a().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
     ));
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
+    ));
+    
+    //These are the binding for the operator controller
+    m_opController.leftBumper().whileTrue(new RunCommand(
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrain
+    ));
+    m_opController.rightBumper().whileTrue(new RunCommand(
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrain
     ));
   }
   
@@ -205,13 +209,10 @@ public class RobotContainer {
 
     }
     
-    // System.out.println("Get Auto Command");
-    // return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
-    //   .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
 
     return null;
   }
-  public void setNeutralMode(NeutralMode mode) {
+  public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
   }
 
