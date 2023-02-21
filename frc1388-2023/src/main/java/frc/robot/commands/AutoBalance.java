@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoBalanceConstants;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class AutoBalance extends CommandBase {
@@ -23,7 +23,7 @@ public class AutoBalance extends CommandBase {
 
   private BalanceStates m_balanceState = BalanceStates.approachingRamp;
 
-  private DriveTrain m_driveTrainSubsystem;
+  private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
 
   private double m_angle1 = 0;
@@ -34,7 +34,7 @@ public class AutoBalance extends CommandBase {
   private final PIDController m_pidController = new PIDController(0.02, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrain driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");

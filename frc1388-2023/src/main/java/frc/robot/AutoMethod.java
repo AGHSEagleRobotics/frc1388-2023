@@ -15,16 +15,16 @@ import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.GoUntilAngle;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
 /** Add your docs here. */
 public class AutoMethod {
      
-    private DriveTrain m_driveTrain;
+    private DriveTrainSubsystem m_driveTrain;
     private GyroSubsystem m_gyroSubsystem;
-    public AutoMethod( DriveTrain driveTrain, GyroSubsystem gyroSubsystem )
+    public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem )
     {
         driveTrain = m_driveTrain;
         gyroSubsystem = m_gyroSubsystem;
