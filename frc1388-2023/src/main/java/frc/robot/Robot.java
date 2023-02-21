@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 
     // set motors to coast mode when user button on RoboRio is pressed
     if (RobotController.getUserButton()) {
-      m_robotContainer.setNeutralMode(NeutralMode.Coast);
+      m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Coast);
       System.out.println("###RobotPeriodic() -> UserButtonPressed -> NeutralMode.Coast###");
     }
   }
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     System.out.println("setting neutral mode");
-    m_robotContainer.setNeutralMode(NeutralMode.Brake);
+    m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
     System.out.println("starting auto command");
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     DataLogManager.log("####### Teleop Init");
-    m_robotContainer.setNeutralMode(NeutralMode.Brake);
+    m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     DataLogManager.log("####### Test Init");
-    m_robotContainer.setNeutralMode(NeutralMode.Brake);
+    m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationInit() {
     DataLogManager.log("####### Simulation Init");
-    m_robotContainer.setNeutralMode(NeutralMode.Brake);
+    m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
   }
 
   /** This function is called periodically whilst in simulation. */

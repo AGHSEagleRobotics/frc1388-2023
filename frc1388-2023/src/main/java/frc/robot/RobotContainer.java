@@ -59,32 +59,29 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
 
-  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem
-  (new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
+  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK),
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT),
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK)
+      );
 
-  //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
-  //  new MultiChannelADIS()
-  //  );
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
+  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
   private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
-      
-    m_driveTrain.setDefaultCommand(new DriveTrainCommand( 
-      m_driveTrain,
-      ()-> m_driverController.getLeftY(),
-      ()-> m_driverController.getRightX(),
-      ()-> m_driverController.rightStick().getAsBoolean(),
-      ()-> m_opController.getLeftY(),
-      ()-> m_opController.getRightX()
-    ));
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+
+    m_driveTrain.setDefaultCommand(new DriveTrainCommand(
+        m_driveTrain,
+        () -> m_driverController.getLeftY(),
+        () -> m_driverController.getRightX(),
+        () -> m_driverController.rightStick().getAsBoolean(),
+        () -> m_opController.getLeftY(),
+        () -> m_opController.getRightX()));
 
     // Configure the trigger bindings
     configureBindings();
@@ -103,11 +100,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    //These are the binding for the driver controller
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
-
-    //test: testing out constant speed drive
-    // m_driverController.a().whileTrue( new RepeatCommand(new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(12); }) ));
-    // m_driverController.a().onFalse( new InstantCommand(()-> {m_driveTrain.constantSpeedDrive(0); }) );    
 
     m_driverController.a().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
@@ -115,7 +109,8 @@ public class RobotContainer {
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
-
+    
+    //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrain
     ));
@@ -192,13 +187,10 @@ public class RobotContainer {
 
     }
     
-    // System.out.println("Get Auto Command");
-    // return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
-    //   .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
     return null;
   }
 
-  public void setNeutralMode(NeutralMode mode) {
+  public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
   }
 }
