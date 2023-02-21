@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand.Direction;
+import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.Objective;
 // import frc.robot.Constants.OperatorConstants;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -112,6 +114,13 @@ public class RobotContainer {
     ));
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
+    ));
+
+    m_opController.leftBumper().whileTrue(new RunCommand(
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrain
+    ));
+    m_opController.rightBumper().whileTrue(new RunCommand(
+      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrain
     ));
   }
   

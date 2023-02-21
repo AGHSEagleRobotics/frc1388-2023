@@ -16,9 +16,13 @@ import frc.robot.subsystems.DriveTrain;
 public class DriveTrainCommand extends CommandBase {
   private final DriveTrain m_driveTrain;
 
+  public enum Side {
+    left, right
+  }
+
   // driver controller
   public enum Direction {
-    forwards, reverse;
+    forwards, reverse
   }
   private Direction m_direction = Direction.forwards;
 
@@ -98,11 +102,17 @@ public class DriveTrainCommand extends CommandBase {
     m_lastStick = m_driveRightStickButton.get();
     SmartDashboard.putString("direction ", m_direction.name());
     SmartDashboard.putNumber("speed ", speed);
+    SmartDashboard.putNumber("rotation", rotation);
   }
 
   public void setDirection(Direction direction) {
     m_direction = direction;
     System.out.println(direction.name());
+  }
+
+  public void turnSlow(Side direction) {
+    if (direction == Side.left) m_driveTrain.tankDrive(-0.3, 0.3);
+    if (direction == Side.right) m_driveTrain.tankDrive(0.3, -0.3);
   }
 
   // Called once the command ends or is interrupted.
