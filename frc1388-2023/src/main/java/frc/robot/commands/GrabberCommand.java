@@ -28,8 +28,8 @@ public class GrabberCommand extends CommandBase {
     addRequirements(m_grabberSubsystem);
   }
 
-  public void setGrabber(GrabberPosition setpoint) {
-    m_grabberSubsystem.setGrabberPosition(setpoint);
+  public void setGrabber(GrabberPosition setPoint) {
+    m_grabberSubsystem.setGrabberPosition(setPoint);
   }
 
   // Called when the command is initially scheduled.
