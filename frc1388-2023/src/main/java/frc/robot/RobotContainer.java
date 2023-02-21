@@ -128,6 +128,11 @@ public class RobotContainer {
     System.out.println(objective);
     System.out.println(position);
 
+    if ( objective == null || position == null )
+    {
+        return null;
+    }
+
     switch ( objective ) {
 
       case SITSTILL:
@@ -141,7 +146,7 @@ public class RobotContainer {
         return    
         new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
         }
-        else 
+        else //handles every position but Position C
         {
           System.out.println("LEAVE COMMUNITY NEAR");
           return 
@@ -160,7 +165,7 @@ public class RobotContainer {
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
       } 
-      else
+      else //handles every position but Position C
       {
         System.out.println("SCORE, LEAVE COMMUNITY NEAR");
         return 
@@ -174,7 +179,7 @@ public class RobotContainer {
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
       }
-      else
+      else //handles every position but Position C
       {
         System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
         return
@@ -203,6 +208,7 @@ public class RobotContainer {
     // System.out.println("Get Auto Command");
     // return new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
     //   .andThen(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+
     return null;
   }
   public void setNeutralMode(NeutralMode mode) {

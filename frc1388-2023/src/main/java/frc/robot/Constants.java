@@ -72,6 +72,7 @@ public final class Constants {
     OVERCHARGESTATION( "OverChargeStation" ),
     CHARGESTATIONBACK( "OverCharge, Return" );
 
+    public static final Objective Default = SITSTILL;
     
     private String m_dashboardDescript; //This is what will show on dashboard
     private Objective ( String dashboardDescript ) {
@@ -108,11 +109,13 @@ public final class Constants {
     B("B"),
     C("C");
 
+    public static final Position Default = A;
+
     private String m_dashboardDescript; //This is what will show on dashboard
     private Position ( String dashboardDescript )
     {
       m_dashboardDescript = dashboardDescript;
-}
+    }
 
     public String getDashboardDescript(){
       return m_dashboardDescript;

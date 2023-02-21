@@ -84,14 +84,23 @@ public class Dashboard {
                 m_autoObjective.addOption(o.getDashboardDescript(), o);
             }
 
+            m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
+
             for (Constants.Position p: Position.values()) {
                 m_autoPosition.addOption(p.getDashboardDescript(), p);
             }
 
+            m_autoPosition.setDefaultOption(Position.Default.getDashboardDescript(), Position.Default);
+
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(10, 7);
+            .withPosition(5, 8);
+            
+        m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
+            .withWidget(BuiltInWidgets.kComboBoxChooser)
+            .withSize(4, 4)
+            .withPosition(9, 8);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
@@ -99,10 +108,6 @@ public class Dashboard {
             .withPosition(16, 0)
             .getEntry();
 
-        m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
-            .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(4, 4)
-            .withPosition(16, 7);
 
 
         //DELETEME: testing autobalance pid loop
@@ -118,6 +123,7 @@ public class Dashboard {
     public Objective getObjective() {
         return m_autoObjective.getSelected();
     }
+    
     public void setPitchEntry(double value){
         m_pitch.setValue(value);
     } 

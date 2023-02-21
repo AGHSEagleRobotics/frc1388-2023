@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoBalanceConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoMove;
@@ -86,13 +87,13 @@ public class AutoMethod {
             new AutoScore()
         .andThen(
             new AutoTurn(0.5, 180)
-        )
+                )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
-        )
+                )
         ;
     }
 
@@ -102,13 +103,13 @@ public class AutoMethod {
             new AutoScore()
         .andThen(
             new AutoTurn(0.5, 180)
-        )
+                )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
-        )
+                )
         ;
     }
 
@@ -135,13 +136,13 @@ public class AutoMethod {
     public Command ScoreThenCharge()
     {
         return
-        new AutoScore()
+            new AutoScore()
         .andThen(
             new AutoTurn(0.5, 180)
-        )
+                )
         .andThen(
-            new AutoMove(40, 0.5)
-        )
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
+                )
         .andThen(
             new AutoBalance(m_driveTrain, m_gyroSubsystem)
                 )
@@ -167,13 +168,29 @@ public class AutoMethod {
             new AutoMove(190, 0.5)
         .andThen(
             new AutoMove( -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
-        )
+                )
         .andThen(
             new AutoTurn(0.1, 180)
-        )
+                )
         .andThen(
-            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5)
+            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5) //goes up to ramp, automatically goes to autobalancing
                 )
         ;
+    }
+
+    public Command ScoreOverChargeAndBack()
+    {
+        return 
+            new AutoScore()
+        .andThen(
+            new AutoTurn(0.5, 180)
+                )
+        .andThen(
+            new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5)
+                )
+        .andThen(
+            new AutoMove( -FieldConstants.CHARGE_STATION_LENGTH, 0.5 ) 
+                )   
+        ; 
     }
 }
