@@ -18,6 +18,7 @@ public class AutoBalance extends CommandBase {
 
   private enum BalanceStates {
     approachingRamp,
+    driveOnRamp,
     goingUpRamp,
     rampTiltingDown,
     overshooting
@@ -96,10 +97,16 @@ public class AutoBalance extends CommandBase {
     switch (m_balanceState) {
       case approachingRamp:
         if(Math.abs(m_gyroSubsystem.getYAngle()) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
-          m_balanceState = BalanceStates.goingUpRamp;
+          m_balanceState = BalanceStates.driveOnRamp;
         }
-        m_driveTrainSubsystem.arcadeDrive(0.5, 0);
+        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE);
         break;
+      
+      case driveOnRamp:
+        
+        m_balanceState = BalanceStates.goingUpRamp;
+        break;
+        
   
       case goingUpRamp: 
         if (m_gyroSubsystem.getYAngle() + 1 < averageAngle) {
