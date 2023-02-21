@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
-public class Arm extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
   public enum ArmSetPoint { // TODO add more positions
     retracted, extended
   }
@@ -39,7 +39,7 @@ public class Arm extends SubsystemBase {
   private final DigitalInput m_midArmLimitSwitch;
 
   /** Creates a new Arm. */
-  public Arm(CANSparkMax midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
+  public ArmSubsystem(CANSparkMax midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
     m_midArmMotor = midArm;
     m_midArmEncoder = m_midArmMotor.getEncoder();
     m_midArmLimitSwitch = midArmLimit;
