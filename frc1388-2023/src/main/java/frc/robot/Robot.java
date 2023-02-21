@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     DataLogManager.start();
     DataLogManager.log("####### RobotInit");
+    DataLogManager.log("Git version: " + BuildInfo.GIT_VERSION + " (branch: " + BuildInfo.GIT_BRANCH + " " + BuildInfo.GIT_STATUS + ")");
+    DataLogManager.log("      Built: " + BuildInfo.BUILD_DATE + "  " + BuildInfo.BUILD_TIME);
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -80,6 +83,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
     System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
     System.out.println("starting auto command");
@@ -110,7 +114,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
