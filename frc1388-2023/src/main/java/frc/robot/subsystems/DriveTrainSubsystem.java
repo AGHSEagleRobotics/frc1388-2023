@@ -117,28 +117,31 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_rightBack.setNeutralMode(mode);
   }
 
-  public void resetLeftEncoder(){
+  public void resetLeftEncoder() {
     m_leftFront.setSelectedSensorPosition(0);
   }
-//gets left encoder distance in inches
-public double getLeftEncoderDistance(){
-  return m_leftFront.getSelectedSensorPosition()
-  * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
-}
-// sets encoder distance in inches
-public void setLeftEncoderDistance(double distance) {
-  m_leftFront.setSelectedSensorPosition(distance / DriveTrainConstants.INCHES_PER_ENCODER_UNITS);
-}
 
-  public void resetRightEncoder(){
+  // gets left encoder distance in inches
+  public double getLeftEncoderDistance() {
+    return m_leftFront.getSelectedSensorPosition()
+        * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
+  }
+
+  // sets encoder distance in inches
+  public void setLeftEncoderDistance(double distance) {
+    m_leftFront.setSelectedSensorPosition(distance / DriveTrainConstants.INCHES_PER_ENCODER_UNITS);
+  }
+
+  public void resetRightEncoder() {
     m_rightFront.setSelectedSensorPosition(0);
   }
-  //sets encoder distance in inches
+
+  // sets encoder distance in inches
   public void setRightEncoderDistance(double distance) {
     m_rightFront.setSelectedSensorPosition(distance / DriveTrainConstants.INCHES_PER_ENCODER_UNITS);
-    
   }
-//gets right encoder distance in inches
+
+  // gets right encoder distance in inches
   public double getRightEncoderDistance() {
     return m_rightFront.getSelectedSensorPosition()
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
