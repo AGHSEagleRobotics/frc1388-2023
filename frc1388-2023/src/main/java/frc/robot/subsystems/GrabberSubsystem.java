@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.time.Period;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -14,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.GrabberConstants;
 
-public class Grabber extends SubsystemBase {
+public class GrabberSubsystem extends SubsystemBase {
   public enum GrabberPosition{
     open(GrabberConstants.GRABBER_POSITION_OPEN), closed(GrabberConstants.GRABBER_POSITION_CLOSED);
 
@@ -37,7 +35,7 @@ public class Grabber extends SubsystemBase {
   // private double m_encoderOffset = 0;
 
   /** Creates a new Grabber. */
-  public Grabber(CANSparkMax motor, DigitalInput limitSwitch) {
+  public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch) {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(20); // in amps
     m_grabberEncoder = m_grabberMotor.getEncoder();
