@@ -24,7 +24,6 @@ import frc.robot.subsystems.GyroSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private final Timer m_timer = new Timer();
 
   private RobotContainer m_robotContainer;
 
@@ -82,8 +81,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_timer.reset();
-    m_timer.start();
 
     System.out.println("setting neutral mode");
     m_robotContainer.setNeutralMode(NeutralMode.Brake);
@@ -116,11 +113,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if( m_timer.get() < 15 )
-    {
-        m_autonomousCommand.isFinished();
-        //stop robot
-    }
   }
 
   @Override

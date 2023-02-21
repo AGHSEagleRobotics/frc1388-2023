@@ -6,139 +6,110 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-// import org.apache.logging.log4j.core.tools.picocli.CommandLine.Command;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveTrain;
 
-
 public class DriveTrainCommand extends CommandBase {
-  // public enum DriveMode{
-  //   curvature, arcade
-  // }
-  // private DriveMode m_driveMode = DriveMode.arcade;
+  private final DriveTrain m_driveTrain;
+
+  // driver controller
   public enum Direction {
     forwards, reverse;
   }
   private Direction m_direction = Direction.forwards;
+
   private boolean m_quickTurn;
-  // private boolean m_inReverse;
-
-  private final DriveTrain m_driveTrain;
-  
-  // private Supplier<Double> m_driveLeftStickYAxis;
-  // private Supplier<Double> m_driveRightStickXAxis;
-  // private Supplier<Boolean> m_rightStickButton;
-  // private Supplier<Boolean> m_aButton;
-  // private Supplier<Boolean> m_bButton;
-
+  private Supplier<Double> m_driveLeftStickYAxis;
+  private Supplier<Double> m_driveRightStickXAxis;
+  private Supplier<Boolean> m_driveRightStickButton;
   private boolean m_lastStick = false;
 
-  private final CommandXboxController m_controller;
+  // op controller
+  private Supplier<Double> m_opLeftStickYAxis;
+  private Supplier<Double> m_opRightStickXAxis;
+  
   /** Creates a new DriveTrainCommand. */
-
   public DriveTrainCommand(
     DriveTrain driveTrain,
-    // Supplier<Double> driveLeftStickYAxis, 
-    // Supplier<Double> driveRightStickXAxis,
-    // Supplier<Boolean> rightStickButton,
-    // Supplier<Boolean> m_aButton,
-    // Supplier<Boolean> m_bButton,
-    CommandXboxController xboxController
+    Supplier<Double> driveLeftStickYAxis, 
+    Supplier<Double> driveRightStickXAxis,
+    Supplier<Boolean> rightStickButton,
+
+    Supplier<Double> opLeftY,
+    Supplier<Double> opRightX
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
     m_driveTrain = driveTrain;
-    // m_driveLeftStickYAxis = driveLeftStickYAxis;
-    // m_driveRightStickXAxis = driveRightStickXAxis;
-    // m_rightStickButton = rightStickButton;
-    m_controller = xboxController;
+    m_driveLeftStickYAxis = driveLeftStickYAxis;
+    m_driveRightStickXAxis = driveRightStickXAxis;
+    m_driveRightStickButton = rightStickButton;
+
+    m_opLeftStickYAxis = opLeftY;
+    m_opRightStickXAxis =  opRightX;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_controller.a().getAsBoolean()) m_direction = Direction.forwards;
-    if (m_controller.b().getAsBoolean()) m_direction = Direction.reverse;
 
-    double speed = -m_controller.getLeftY();
-    speed = MathUtil.applyDeadband(speed, .1);
+    double speed = -m_driveLeftStickYAxis.get();
+    speed = MathUtil.applyDeadband(speed, 0.03);
+    speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
 
-    double  rotation = -m_controller.getRightX();
-    rotation = MathUtil.applyDeadband(rotation, .1);
+    double  rotation = -m_driveRightStickXAxis.get();
+    rotation = MathUtil.applyDeadband(rotation, 0.03);
+    rotation = Math.tan(rotation * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
 
-    if (m_controller.rightStick().getAsBoolean() && !m_lastStick) {
+    // maybe add this later
+    // double opSpeed = m_opLeftStickYAxis.get();
+    // opSpeed = MathUtil.applyDeadband(opSpeed, 0.1);
+    
+    // double opRotation = m_opRightStickXAxis.get();
+    // opRotation = MathUtil.applyDeadband(opRotation, 0.1);
+    
+    if (m_driveRightStickButton.get() && !m_lastStick) {
       m_quickTurn = !m_quickTurn;
     }
 
     if (m_direction == Direction.forwards) {
       m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
-      //System.out.println("forwards");
-    }
-    if (m_direction == Direction.reverse) {
-      m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
-      //System.out.println("reverse");
-    }
-
-    m_lastStick = m_controller.rightStick().getAsBoolean();
-    // System.out.println("speed: " + speed + " rotation: " + rotation);
-    // System.out.println("is the robot in reverse? " + m_inReverse);
-    // SmartDashboard.putBoolean("is the robot in reverse", m_inReverse);
-    SmartDashboard.putString("direction: ", m_direction.name());
-    SmartDashboard.putNumber("speed: ", speed);
-
-    if (m_direction == Direction.forwards) {
-      m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
-    }
-    
-    if (m_direction == Direction.reverse) {
+    } else {
       m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
     }
-  }
 
-    // ??????????????????????????????????????????????????
-    // System.out.println("mode: " + m_driveMode.name() + " speed: " + speed + " rotation: " + rotation);
-    // if (Math.random() > 0.7) System.out.println("current: " + m_rightStickButton.get() + "\t\tlast: " + m_lastStick);
-    // switch (m_driveMode) {
-    //   // case arcade: m_driveTrain.arcadeDrive(speed, rotation);
-    //   //   break;
-    //   // case curvature: m_driveTrain.curvatureDrive(speed, rotation, true);  
-    //   //   break;
-    //   // default: m_driveTrain.arcadeDrive(0, 0);
+    // maybe add this later
+    // if (opSpeed != 0) {
+    //   m_driveTrain.constantSpeedDrive(12.0 * m_opLeftStickYAxis.get());
     // }
-    // ??????????????????????????????????????????????????
-          // switch (m_driveMode) {
-        //   case arcade: m_driveMode = DriveMode.curvature;
-        //     break;
-        //   case curvature: m_driveMode = DriveMode.arcade;
-        //     break;
-    //???????????????????????????????????????????
-    public void setForwards() {
-      // m_inReverse = false;
-      m_direction = Direction.forwards;
-    }
+    // if (opRotation != 0) {
+    //   m_driveTrain.tankDrive(0.5 * opRotation, -0.5 * opRotation);
+    // }
 
-  public void setReverse() {
-    // m_inReverse = true;
-    m_direction = Direction.reverse;
+    m_lastStick = m_driveRightStickButton.get();
+    SmartDashboard.putString("direction ", m_direction.name());
+    SmartDashboard.putNumber("speed ", speed);
   }
 
-  public void foo() {
-
+  public void setDirection(Direction direction) {
+    m_direction = direction;
+    System.out.println(direction.name());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_driveTrain.tankDrive(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override

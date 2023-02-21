@@ -58,6 +58,7 @@ public class DriveTrain extends SubsystemBase {
     setRightEncoderDistance(0);
     // Differential Drive
     m_differentialDrive = new DifferentialDrive(m_leftFront, m_rightFront);
+    m_differentialDrive.setDeadband(0);
 
     // constant speed motor setting and PID
     m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -102,32 +103,14 @@ public class DriveTrain extends SubsystemBase {
    * @param speed The robot's speed along the X axis in inches per second. Forward is positive.
    */
   public void constantSpeedDrive(double speed) {
-    //  //TESTING
-    //  double F = SmartDashboard.getNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
-    //  double P = SmartDashboard.getNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
-    //  double I = SmartDashboard.getNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
-    //  double D = SmartDashboard.getNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
-    //  speed = SmartDashboard.getNumber("speed", speed);
-  
-    //  m_leftFront.config_kF(DriveTrainConstants.PID_IDX, F);
-    //  m_leftFront.config_kP(DriveTrainConstants.PID_IDX, P);
-    //  m_leftFront.config_kI(DriveTrainConstants.PID_IDX, I);
-    //  m_leftFront.config_kD(DriveTrainConstants.PID_IDX, D);
- 
-    //  m_rightFront.config_kF(DriveTrainConstants.PID_IDX, F);
-    //  m_rightFront.config_kP(DriveTrainConstants.PID_IDX, P);
-    //  m_rightFront.config_kI(DriveTrainConstants.PID_IDX, I);
-    //  m_rightFront.config_kD(DriveTrainConstants.PID_IDX, D);
-    //  //END TESTING
-    
-    //Speed units are inches per second
+
     //Velocity is in ticks per 100 miliseconds
     //The velocity = speed(inps)/INCHES_PER_ENCODER_UNITS/SENSOR_CYCLES_PER_SECOND
     double velocity = speed / DriveTrainConstants.INCHES_PER_ENCODER_UNITS / DriveTrainConstants.SENSOR_CYCLES_PER_SECOND;
     m_leftFront.set(ControlMode.Velocity, velocity);      
     m_rightFront.set(ControlMode.Velocity, velocity);
 
-    System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
+    // System.out.println("constantSpeedDrive - speed: " + speed + "  | velocity: " + velocity);
     SmartDashboard.putNumber("speed", speed);
     SmartDashboard.putNumber("velocity", velocity);
     SmartDashboard.putNumber("robot velocity", m_leftFront.getSelectedSensorVelocity());
@@ -191,8 +174,19 @@ public class DriveTrain extends SubsystemBase {
     return m_rightFront.getSelectedSensorPosition()
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
+
+  /**feet/sec */
+  public double getRobotSpeed() {
+    double encoderSpeed = (m_leftFront.getSelectedSensorVelocity() + m_rightFront.getSelectedSensorVelocity()) / 2;
+    return encoderSpeed * DriveTrainConstants.INCHES_PER_ENCODER_UNITS * 10 / 12;
+  } 
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    //debug===============
+    SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
+    //debug=end============
   }
 }
