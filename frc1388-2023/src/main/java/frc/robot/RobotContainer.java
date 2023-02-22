@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
+import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
@@ -24,6 +25,7 @@ import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
 import javax.lang.model.util.ElementScanner14;
@@ -31,9 +33,12 @@ import javax.lang.model.util.ElementScanner14;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -65,6 +70,11 @@ public class RobotContainer {
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK));
 
+   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
+    new CANSparkMax(8, MotorType.kBrushless), 
+    new DigitalInput(0)
+  );
+
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
@@ -85,6 +95,14 @@ public class RobotContainer {
       ()-> m_opController.getLeftY(),
       ()-> m_opController.getRightX()
     ));
+
+    m_grabberSubsystem.setDefaultCommand(
+      new GrabberCommand(
+        m_grabberSubsystem, 
+        ()-> m_opController.getLeftTriggerAxis(), 
+        ()->m_opController.getRightTriggerAxis()
+      )
+    );
 
     // Configure the trigger bindings
     configureBindings();

@@ -122,10 +122,10 @@ public final class Constants {
   }
 
   public final class GrabberConstants {
-    public static final int GRABBER_POSITION_AT_ENCODER = 5; // TODO  definitely change this
-    public static final int GRABBER_POSITION_OPEN = 10; // TODO  definitely change this
-    public static final int GRABBER_POSITION_CLOSED = 3; // TODO  definitely change this
-    public static final int GRABBER_ENCODER_DEADBAND = 1;
+    public static final int GRABBER_POSITION_AT_ENCODER = 50; // TODO  definitely change this
+    public static final int GRABBER_POSITION_OPEN = 100; // TODO  definitely change this
+    public static final int GRABBER_POSITION_CLOSED = 0; // TODO  definitely change this
+    public static final int GRABBER_ENCODER_DEADBAND = 5;
   }
 
   public final class ArmConstants {

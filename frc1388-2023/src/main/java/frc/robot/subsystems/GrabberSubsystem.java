@@ -6,8 +6,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.GrabberConstants;
@@ -38,6 +41,7 @@ public class GrabberSubsystem extends SubsystemBase {
   public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch) {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(20); // in amps
+      m_grabberMotor.setIdleMode(IdleMode.kBrake);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;
   }
@@ -51,9 +55,15 @@ public class GrabberSubsystem extends SubsystemBase {
     }
   }
 
+  public void setGrabberMotor(double power) {
+    m_grabberMotor.set(power);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_ENCODER);
+    // System.out.println("grabber limit switch: " + m_grabberLimit.get());
+    SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
   }
 }
