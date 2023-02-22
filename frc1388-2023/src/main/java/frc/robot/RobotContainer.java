@@ -11,6 +11,7 @@ import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.Objective;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Position;
@@ -72,8 +73,8 @@ public class RobotContainer {
       );
 
    private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
-    new CANSparkMax(8, MotorType.kBrushless), 
-    new DigitalInput(0)
+    new CANSparkMax(GrabberConstants.GRABBER_CANID, MotorType.kBrushless), 
+    new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID)
   );
 
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(

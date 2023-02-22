@@ -126,6 +126,8 @@ public final class Constants {
   }
 
   public final class GrabberConstants {
+    public static final int GRABBER_CANID = 7;
+    public static final int GRABBER_LIMIT_SWITCH_ID = 0;
     /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
     public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
     /** the position of the motor when the grabber is open, measured in motor rotations */
