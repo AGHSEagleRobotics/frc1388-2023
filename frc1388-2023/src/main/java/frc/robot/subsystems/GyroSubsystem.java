@@ -168,8 +168,9 @@ public class GyroSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-<<<<<<< HEAD
-    log.debug("Test 1: Rotation: {}, X angle: {}, Y angle: {}", m_gyro.getAngle(), m_gyro.getXComplementaryAngle(), m_gyro.getYComplementaryAngle());
+    //???????????????????????????????????????????????????????????????????????????????
+    // log.debug("Test 1: Rotation: {}, X angle: {}, Y angle: {}", m_gyro.getAngle(), m_gyro.getXComplementaryAngle(), m_gyro.getYComplementaryAngle());
+    //???????????????????????????????????????????????????????????????????????????????
     // System.out.println("Test 1: Rotation: " + m_gyro.getAngle() + ", X angle: " + m_gyro.getXComplementaryAngle() + ", Y angle: " + m_gyro.getYComplementaryAngle());
     // log.debug("Y angle: {}", m_gyro.getAngle());
 
@@ -181,16 +182,14 @@ public class GyroSubsystem extends SubsystemBase {
   //    double z = m_gyro.getAngle();
 
   //    log.info("Test 2: Rotation: {}, X angle: {}, Y angle: {}", z, x, y);
+  //competition dashboard
+  SmartDashboard.putNumber("Competition/Yaw", getZAngle());
+  SmartDashboard.putNumber("Competition/Roll", getXAngle());
+  SmartDashboard.putNumber("Competition/Pitch", getYAngle());
+  
+  m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
    }
-=======
     
-    //competition dashboard
-    SmartDashboard.putNumber("Competition/Yaw", getZAngle());
-    SmartDashboard.putNumber("Competition/Roll", getXAngle());
-    SmartDashboard.putNumber("Competition/Pitch", getYAngle());
-    
-    m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
 
-  }
->>>>>>> master
+  
 }
