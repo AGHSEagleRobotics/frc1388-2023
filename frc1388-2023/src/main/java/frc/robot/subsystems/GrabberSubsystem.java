@@ -62,7 +62,7 @@ public class GrabberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_ENCODER);
+    if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_LIMIT_SWITCH);
     // System.out.println("grabber limit switch: " + m_grabberLimit.get());
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
   }

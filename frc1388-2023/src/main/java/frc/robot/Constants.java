@@ -122,9 +122,13 @@ public final class Constants {
   }
 
   public final class GrabberConstants {
-    public static final int GRABBER_POSITION_AT_ENCODER = 50; // TODO  definitely change this
-    public static final int GRABBER_POSITION_OPEN = 100; // TODO  definitely change this
-    public static final int GRABBER_POSITION_CLOSED = 0; // TODO  definitely change this
+    /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
+    public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
+    /** the position of the motor when the grabber is open, measured in motor rotations */
+    public static final int GRABBER_POSITION_OPEN = 100;
+    /** the position of the motor when the grabber is closed, measured in motor rotations */
+    public static final int GRABBER_POSITION_CLOSED = 0;
+    /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final int GRABBER_ENCODER_DEADBAND = 5;
   }
 
