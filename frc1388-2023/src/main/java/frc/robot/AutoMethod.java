@@ -26,8 +26,8 @@ public class AutoMethod {
     private GyroSubsystem m_gyroSubsystem;
     public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem )
     {
-        driveTrain = m_driveTrain;
-        gyroSubsystem = m_gyroSubsystem;
+        m_driveTrain = driveTrain;
+        m_gyroSubsystem = gyroSubsystem;
     }
 
     public Command LeaveCommunityFar()
@@ -108,19 +108,22 @@ public class AutoMethod {
 
     public Command ChargeStation()
     {
+        return
+            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+        ;
         // return 
         //     new AutoMove(40, 0.5)
         // .andThen(
         //     new AutoBalance(m_driveTrain, m_gyroSubsystem)
         //     )
         // ; 
-
-        return 
-            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
-        .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
-        )
-        ;
+        
+        // return 
+        //     new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
+        // .andThen(
+        //     new AutoBalance(m_driveTrain, m_gyroSubsystem)
+        // )
+        // ;
 
     }
 
