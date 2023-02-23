@@ -188,8 +188,8 @@ public class GyroSubsystem extends SubsystemBase {
   SmartDashboard.putNumber("Competition/Pitch", getYAngle());
   
   m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
-   }
-    
+  }
+   
 
   
 }
