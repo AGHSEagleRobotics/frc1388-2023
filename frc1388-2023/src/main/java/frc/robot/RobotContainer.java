@@ -36,7 +36,9 @@ import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.subsystems.RumbleSubsystem;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -64,6 +66,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
+  private final RumbleSubsystem m_rumbleSubsystem = new RumbleSubsystem(m_driverController.getHID());
 
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
@@ -95,7 +98,8 @@ public class RobotContainer {
         () -> m_driverController.getRightX(),
         () -> m_driverController.rightStick().getAsBoolean(),
         () -> m_opController.getLeftY(),
-        () -> m_opController.getRightX()));
+        () -> m_opController.getRightX(),
+        m_rumbleSubsystem));
 
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(

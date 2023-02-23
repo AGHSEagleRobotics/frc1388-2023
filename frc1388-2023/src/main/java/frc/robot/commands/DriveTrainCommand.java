@@ -12,6 +12,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import frc.robot.subsystems.RumbleSubsystem;
+import frc.robot.Constants.RumbleConstants;
 
 public class DriveTrainCommand extends CommandBase {
   private final DriveTrainSubsystem m_driveTrain;
@@ -31,6 +34,7 @@ public class DriveTrainCommand extends CommandBase {
   private Supplier<Double> m_driveRightStickXAxis;
   private Supplier<Boolean> m_driveRightStickButton;
   private boolean m_lastStick = false;
+  private RumbleSubsystem m_precisionRumble;
 
   // op controller
   private Supplier<Double> m_opLeftStickYAxis;
@@ -44,7 +48,9 @@ public class DriveTrainCommand extends CommandBase {
     Supplier<Boolean> rightStickButton,
 
     Supplier<Double> opLeftY,
-    Supplier<Double> opRightX
+    Supplier<Double> opRightX,
+
+    RumbleSubsystem precisionrumble
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -56,6 +62,8 @@ public class DriveTrainCommand extends CommandBase {
 
     m_opLeftStickYAxis = opLeftY;
     m_opRightStickXAxis =  opRightX;
+
+    m_precisionRumble = precisionrumble;
   }
 
   // Called when the command is initially scheduled.
