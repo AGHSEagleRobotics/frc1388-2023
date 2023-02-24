@@ -26,8 +26,8 @@ public class AutoMethod {
     private GyroSubsystem m_gyroSubsystem;
     public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem )
     {
-        driveTrain = m_driveTrain;
-        gyroSubsystem = m_gyroSubsystem;
+        m_driveTrain = driveTrain;
+        m_gyroSubsystem = gyroSubsystem;
     }
 
     public Command LeaveCommunityFar()
