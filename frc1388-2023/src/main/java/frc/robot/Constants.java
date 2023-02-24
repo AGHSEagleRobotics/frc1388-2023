@@ -29,10 +29,10 @@ public final class Constants {
     private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
     public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
     public final static double INCHES_PER_ENCODER_UNITS = 
-      REVS_PER_COUNT *
-      FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
-      SIMPLE_BOX_TO_WHEELS_RATIO *
-      WHEEL_CIRCUMFERENCE;
+    REVS_PER_COUNT *
+    FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
+    SIMPLE_BOX_TO_WHEELS_RATIO *
+    WHEEL_CIRCUMFERENCE;
     
     public final static int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
     public final static int SEC_PER_MIN = 60;
@@ -57,10 +57,14 @@ public final class Constants {
   {
     public static final double HIGH_SPEED = 15.0;
     public static final double LOW_SPEED = 15.0;
+    
+    public static final double GO_UNTIL_ANGLE = 36;
+
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 14;
 
   }
-
-  public enum Objective
+    
+	public enum Objective
   {
     SITSTILL ( "LookPretty"),
     LEAVECOMMUNITY( "LeaveCommunity" ),
@@ -126,10 +130,16 @@ public final class Constants {
   }
 
   public final class GrabberConstants {
-    public static final int GRABBER_POSITION_AT_ENCODER = 5; // TODO  definitely change this
-    public static final int GRABBER_POSITION_OPEN = 10; // TODO  definitely change this
-    public static final int GRABBER_POSITION_CLOSED = 3; // TODO  definitely change this
-    public static final int GRABBER_ENCODER_DEADBAND = 1;
+    public static final int GRABBER_CANID = 7;
+    public static final int GRABBER_LIMIT_SWITCH_ID = 0;
+    /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
+    public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
+    /** the position of the motor when the grabber is open, measured in motor rotations */
+    public static final int GRABBER_POSITION_OPEN = 100;
+    /** the position of the motor when the grabber is closed, measured in motor rotations */
+    public static final int GRABBER_POSITION_CLOSED = 0;
+    /** the dead band tolerance for the grabber, measured in motor rotations */
+    public static final int GRABBER_ENCODER_DEADBAND = 5;
   }
 
   public final class ArmConstants {

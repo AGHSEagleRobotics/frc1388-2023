@@ -39,8 +39,15 @@ public class GrabberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_opLeftTrigger.get() > 0.3) m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
-    if(m_opRightTrigger.get() > 0.3) m_grabberSubsystem.setGrabberPosition(GrabberPosition.closed);
+    m_grabberSubsystem.setGrabberMotor(0);
+    if(m_opLeftTrigger.get() > 0.3) {
+      m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
+      // m_grabberSubsystem.setGrabberMotor(0.5);
+    } else if(m_opRightTrigger.get() > 0.3) {
+      m_grabberSubsystem.setGrabberPosition(GrabberPosition.closed);
+      // m_grabberSubsystem.setGrabberMotor(-0.5);
+    } else {
+    }
   }
 
   // Called once the command ends or is interrupted.
