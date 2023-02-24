@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
@@ -12,9 +13,9 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.GrabberConstants;
-import frc.robot.Constants.Objective;
+import frc.robot.Constants.AutoConstants.Objective;
 // import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.Position;
+import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
@@ -149,8 +150,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Objective objective = m_Dashboard.getObjective();
-    Position position = m_Dashboard.getPosition();
+    AutoConstants.Objective objective = m_Dashboard.getObjective();
+    AutoConstants.Position position = m_Dashboard.getPosition();
     System.out.println(objective);
     System.out.println(position);
 
@@ -167,7 +168,7 @@ public class RobotContainer {
       new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
 
       case LEAVECOMMUNITY:
-      if ( position == Position.C ){
+      if ( position == AutoConstants.Position.C ){
         System.out.println("LEAVE COMMUNITY FAR");
         return    
         new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
@@ -185,7 +186,7 @@ public class RobotContainer {
       new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
 
       case SCOREANDLEAVE:
-      if( position == Position.C )
+      if( position == AutoConstants.Position.C )
       {
         System.out.println("SCORE, LEAVE COMMUNITY FAR");
       return
@@ -199,7 +200,7 @@ public class RobotContainer {
       }
 
       case SCORELEAVEPICKUP:
-      if ( position == Position.C )
+      if ( position == AutoConstants.Position.C )
       {
         System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
       return

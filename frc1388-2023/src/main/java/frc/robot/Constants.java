@@ -15,7 +15,7 @@ package frc.robot;
  */
 public final class Constants {
   
-  public final class DriveTrainConstants{
+  public final class DriveTrainConstants {
     public static final int CANID_LEFT_FRONT    = 1;
     public static final int CANID_LEFT_BACK     = 2;
     public static final int CANID_RIGHT_FRONT   = 3;
@@ -29,11 +29,12 @@ public final class Constants {
     private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
     public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
     public final static double INCHES_PER_ENCODER_UNITS = 
-    REVS_PER_COUNT *
-    FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
-    SIMPLE_BOX_TO_WHEELS_RATIO *
-    WHEEL_CIRCUMFERENCE;
+                               REVS_PER_COUNT *
+                               FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
+                               SIMPLE_BOX_TO_WHEELS_RATIO *
+                               WHEEL_CIRCUMFERENCE;
     
+
     public final static int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
     public final static int SEC_PER_MIN = 60;
 
@@ -46,6 +47,7 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
   } 
 
+  //XBOX CONTROLLERS
   public static class ControllerConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OP_CONTROLLER_PORT = 1;
@@ -53,8 +55,7 @@ public final class Constants {
   }
  
  
-  public final class AutoBalanceConstants
-  {
+  public final class AutoBalanceConstants {
     public static final double HIGH_SPEED = 15.0;
     public static final double LOW_SPEED = 15.0;
     
@@ -64,37 +65,15 @@ public final class Constants {
 
   }
     
-	public enum Objective
-  {
-    SITSTILL ( "LookPretty"),
-    LEAVECOMMUNITY( "LeaveCommunity" ),
-    SCORE( "ArmScore" ),
-    SCOREANDLEAVE ( "Score, Leave" ),
-    SCORELEAVEPICKUP ( "Score, Leave, Pickup" ),
-    CHARGESTATION ( "Balance" ),
-    SCORETHENCHARGE( "Score, Balance" ),
-    OVERCHARGESTATION( "OverChargeStation" ),
-    CHARGESTATIONBACK( "OverCharge, Return" );
-
-    public static final Objective Default = SITSTILL;
-    
-    private String m_dashboardDescript; //This is what will show on dashboard
-    private Objective ( String dashboardDescript ) {
-      	m_dashboardDescript = dashboardDescript;
-  }
-
-    public String getDashboardDescript() {
-      return m_dashboardDescript;
-	    }  
-  }
-  public final class AutoConstants {
+  
+  public static class AutoConstants {
     //TEST P VALUE LATER
     
     public static final double TURN_P_VALUE = 0.03;
     public static final double TURN_P_TOLERANCE = 1.25;
     public static final double MOVE_P_VALUE = 0.04;
     public static final double MOVE_P_TOLERANCE = 0.5;
-
+    
     public static final double MOVE_F_VALUE = 0;
  
     public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
@@ -105,29 +84,53 @@ public final class Constants {
 
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
-}
 
-  public enum Position {
-    A("A"),
-    B("B"),
-    C("C");
+      public enum Objective {
+        SITSTILL ( "LookPretty"),
+        LEAVECOMMUNITY( "LeaveCommunity" ),
+        SCORE( "ArmScore" ),
+        SCOREANDLEAVE ( "Score, Leave" ),
+        SCORELEAVEPICKUP ( "Score, Leave, Pickup" ),
+        CHARGESTATION ( "Balance" ),
+        SCORETHENCHARGE( "Score, Balance" ),
+        OVERCHARGESTATION( "OverChargeStation" ),
+        CHARGESTATIONBACK( "OverCharge, Return" );
+    
+        public static final Objective Default = SITSTILL;
+      
+        private String m_dashboardDescript; //This is what will show on dashboard
+        private Objective ( String dashboardDescript ) {
+          m_dashboardDescript = dashboardDescript;
+        }
+    
+        public String getDashboardDescript() {
+          return m_dashboardDescript;
+        }  
+      }
 
-    public static final Position Default = A;
-
-    private String m_dashboardDescript; //This is what will show on dashboard
-    private Position ( String dashboardDescript ){
-      m_dashboardDescript = dashboardDescript;
+      public enum Position {
+        A("A"),
+        B("B"),
+        C("C");
+    
+        public static final Position Default = A;
+    
+        private String m_dashboardDescript; //This is what will show on dashboard
+        private Position ( String dashboardDescript ) {
+          m_dashboardDescript = dashboardDescript;
+        }
+    
+        public String getDashboardDescript() {
+          return m_dashboardDescript;
+        }
+    
+        public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
+        public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
+        public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
+        public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
+      }
     }
 
-    public String getDashboardDescript(){
-      return m_dashboardDescript;
-    }
-
-    public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
-    public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
-    public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
-    public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
-  }
 
   public final class GrabberConstants {
     public static final int GRABBER_CANID = 7;
@@ -160,8 +163,8 @@ public final class Constants {
     public static final double ROBOT_WIDTH = 28; //delete?
     public static final double ROBOT_LENGTH = 29; //delete?
     public static final double BUMPER_SIZE = 3.0; //delete?
-    public static final double ROBOT_WIDTH_BUMPERS = 31;
-    public static final double ROBOT_LENGTH_BUMPERS = 32;
+    public static final double ROBOT_WIDTH_WITH_BUMPERS = 31;
+    public static final double ROBOT_LENGTH_WITH_BUMPERS = 32;
 
     public static final double CHARGE_STATION_LENGTH = 76.1;
 

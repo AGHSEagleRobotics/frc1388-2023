@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.Constants.Objective;
-import frc.robot.Constants.Position;
+import frc.robot.Constants.AutoConstants.Objective;
+import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class Dashboard {
@@ -80,13 +81,13 @@ public class Dashboard {
             .withSize(4, 4)
             .withPosition(10, 0);
 
-            for (Constants.Objective o: Objective.values()) {
+            for (AutoConstants.Objective o: Objective.values()) {
                 m_autoObjective.addOption(o.getDashboardDescript(), o);
             }
 
             m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
 
-            for (Constants.Position p: Position.values()) {
+            for (AutoConstants.Position p: Position.values()) {
                 m_autoPosition.addOption(p.getDashboardDescript(), p);
             }
 

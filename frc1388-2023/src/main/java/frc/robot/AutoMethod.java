@@ -41,7 +41,7 @@ public class AutoMethod {
     public Command LeaveCommunityFar()
     {
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
         ;
     }
 
@@ -49,7 +49,7 @@ public class AutoMethod {
     {
         System.out.println("LEAVECOMMUNITYNEARRRR");
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
         ;
     }
 
@@ -65,7 +65,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
+            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
                 )
         ;
     }
@@ -76,7 +76,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_BUMPERS), 0.5)
+            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
                 )
         ;
     }
@@ -89,7 +89,7 @@ public class AutoMethod {
             new AutoTurn(0.5, 180)
                 )
         .andThen(
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
@@ -105,7 +105,7 @@ public class AutoMethod {
             new AutoTurn(0.5, 180)
                 )
         .andThen(
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
@@ -158,7 +158,7 @@ public class AutoMethod {
         }
         */
         return
-            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_BUMPERS, 0.5) // 190 is a guess to end of charge station
+            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5) // 190 is a guess to end of charge station
         ;
     }
 
