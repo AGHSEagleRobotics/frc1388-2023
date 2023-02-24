@@ -29,10 +29,10 @@ public final class Constants {
     private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
     public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
     public final static double INCHES_PER_ENCODER_UNITS = 
-      REVS_PER_COUNT *
-      FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
-      SIMPLE_BOX_TO_WHEELS_RATIO *
-      WHEEL_CIRCUMFERENCE;
+    REVS_PER_COUNT *
+    FALCON_TO_SIMPLE_BOX_GEAR_RATIO *
+    SIMPLE_BOX_TO_WHEELS_RATIO *
+    WHEEL_CIRCUMFERENCE;
     
     public final static int SENSOR_CYCLES_PER_SECOND = 10;   // sensor velocity period is 100 ms
     public final static int SEC_PER_MIN = 60;
@@ -63,8 +63,8 @@ public final class Constants {
     public static final double CHARGE_STATION_DETECTION_ANGLE = 14;
 
   }
-
-  public enum Objective
+    
+	public enum Objective
   {
     LEAVECOMMUNITY( "Leave community" ),
     SCORE( "Score" ),
