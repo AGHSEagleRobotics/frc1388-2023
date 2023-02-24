@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -14,6 +14,29 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public final static class RumbleConstants {
+    public static final double RUMBLE_PUSLE_TIME = 0.2;
+    public static final double ANTI_RUMBLE_TIME = 0.2;
+    public static final double RUMBLE_STRENGTH = 1.0;
+    public static final int RUMBLE_OFF = 0;
+    public static final int NUMBER_OF_PULSES = 2;
+
+    public static enum RumbleSide{
+        LEFT(RumbleType.kLeftRumble), 
+        RIGHT(RumbleType.kRightRumble), 
+        BOTH(RumbleType.kLeftRumble, RumbleType.kRightRumble), 
+        NONE;
+        private final RumbleType[] rumbleTypes;
+
+        RumbleSide( RumbleType... types ){
+            rumbleTypes = types;
+        }
+        public RumbleType[] getRumbleType(){
+            return rumbleTypes;
+        }
+    }
+  }
   
   public final class DriveTrainConstants {
     public static final int CANID_LEFT_FRONT    = 1;
