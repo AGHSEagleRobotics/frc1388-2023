@@ -155,86 +155,67 @@ public class RobotContainer {
     System.out.println(objective);
     System.out.println(position);
 
-    if ( objective == null || position == null )
-    {
-        return null;
+    if (objective == null || position == null) {
+      return null;
     }
 
-    switch ( objective ) {
+    switch (objective) {
 
       case SITSTILL:
-      System.out.println("SIT STILL");
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
+        System.out.println("SIT STILL");
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
 
       case LEAVECOMMUNITY:
-      if ( position == AutoConstants.Position.C ){
-        System.out.println("LEAVE COMMUNITY FAR");
-        return    
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-        }
-        else //handles every position but Position C
+        if (position == AutoConstants.Position.NEAR_bLrR) {
+          System.out.println("LEAVE COMMUNITY FAR");
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+        } else // handles every position but Position C
         {
           System.out.println("LEAVE COMMUNITY NEAR");
-          return 
-          new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
         }
 
       case SCORE:
-      System.out.println("SCORE");
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
+        System.out.println("SCORE");
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
 
       case SCOREANDLEAVE:
-      if( position == AutoConstants.Position.C )
-      {
-        System.out.println("SCORE, LEAVE COMMUNITY FAR");
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
-      } 
-      else //handles every position but Position C
-      {
-        System.out.println("SCORE, LEAVE COMMUNITY NEAR");
-        return 
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
-      }
+        if (position == AutoConstants.Position.NEAR_bLrR) {
+          System.out.println("SCORE, LEAVE COMMUNITY FAR");
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
+        } else // handles every position but Position C
+        {
+          System.out.println("SCORE, LEAVE COMMUNITY NEAR");
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
+        }
 
       case SCORELEAVEPICKUP:
-      if ( position == AutoConstants.Position.C )
-      {
-        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
-      }
-      else //handles every position but Position C
-      {
-        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
-        return
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
-      }
+        if (position == AutoConstants.Position.NEAR_bLrR) {
+          System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
+        } else // handles every position but Position C
+        {
+          System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
+          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
+        }
 
       case CHARGESTATION:
-      System.out.println("CHARGE STATION");
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
+        System.out.println("CHARGE STATION");
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
 
       case SCORETHENCHARGE:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
 
       case OVERCHARGESTATION:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
 
       case CHARGESTATIONBACK:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
+        return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
 
     }
-    
-
     return null;
   }
+
   public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
   }

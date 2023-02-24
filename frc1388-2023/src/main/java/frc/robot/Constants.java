@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -85,6 +86,8 @@ public final class Constants {
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
+
+
       public enum Objective {
         SITSTILL ( "LookPretty"),
         LEAVECOMMUNITY( "LeaveCommunity" ),
@@ -109,11 +112,11 @@ public final class Constants {
       }
 
       public enum Position {
-        A("A"),
-        B("B"),
-        C("C");
+        FAR_bRrL("FAR (bRight rLeft)"),
+        MID("MID"),
+        NEAR_bLrR("NEAR (bLeft rRight )");
     
-        public static final Position Default = A;
+        public static final Position Default = FAR_bRrL;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {

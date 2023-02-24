@@ -86,7 +86,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180)
+            new AutoTurn(180, 0.5)
                 )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
@@ -102,7 +102,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180)
+            new AutoTurn(180, 0.5)
                 )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
@@ -138,7 +138,7 @@ public class AutoMethod {
         return
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180)
+            new AutoTurn(180, 0.5)
                 )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
@@ -170,7 +170,7 @@ public class AutoMethod {
             new AutoMove( -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
                 )
         .andThen(
-            new AutoTurn(0.1, 180)
+            new AutoTurn(180, 0.25)
                 )
         .andThen(
             new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5) //goes up to ramp, automatically goes to autobalancing
@@ -183,7 +183,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180)
+            new AutoTurn(180, 0.4)
                 )
         .andThen(
             new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5)
@@ -193,4 +193,5 @@ public class AutoMethod {
                 )   
         ; 
     }
+    
 }
