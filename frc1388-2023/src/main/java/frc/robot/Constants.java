@@ -60,9 +60,9 @@ public final class Constants {
     
     public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
-    public static final double CHARGE_STATION_DETECTION_ANGLE = 14;
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 5;
 
-    public static final double DRIVE_ON_RAMP_DISTANCE = 36; // in inches
+    public static final double DRIVE_ON_RAMP_DISTANCE = 24; // in inches
     public static final double DRIVE_ON_RAMP_SPEED = 24;
     
     public static final double NOT_BALANCED_TICKS = 10; // 20 ticks per second

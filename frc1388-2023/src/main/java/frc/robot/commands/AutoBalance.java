@@ -95,6 +95,7 @@ public class AutoBalance extends CommandBase {
     // System.out.println("Auto balance current speed: " + pSpeed);
     SmartDashboard.putString("balanceState", m_balanceState.toString());
     
+    
     switch (m_balanceState) {
       case approachingRamp:
         m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
@@ -107,6 +108,7 @@ public class AutoBalance extends CommandBase {
 
       case driveOnRamp:
         // Drive a number of inches forward then move to balance state
+        Math.copySign(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED, m_gyroSubsystem.getYAngle());
         m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
         // if a distance is reached (number of inches)
         if (m_driveTrainSubsystem.getLeftEncoderDistance() > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
