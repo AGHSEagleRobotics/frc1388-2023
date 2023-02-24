@@ -20,7 +20,7 @@ public final class Constants {
     public static final double ANTI_RUMBLE_TIME = 0.2;
     public static final double RUMBLE_STRENGTH = 1.0;
     public static final int RUMBLE_OFF = 0;
-    public static final int NUMBER_OF_PULSES = 3;
+    public static final int NUMBER_OF_PULSES = 2;
 
     public static enum RumbleSide{
         LEFT(RumbleType.kLeftRumble), 

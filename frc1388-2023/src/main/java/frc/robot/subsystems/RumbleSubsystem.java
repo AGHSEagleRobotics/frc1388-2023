@@ -62,13 +62,10 @@ public class RumbleSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // if( m_startRumble ){
-    //   m_startPulse = true;
-    //   m_startRumble = false;
-    // }
 
     if( m_startPulse && m_numberOfPulses > 0 ){
       timer.start();
+      timer.reset();
       rumbleOn();
       m_startPulse = false;
       m_pulseOn = true;
