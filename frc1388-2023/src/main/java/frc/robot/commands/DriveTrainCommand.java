@@ -6,13 +6,10 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import com.ctre.phoenix.motorcontrol.FollowerType;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.subsystems.RumbleSubsystem;
 import frc.robot.Constants.RumbleConstants;
 
@@ -122,14 +119,15 @@ public class DriveTrainCommand extends CommandBase {
     // }
 
     m_lastStick = m_driveRightStickButton.get();
-    SmartDashboard.putString("direction ", m_direction.name());
-    SmartDashboard.putNumber("speed ", speed);
-    SmartDashboard.putNumber("rotation", rotation);
+
+    //test code, remove later if no one is using
+    // SmartDashboard.putString("direction ", m_direction.name());
+    // SmartDashboard.putNumber("speed ", speed);
+    // SmartDashboard.putNumber("rotation", rotation);
   }
 
   public void setDirection(Direction direction) {
     m_direction = direction;
-    System.out.println(direction.name());
   }
 
   public void turnSlow(Side direction) {
