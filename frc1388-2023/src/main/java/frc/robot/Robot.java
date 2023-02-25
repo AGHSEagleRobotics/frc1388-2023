@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -68,6 +69,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     DataLogManager.log("####### Disabled Robot");
+    SmartDashboard.putString("RobotMode", "disabled");
   }
 
   @Override
@@ -77,6 +79,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
+    SmartDashboard.putString("RobotMode", "auto");
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     System.out.println("setting neutral mode");
@@ -114,6 +118,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     DataLogManager.log("####### Teleop Init");
+    SmartDashboard.putString("RobotMode", "tele");
+
     m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -132,6 +138,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     DataLogManager.log("####### Test Init");
+    SmartDashboard.putString("RobotMode", "test");
+
     m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
@@ -145,6 +153,8 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationInit() {
     DataLogManager.log("####### Simulation Init");
+    SmartDashboard.putString("RobotMode", "sim");
+
     m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
   }
 

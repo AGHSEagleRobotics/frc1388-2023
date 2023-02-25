@@ -128,8 +128,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //These are the binding for the driver controller
-    m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
-
     m_driverController.a().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
     ));
@@ -137,6 +135,9 @@ public class RobotContainer {
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
     
+    m_driverController.x().whileTrue(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+    m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
+
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrain

@@ -169,6 +169,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    SmartDashboard.putNumber("leftDrivePower", m_leftFront.getMotorOutputPercent());
+    SmartDashboard.putNumber("rightDrivePower", m_rightFront.getMotorOutputPercent());
+
     //debug===============
     SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
     //debug=end============
