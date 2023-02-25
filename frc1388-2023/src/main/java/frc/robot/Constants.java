@@ -84,12 +84,37 @@ public final class Constants {
     public static final double HIGH_SPEED = 15.0;
     //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
     
-    public static final double GO_UNTIL_ANGLE = 36;
+    public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
-    public static final double CHARGE_STATION_DETECTION_ANGLE = 14;
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 12;
 
+    public static final double DRIVE_ON_RAMP_DISTANCE = 24; // in inches
+    public static final double DRIVE_ON_RAMP_SPEED = 24;
+    
+    public static final double NOT_BALANCED_TICKS = 10; // 20 ticks per second
   }
     
+	public enum Objective
+  {
+    LEAVECOMMUNITY( "Leave community" ),
+    SCORE( "Score" ),
+    SCOREANDLEAVE ( "Score and leave community" ),
+    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
+    CHARGESTATION ( "Balance on charge station" ),
+    SCORETHENCHARGE( "Score then charge balance" ),
+    OVERCHARGESTATION( "Straight over charge station" ),
+    CHARGESTATIONBACK( "Over station and back" );
+
+    
+    private String m_dashboardDescript; //This is what will show on dashboard
+    private Objective ( String dashboardDescript ) {
+      	m_dashboardDescript = dashboardDescript;
+  }
+
+    public String getDashboardDescript() {
+      return m_dashboardDescript;
+    }
+  }
   
   public static class AutoConstants {
     //TEST P VALUE LATER

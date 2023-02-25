@@ -116,6 +116,9 @@ public class AutoMethod {
 
     public Command ChargeStation()
     {
+        return
+            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+        ;
         // return 
         //     new AutoMove(40, 0.5)
         // .andThen(
@@ -123,12 +126,12 @@ public class AutoMethod {
         //     )
         // ; 
 
-        return 
-            new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
-        .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
-                )
-        ;
+        // return 
+        //     new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 14)
+        // .andThen(
+        //     new AutoBalance(m_driveTrain, m_gyroSubsystem)
+        // )
+        // ;
 
     }
 
