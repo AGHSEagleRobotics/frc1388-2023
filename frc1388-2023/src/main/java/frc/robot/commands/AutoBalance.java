@@ -119,7 +119,7 @@ public class AutoBalance extends CommandBase {
 
       case moveToBalance:
         constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
-        if (averageAngle - Math.abs(currentAngle) > 1) {
+        if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
         // if (Math.abs(m_gyroSubsystem.getYAngle()) <= 2.5) {
           m_balanceState = BalanceStates.balanced;
         }
