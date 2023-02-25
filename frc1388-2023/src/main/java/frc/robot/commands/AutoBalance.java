@@ -98,6 +98,9 @@ public class AutoBalance extends CommandBase {
     
     switch (m_balanceState) {
       case approachingRamp:
+        if (Math.abs(m_gyroSubsystem.getYAngle()) >= AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
+          m_balanceState = BalanceStates.moveToBalance;
+        }
         m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
         if (Math.abs(m_gyroSubsystem.getYAngle()) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
           // reset encoder before switching to driveOnRamp
@@ -108,10 +111,9 @@ public class AutoBalance extends CommandBase {
 
       case driveOnRamp:
         // Drive a number of inches forward then move to balance state
-        Math.copySign(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED, m_gyroSubsystem.getYAngle());
         m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
         // if a distance is reached (number of inches)
-        if (m_driveTrainSubsystem.getLeftEncoderDistance() > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
+        if (Math.abs(m_driveTrainSubsystem.getLeftEncoderDistance()) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
         break;

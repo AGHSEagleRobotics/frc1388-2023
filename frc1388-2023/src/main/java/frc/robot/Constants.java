@@ -60,7 +60,7 @@ public final class Constants {
     
     public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
-    public static final double CHARGE_STATION_DETECTION_ANGLE = 5;
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 12;
 
     public static final double DRIVE_ON_RAMP_DISTANCE = 24; // in inches
     public static final double DRIVE_ON_RAMP_SPEED = 24;
