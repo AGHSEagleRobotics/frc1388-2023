@@ -82,7 +82,7 @@ public final class Constants {
  
   public final class AutoBalanceConstants {
     public static final double HIGH_SPEED = 15.0;
-    public static final double LOW_SPEED = 15.0;
+    //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
     
     public static final double GO_UNTIL_ANGLE = 36;
 

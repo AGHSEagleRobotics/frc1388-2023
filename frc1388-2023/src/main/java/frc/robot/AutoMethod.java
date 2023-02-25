@@ -4,10 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.AutoBalanceConstants;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.AutoBalance;
@@ -18,13 +16,14 @@ import frc.robot.commands.AutoTurn;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
-import frc.robot.subsystems.MultiChannelADIS;
 
 /** Add your docs here. */
 public class AutoMethod {
      
     private DriveTrainSubsystem m_driveTrain;
     private GyroSubsystem m_gyroSubsystem;
+    private final Dashboard m_Dashboard = new Dashboard();
+
     public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem )
     {
         m_driveTrain = driveTrain;
@@ -141,6 +140,9 @@ public class AutoMethod {
             new AutoTurn(180, 0.5)
                 )
         .andThen(
+            new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
+                )
+        .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
                 )
         .andThen(
@@ -170,9 +172,6 @@ public class AutoMethod {
             new AutoMove( -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
                 )
         .andThen(
-            new AutoTurn(180, 0.25)
-                )
-        .andThen(
             new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5) //goes up to ramp, automatically goes to autobalancing
                 )
         ;
@@ -186,6 +185,9 @@ public class AutoMethod {
             new AutoTurn(180, 0.4)
                 )
         .andThen(
+            new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
+                )
+        .andThen(
             new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5)
                 )
         .andThen(
@@ -193,5 +195,76 @@ public class AutoMethod {
                 )   
         ; 
     }
+
+
+    public Command getAutonomousCommand() {
+
+        new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} );
+        
+        AutoConstants.Objective objective = m_Dashboard.getObjective();
+        AutoConstants.Position position = m_Dashboard.getPosition();
+        System.out.println(objective);
+        System.out.println(position);
+    
+        if (objective == null || position == null) {
+          return null;
+        }
+    
+        switch (objective) {
+    
+          case SITSTILL:
+            System.out.println("SIT STILL");
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
+    
+          case LEAVECOMMUNITY:
+            if (position == AutoConstants.Position.NEAR_bLrR) {
+              System.out.println("LEAVE COMMUNITY FAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+            } else // handles every position but Position C
+            {
+              System.out.println("LEAVE COMMUNITY NEAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+            }
+    
+          case SCORE:
+            System.out.println("SCORE");
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
+    
+          case SCOREANDLEAVE:
+            if (position == AutoConstants.Position.NEAR_bLrR) {
+              System.out.println("SCORE, LEAVE COMMUNITY FAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
+            } else // handles every position but Position C
+            {
+              System.out.println("SCORE, LEAVE COMMUNITY NEAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
+            }
+    
+          case SCORELEAVEPICKUP:
+            if (position == AutoConstants.Position.NEAR_bLrR) {
+              System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
+            } else // handles every position but Position C
+            {
+              System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
+            }
+    
+          case CHARGESTATION:
+            System.out.println("CHARGE STATION");
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
+    
+          case SCORETHENCHARGE:
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
+    
+          case OVERCHARGESTATION:
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
+    
+          case CHARGESTATIONBACK:
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
+    
+        }
+        return null;
+      }
     
 }

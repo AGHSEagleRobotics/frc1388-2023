@@ -153,71 +153,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    AutoConstants.Objective objective = m_Dashboard.getObjective();
-    AutoConstants.Position position = m_Dashboard.getPosition();
-    System.out.println(objective);
-    System.out.println(position);
-
-    if (objective == null || position == null) {
-      return null;
-    }
-
-    switch (objective) {
-
-      case SITSTILL:
-        System.out.println("SIT STILL");
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
-
-      case LEAVECOMMUNITY:
-        if (position == AutoConstants.Position.NEAR_bLrR) {
-          System.out.println("LEAVE COMMUNITY FAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-        } else // handles every position but Position C
-        {
-          System.out.println("LEAVE COMMUNITY NEAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
-        }
-
-      case SCORE:
-        System.out.println("SCORE");
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
-
-      case SCOREANDLEAVE:
-        if (position == AutoConstants.Position.NEAR_bLrR) {
-          System.out.println("SCORE, LEAVE COMMUNITY FAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
-        } else // handles every position but Position C
-        {
-          System.out.println("SCORE, LEAVE COMMUNITY NEAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
-        }
-
-      case SCORELEAVEPICKUP:
-        if (position == AutoConstants.Position.NEAR_bLrR) {
-          System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
-        } else // handles every position but Position C
-        {
-          System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
-          return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
-        }
-
-      case CHARGESTATION:
-        System.out.println("CHARGE STATION");
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
-
-      case SCORETHENCHARGE:
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
-
-      case OVERCHARGESTATION:
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
-
-      case CHARGESTATIONBACK:
-        return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
-
-    }
-    return null;
+    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {

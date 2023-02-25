@@ -127,11 +127,9 @@ public class AutoBalance extends CommandBase {
       case overshooting: if(Math.abs(m_gyroSubsystem.getYAngle()) > 2.5) {
         m_balanceState = BalanceStates.rampTiltingDown;
       }
-      constantSpeedBalance(AutoBalanceConstants.LOW_SPEED);
+      constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
      }
     
-
-
 
 
     /* TODO test constant code
