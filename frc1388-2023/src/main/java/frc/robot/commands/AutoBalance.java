@@ -139,7 +139,6 @@ public class AutoBalance extends CommandBase {
         break;
       }
       constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
-     }
     
 
 
@@ -159,8 +158,8 @@ public class AutoBalance extends CommandBase {
     SmartDashboard.putNumber("angle", currentAngle);
     
 
+    }
 
-  }
 
   public void constantSpeedBalance(double maxSpeed) {
     double pSpeed;
