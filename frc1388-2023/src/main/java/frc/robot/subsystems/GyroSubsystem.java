@@ -18,7 +18,6 @@ public class GyroSubsystem extends SubsystemBase {
   private ADIS16448_IMU m_gyro16448;
   private MultiChannelADIS m_gyro16470Multi;
   private Dashboard m_Dashboard;
-  private int counter;
 
   private DataLog m_log = DataLogManager.getLog();
   private DoubleLogEntry m_logGyroZ = new DoubleLogEntry(m_log, "/robot/GyroZ");
@@ -169,12 +168,10 @@ public class GyroSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    //competition dashboard
-    SmartDashboard.putNumber("Competition/Yaw", getZAngle());
-    SmartDashboard.putNumber("Competition/Roll", getXAngle());
-    SmartDashboard.putNumber("Competition/Pitch", getYAngle());
-    
     m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
 
+    m_logGyroZ.append(getZAngle());
+    m_logGyroX.append(getXAngle());
+    m_logGyroY.append(getYAngle());
   }
 }
