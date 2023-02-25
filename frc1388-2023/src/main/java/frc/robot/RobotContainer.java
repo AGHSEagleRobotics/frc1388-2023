@@ -23,6 +23,7 @@ import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.DriveTrainCommand.Direction;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.FastAutoBalance;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -30,6 +31,7 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
 import javax.lang.model.util.ElementScanner14;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -139,6 +141,8 @@ public class RobotContainer {
     m_opController.rightBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrain
     ));
+
+    m_driverController.rightBumper().whileTrue(new FastAutoBalance(m_driveTrain, m_gyroSubsystem));
   }
   
 
@@ -148,71 +152,87 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return new FastAutoBalance(m_driveTrain, m_gyroSubsystem); 
+    //test============================
+    // return new RunCommand(
+    //   () -> {
+    //     m_driveTrain.tankDrive(0.5, 0.5);
+    //   }
+    //   , m_driveTrain
+    // ).withTimeout(2).andThen(
+    //   new AutoBalance(m_driveTrain, m_gyroSubsystem)
+    // );
+    //=testend============================
 
-    Objective objective = m_Dashboard.getObjective();
-    Position position = m_Dashboard.getPosition();
-    System.out.println(objective);
-
-    switch ( objective ) {
-      case LEAVECOMMUNITY:
-      if ( position == Position.C ){
-      return    
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-      }
-      else {
-      return 
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
-      }
-
-      case SCORE:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
-
-      case SCOREANDLEAVE:
-      if( position == Position.C )
-      {
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
-      } 
-      else{
-        return 
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
-      }
-
-      case SCORELEAVEPICKUP:
-      if ( position == Position.C )
-      {
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
-      }
-      else
-      {
-        return
-        new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
-      }
-
-      case CHARGESTATION:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
-
-      case SCORETHENCHARGE:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
-
-      case OVERCHARGESTATION:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
-
-      case CHARGESTATIONBACK:
-      return
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
-
-    }
     
-    return null;
+
+    // Objective objective = m_Dashboard.getObjective();
+    // Position position = m_Dashboard.getPosition();
+    // System.out.println(objective);
+
+    // switch ( objective ) {
+    //   case LEAVECOMMUNITY:
+    //   if ( position == Position.C ){
+    //   return    
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+    //   }
+    //   else {
+    //   return 
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+    //   }
+
+    //   case SCORE:
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
+
+    //   case SCOREANDLEAVE:
+    //   if( position == Position.C )
+    //   {
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
+    //   } 
+    //   else{
+    //     return 
+    //     new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
+    //   }
+
+    //   case SCORELEAVEPICKUP:
+    //   if ( position == Position.C )
+    //   {
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
+    //   }
+    //   else
+    //   {
+    //     return
+    //     new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
+    //   }
+
+    //   case CHARGESTATION:
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
+
+    //   case SCORETHENCHARGE:
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
+
+    //   case OVERCHARGESTATION:
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
+
+    //   case CHARGESTATIONBACK:
+    //   return
+    //   new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
+
+    // }
+    
+    // return null;
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
+  }
+  public double getGyroYAngle() {
+    return m_gyroSubsystem.getYAngle();
   }
 }
