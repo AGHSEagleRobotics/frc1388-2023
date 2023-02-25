@@ -4,180 +4,162 @@
 
 package frc.robot.commands;
 
-import java.util.ArrayList;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.AutoBalanceConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class AutoBalance extends CommandBase {
 
-  private enum BalanceStates {
-    approachingRamp,
-    driveOnRamp,
-    goingUpRamp,
-    rampTiltingDown,
-    overshooting
-  }
-  private BalanceStates m_balanceState = BalanceStates.approachingRamp;
-
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
 
-  private double m_angle1 = 0;
-  private double m_angle2 = 0;
-  private double m_angle3 = 0;
-  private int m_tickCounter = 0;
+  private class Constants {
+    private static final double ANGLE_BALANCED = 2.0;
+    private static final double ANGLE_STEEP = 10.0;
 
-  private final PIDController m_pidController = new PIDController(0.02, 0, 0);
+    private static final double CLIMB_SPEED = 18.0;
 
-  private ArrayList<Double> averageAngleList = new ArrayList<Double>();
+    private static final double CREEP_SPEED = 8.0;
+    private static final int CREEP_WAIT_ITERATIONS = 25;
+    
+    private static final double BACK_UP_SPEED = 12.0;
+    private static final double BACK_UP_DISTANCE = 2.0;
+    private static final int BACK_UP_WAIT_ITERATIONS = 75;
 
-  /** Creates a new AutoTurn. */
+    private static final int DECREASING_ANGLE_THRESHOLD = 3;
+  }
+
+  private enum BalanceStates {
+    balanced,
+    climb,
+    creep,
+    backUp,
+    wait
+  }
+
+  private BalanceStates m_balanceState;
+
+  private double m_lastAngle = 0;
+
+  private int m_decreasingCount = 0;
+  private double m_targetDistance;
+  private double m_moveSpeed;
+  private int m_waitTime = 0;
+
+  /** Constructor */
   public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
 
-    averageAngleList.add(0.0);
-    averageAngleList.add(0.0);
-    averageAngleList.add(0.0);
     addRequirements(driveTrainSubsystem);
-    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    // m_driveTrainSubsystem.resetGyro();
-   // m_driveTrainSubsystem.setDeadbandZero();
-   System.out.println("#########Stargin auto balacne #############");
+    // Set the starting state
+    m_balanceState = BalanceStates.balanced;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //  double turnSpeed;
-    m_tickCounter++;
 
-    double pSpeed;
+    // manage variables related to the robot pitch angle
     double currentAngle = m_gyroSubsystem.getYAngle();
-    double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
-    // double averageAngle = Math.abs((averageAngleList.get(0) + averageAngleList.get(1) + averageAngleList.get(2)) /3.0);
-    // System.out.println("Angle1: "+ m_angle1 + "   Angle2: " + m_angle2 + "   Angle3: " + m_angle3);
-    // System.out.println("Average Angle: "+ averageAngle);
-  
-    System.out.println("Auto balance current angle: " + currentAngle);
+    double absAngle = Math.abs(currentAngle);
+    
+    // determine which way is uphill (positive is forward, negative is reverse)
+    double uphill = Math.signum(-currentAngle);
 
-    if( averageAngle - Math.abs(currentAngle) > 1){
-    //if( Math.abs(angle) < 13.5 ){
-      pSpeed = 0;
+    // determine how many consecutive iterations the angle has been decreasing
+    if (Math.abs(currentAngle) < Math.abs(m_lastAngle)) {
+      m_decreasingCount++;
+    } else {
+      m_decreasingCount = 0;
     }
-    else {
-          //double pSpeed = angle * DriveTrainConstants.0.02;
-      pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
-      // System.out.println("(abs(angle)/15)^2.5 :  " + pSpeed);
-      pSpeed = Math.copySign(pSpeed, currentAngle);
-      // System.out.println("pSpeed copySign :  " + pSpeed);
-      pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
-      pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
-      // System.out.println("pSpeed :  " + pSpeed);
-      m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
-      // m_driveTrainSubsystem.constantSpeedDrive(Math.copySign(8, -currentAngle));
-    
-    }
-    System.out.println("Auto balance current speed: " + pSpeed);
-    
-    
+
+    // State machine
+    SmartDashboard.putString("balanceState", m_balanceState.toString());
+
     switch (m_balanceState) {
-      case approachingRamp:
-        if(Math.abs(m_gyroSubsystem.getYAngle()) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
-          m_balanceState = BalanceStates.driveOnRamp;
+      case balanced:
+        // Don't move
+        m_driveTrainSubsystem.stop();
+
+        // Check to see if we're unbalanced
+        if (absAngle > Constants.ANGLE_STEEP) {
+          m_balanceState = BalanceStates.climb;
+        } else if (absAngle > Constants.ANGLE_BALANCED) {
+          m_balanceState = BalanceStates.creep;
         }
-        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE);
         break;
-      
-      case driveOnRamp:
-        
-        m_balanceState = BalanceStates.goingUpRamp;
-        break;
-        
-  
-      case goingUpRamp: 
-        if (m_gyroSubsystem.getYAngle() + 1 < averageAngle) {
-          m_balanceState = BalanceStates.rampTiltingDown;
+
+      case climb:
+        // climb speed
+        m_driveTrainSubsystem.constantSpeedDrive(uphill * Constants.CLIMB_SPEED);
+
+        // If the angle is decreasing, back up a bit to avoid overbalancing
+        if (m_decreasingCount >= Constants.DECREASING_ANGLE_THRESHOLD) {
+          m_moveSpeed = -uphill * Constants.BACK_UP_SPEED;
+          m_targetDistance = m_driveTrainSubsystem.getLeftEncoderDistance()
+              + (-uphill * Constants.BACK_UP_DISTANCE);
+          m_balanceState = BalanceStates.backUp;
         }
-        constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
         break;
-  
-      case rampTiltingDown:
-        if(m_gyroSubsystem.getYAngle() < -2.5) {
-          m_balanceState = BalanceStates.overshooting;
+
+      case backUp:
+        // move until the specified distance has been reached
+        m_driveTrainSubsystem.constantSpeedDrive(m_moveSpeed);
+
+        // if target distance is reached, wait a bit
+        double position = m_driveTrainSubsystem.getLeftEncoderDistance();
+        if ((m_moveSpeed > 0) && (position > m_targetDistance)
+            || (m_moveSpeed < 0) && (position < m_targetDistance)) {
+          m_waitTime = Constants.BACK_UP_WAIT_ITERATIONS;
+          m_balanceState = BalanceStates.wait;
         }
-        if(m_gyroSubsystem.getYAngle() > 2.5) {
-          m_balanceState = BalanceStates.goingUpRamp;
-        }
-        m_driveTrainSubsystem.arcadeDrive(0, 0);
         break;
-  
-      case overshooting: if(Math.abs(m_gyroSubsystem.getYAngle()) > 2.5) {
-        m_balanceState = BalanceStates.rampTiltingDown;
-      }
-      constantSpeedBalance(AutoBalanceConstants.LOW_SPEED);
-     }
-    
 
+      case creep:
+        // Move uphill slowly
+        m_driveTrainSubsystem.constantSpeedDrive(uphill * Constants.CREEP_SPEED);
 
+        // If the angle is decreasing, stop for a bit
+        if (m_decreasingCount >= Constants.DECREASING_ANGLE_THRESHOLD) {
+          m_waitTime = Constants.CREEP_WAIT_ITERATIONS;
+          m_balanceState = BalanceStates.wait;
+        }
 
+        break;
 
-    /* TODO test constant code
-    double constantSpeed = DriveTrainConstants.BALANCE_CONSTANT;
-    m_driveTrainSubsystem.tankDrive(constantSpeed, constantSpeed);
-    */
-    if( m_tickCounter == 1){ m_angle1 = currentAngle; }
-    if( m_tickCounter == 2){ m_angle2 = currentAngle; }
-    if( m_tickCounter == 3){ m_angle3 = currentAngle; m_tickCounter=0; }
+      case wait:
+        // sit still for a bit
+        m_driveTrainSubsystem.stop();
 
-    averageAngleList.remove(0);
-    averageAngleList.add(currentAngle);
+        // determine if we're done waiting
+        if (m_waitTime <= 0) {
+          // Go to balanced state, and let it sort out what happens next
+          m_balanceState = BalanceStates.balanced;
+        } else {
+          m_waitTime--;
+        }
+        break;
+    }
 
-    // System.out.println("Angle: "+angle + "/t Speed: " + pSpeed);
-    // SmartDashboard.putNumber("TargetSpeed", pSpeed);
-    SmartDashboard.putNumber("angle", currentAngle);
-    
-
-
-  }
-
-  public void constantSpeedBalance(double maxSpeed) {
-    double pSpeed;
-    double currentAngle = m_gyroSubsystem.getYAngle();
-
-    pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
-    pSpeed = Math.copySign(pSpeed, currentAngle);
-    pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
-    pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
-    m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
-  
+    m_lastAngle = currentAngle;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_pidController.reset();
-    m_driveTrainSubsystem.curvatureDrive(0, 0, false);
+    m_driveTrainSubsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // boolean finished = (m_pidController.atSetpoint());
-    // boolean finished = (m_pidController.atSetpoint());
-    // return finished;
     return false;
   }
 }

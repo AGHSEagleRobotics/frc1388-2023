@@ -112,6 +112,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("error", m_leftFront.getClosedLoopError());
   }
 
+  public void stop() {
+    m_leftFront.set(ControlMode.PercentOutput, 0);
+    m_rightFront.set(ControlMode.PercentOutput, 0);
+  }
+
   public void setNeutralMode(NeutralMode mode) {
     m_leftFront.setNeutralMode(mode);
     m_leftBack.setNeutralMode(mode);
