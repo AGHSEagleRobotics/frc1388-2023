@@ -49,7 +49,6 @@ public class AutoBalance extends CommandBase {
     averageAngleList.add(0.0);
     averageAngleList.add(0.0);
     addRequirements(driveTrainSubsystem);
-
     
   }
 
@@ -162,7 +161,7 @@ public class AutoBalance extends CommandBase {
 
 
   }
-  
+
   public void constantSpeedBalance(double maxSpeed) {
     double pSpeed;
     double currentAngle = m_gyroSubsystem.getYAngle();

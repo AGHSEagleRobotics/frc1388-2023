@@ -12,6 +12,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import frc.robot.subsystems.RumbleSubsystem;
+import frc.robot.Constants.RumbleConstants;
 
 public class DriveTrainCommand extends CommandBase {
   private final DriveTrainSubsystem m_driveTrain;
@@ -31,20 +34,25 @@ public class DriveTrainCommand extends CommandBase {
   private Supplier<Double> m_driveRightStickXAxis;
   private Supplier<Boolean> m_driveRightStickButton;
   private boolean m_lastStick = false;
+  private RumbleSubsystem m_precisionRumble;
+  private boolean m_lastRightStickButton = false;
+  private boolean m_precisionMode = false;
 
   // op controller
   private Supplier<Double> m_opLeftStickYAxis;
   private Supplier<Double> m_opRightStickXAxis;
-
+  
   /** Creates a new DriveTrainCommand. */
   public DriveTrainCommand(
     DriveTrainSubsystem driveTrain,
     Supplier<Double> driveLeftStickYAxis, 
     Supplier<Double> driveRightStickXAxis,
-    Supplier<Boolean> rightStickButton,
+    Supplier<Boolean> driveRightStickButton,
 
     Supplier<Double> opLeftY,
-    Supplier<Double> opRightX
+    Supplier<Double> opRightX,
+
+    RumbleSubsystem precisionrumble
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -52,10 +60,12 @@ public class DriveTrainCommand extends CommandBase {
     m_driveTrain = driveTrain;
     m_driveLeftStickYAxis = driveLeftStickYAxis;
     m_driveRightStickXAxis = driveRightStickXAxis;
-    m_driveRightStickButton = rightStickButton;
+    m_driveRightStickButton = driveRightStickButton;
 
     m_opLeftStickYAxis = opLeftY;
     m_opRightStickXAxis =  opRightX;
+
+    m_precisionRumble = precisionrumble;
   }
 
   // Called when the command is initially scheduled.
@@ -65,7 +75,7 @@ public class DriveTrainCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+
     double speed = -m_driveLeftStickYAxis.get();
     speed = MathUtil.applyDeadband(speed, 0.03);
     speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
@@ -84,13 +94,25 @@ public class DriveTrainCommand extends CommandBase {
     if (m_driveRightStickButton.get() && !m_lastStick) {
       m_quickTurn = !m_quickTurn;
     }
+
+    boolean rightStickButton = m_driveRightStickButton.get();
+    if (rightStickButton && !m_lastRightStickButton ) {
+      m_precisionMode = !m_precisionMode;
+      if( m_precisionMode){
+        m_precisionRumble.rumblePulse(RumbleConstants.RumbleSide.RIGHT);
+      }
+      else{
+        m_precisionRumble.rumblePulse(RumbleConstants.RumbleSide.LEFT); 
+      }
+    }
+    m_lastRightStickButton = rightStickButton;
     
     if (m_direction == Direction.forwards) {
       m_driveTrain.curvatureDrive(speed, rotation, m_quickTurn);
     } else {
       m_driveTrain.curvatureDrive(-speed, rotation, m_quickTurn);
     }
-    
+
     // maybe add this later
     // if (opSpeed != 0) {
     //   m_driveTrain.constantSpeedDrive(12.0 * m_opLeftStickYAxis.get());
@@ -98,7 +120,7 @@ public class DriveTrainCommand extends CommandBase {
     // if (opRotation != 0) {
     //   m_driveTrain.tankDrive(0.5 * opRotation, -0.5 * opRotation);
     // }
-    
+
     m_lastStick = m_driveRightStickButton.get();
     SmartDashboard.putString("direction ", m_direction.name());
     SmartDashboard.putNumber("speed ", speed);

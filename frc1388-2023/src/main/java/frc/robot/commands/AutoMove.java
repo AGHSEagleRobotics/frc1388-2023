@@ -12,7 +12,7 @@ import static frc.robot.Constants.AutoConstants.*;
 public class AutoMove extends CommandBase {
 
   //private DriveTrainSubsystem m_driveTrainSubsystem;
-  private final double m_setPoint;
+  private final double m_setPoint; //TODO once encoder is tested in AutoMetod, change back
   private final double m_speed;
   //private final double m_curve;
 
@@ -34,6 +34,13 @@ public class AutoMove extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     //addRequirements(driveTrainSubsystem);
   }
+
+  /* 
+  public AutoMove( double speed )
+  {
+    m_speed = speed;
+  }
+  */
 
   // Called when the command is initially scheduled.
   @Override

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
@@ -12,9 +13,9 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.GrabberConstants;
-import frc.robot.Constants.Objective;
+import frc.robot.Constants.AutoConstants.Objective;
 // import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.Position;
+import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
@@ -36,7 +37,9 @@ import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.subsystems.RumbleSubsystem;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -64,11 +67,12 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
+  private final RumbleSubsystem m_rumbleSubsystem = new RumbleSubsystem(m_driverController.getHID());
 
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK),
-      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK)
       );
 
@@ -95,7 +99,8 @@ public class RobotContainer {
         () -> m_driverController.getRightX(),
         () -> m_driverController.rightStick().getAsBoolean(),
         () -> m_opController.getLeftY(),
-        () -> m_opController.getRightX()));
+        () -> m_opController.getRightX(),
+        m_rumbleSubsystem));
 
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(
@@ -149,49 +154,71 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Objective objective = m_Dashboard.getObjective();
-    Position position = m_Dashboard.getPosition();
+    AutoConstants.Objective objective = m_Dashboard.getObjective();
+    AutoConstants.Position position = m_Dashboard.getPosition();
     System.out.println(objective);
+    System.out.println(position);
+
+    if ( objective == null || position == null )
+    {
+        return null;
+    }
 
     switch ( objective ) {
+
+      case SITSTILL:
+      System.out.println("SIT STILL");
+      return
+      new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
+
       case LEAVECOMMUNITY:
-      if ( position == Position.C ){
-      return    
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-      }
-      else {
-      return 
-      new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
-      }
+      if ( position == AutoConstants.Position.C ){
+        System.out.println("LEAVE COMMUNITY FAR");
+        return    
+        new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+        }
+        else //handles every position but Position C
+        {
+          System.out.println("LEAVE COMMUNITY NEAR");
+          return 
+          new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+        }
 
       case SCORE:
+      System.out.println("SCORE");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
 
       case SCOREANDLEAVE:
-      if( position == Position.C )
+      if( position == AutoConstants.Position.C )
       {
+        System.out.println("SCORE, LEAVE COMMUNITY FAR");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
       } 
-      else{
+      else //handles every position but Position C
+      {
+        System.out.println("SCORE, LEAVE COMMUNITY NEAR");
         return 
         new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
       }
 
       case SCORELEAVEPICKUP:
-      if ( position == Position.C )
+      if ( position == AutoConstants.Position.C )
       {
+        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
       }
-      else
+      else //handles every position but Position C
       {
+        System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
         return
         new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
       }
 
       case CHARGESTATION:
+      System.out.println("CHARGE STATION");
       return
       new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
 
@@ -209,10 +236,11 @@ public class RobotContainer {
 
     }
     
+
     return null;
   }
-
   public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrain.setNeutralMode(mode);
   }
+
 }
