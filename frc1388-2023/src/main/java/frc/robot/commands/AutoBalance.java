@@ -18,19 +18,20 @@ public class AutoBalance extends CommandBase {
     private static final double ANGLE_BALANCED = 2.0;
     private static final double ANGLE_STEEP = 10.0;
 
-    private static final double CLIMB_SPEED = 18.0;
+    private static final double CLIMB_SPEED = 24.0;
 
-    private static final double CREEP_SPEED = 8.0;
-    private static final int CREEP_WAIT_ITERATIONS = 25;
+    private static final double CREEP_SPEED = 12.0;
+    private static final int CREEP_WAIT_ITERATIONS = 5;
     
     private static final double BACK_UP_SPEED = 12.0;
-    private static final double BACK_UP_DISTANCE = 2.0;
-    private static final int BACK_UP_WAIT_ITERATIONS = 75;
+    private static final double BACK_UP_DISTANCE = 1.0;
+    private static final int BACK_UP_WAIT_ITERATIONS = 5;
 
     private static final int DECREASING_ANGLE_THRESHOLD = 3;
   }
 
   private enum BalanceStates {
+    idle,
     balanced,
     climb,
     creep,
@@ -38,7 +39,7 @@ public class AutoBalance extends CommandBase {
     wait
   }
 
-  private BalanceStates m_balanceState;
+  private BalanceStates m_balanceState = BalanceStates.idle;
 
   private double m_lastAngle = 0;
 
@@ -146,6 +147,12 @@ public class AutoBalance extends CommandBase {
           m_waitTime--;
         }
         break;
+
+      case idle:
+        // Do nothing
+        // This state should never be reached.
+        // It exists to indicate that the state machine isn't running.
+        break;
     }
 
     m_lastAngle = currentAngle;
@@ -155,6 +162,7 @@ public class AutoBalance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveTrainSubsystem.stop();
+    m_balanceState = BalanceStates.idle;
   }
 
   // Returns true when the command should end.
