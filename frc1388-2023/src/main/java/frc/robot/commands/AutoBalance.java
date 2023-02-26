@@ -27,7 +27,7 @@ public class AutoBalance extends CommandBase {
     private static final double BACK_UP_DISTANCE = 1.0;
     private static final int BACK_UP_WAIT_ITERATIONS = 5;
 
-    private static final int DECREASING_ANGLE_THRESHOLD = 3;
+    private static final double DECREASING_ANGLE_THRESHOLD = 1.0;
   }
 
   private enum BalanceStates {
@@ -43,7 +43,7 @@ public class AutoBalance extends CommandBase {
 
   private double m_lastAngle = 0;
 
-  private int m_decreasingCount = 0;
+  private double m_angleDecrease = 0;   // Consecutively decreasing angle amount
   private double m_targetDistance;
   private double m_moveSpeed;
   private int m_waitTime = 0;
@@ -74,11 +74,12 @@ public class AutoBalance extends CommandBase {
     // determine which way is uphill (positive is forward, negative is reverse)
     double uphill = Math.signum(-currentAngle);
 
-    // determine how many consecutive iterations the angle has been decreasing
-    if (Math.abs(currentAngle) < Math.abs(m_lastAngle)) {
-      m_decreasingCount++;
+    // accumulate the consecutive decreasing angle
+    double incrementalDecrease = Math.abs(m_lastAngle) - Math.abs(currentAngle);
+    if (incrementalDecrease > 0) {
+      m_angleDecrease += incrementalDecrease;
     } else {
-      m_decreasingCount = 0;
+      m_angleDecrease = 0;
     }
 
     // State machine
@@ -102,10 +103,11 @@ public class AutoBalance extends CommandBase {
         m_driveTrainSubsystem.constantSpeedDrive(uphill * Constants.CLIMB_SPEED);
 
         // If the angle is decreasing, back up a bit to avoid overbalancing
-        if (m_decreasingCount >= Constants.DECREASING_ANGLE_THRESHOLD) {
+        if (m_angleDecrease >= Constants.DECREASING_ANGLE_THRESHOLD) {
           m_moveSpeed = -uphill * Constants.BACK_UP_SPEED;
           m_targetDistance = m_driveTrainSubsystem.getLeftEncoderDistance()
               + (-uphill * Constants.BACK_UP_DISTANCE);
+          m_driveTrainSubsystem.stop();         // This resets the constantSpeedDrive ramp to zero
           m_balanceState = BalanceStates.backUp;
         }
         break;
@@ -128,7 +130,7 @@ public class AutoBalance extends CommandBase {
         m_driveTrainSubsystem.constantSpeedDrive(uphill * Constants.CREEP_SPEED);
 
         // If the angle is decreasing, stop for a bit
-        if (m_decreasingCount >= Constants.DECREASING_ANGLE_THRESHOLD) {
+        if (m_angleDecrease >= Constants.DECREASING_ANGLE_THRESHOLD) {
           m_waitTime = Constants.CREEP_WAIT_ITERATIONS;
           m_balanceState = BalanceStates.wait;
         }
