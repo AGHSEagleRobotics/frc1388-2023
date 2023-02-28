@@ -54,10 +54,10 @@ public class LoggingSubsystem extends SubsystemBase {
     
     if (Constants.Logging.LOG_ACCELERATION)
     {
-      m_logGX = new DoubleLogEntry(m_log, "/robot/gX");
-      m_logGY = new DoubleLogEntry(m_log, "/robot/gY");
-      m_logGZ = new DoubleLogEntry(m_log, "/robot/gZ");
-      m_logGTotal = new DoubleLogEntry(m_log, "/robot/gTotal");
+      m_logGX = new DoubleLogEntry(m_log, "/robot/accelX");
+      m_logGY = new DoubleLogEntry(m_log, "/robot/accelY");
+      m_logGZ = new DoubleLogEntry(m_log, "/robot/accelZ");
+      m_logGTotal = new DoubleLogEntry(m_log, "/robot/accelTotal");
     }
   
     m_logMode = new DoubleLogEntry(m_log, "/robot/Mode");

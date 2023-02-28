@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
@@ -12,9 +13,9 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.GrabberConstants;
-import frc.robot.Constants.Objective;
+import frc.robot.Constants.AutoConstants.Objective;
 // import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.Position;
+import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.AutoMethod; //TODO review
@@ -38,7 +39,9 @@ import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.subsystems.RumbleSubsystem;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -61,16 +64,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Dashboard m_Dashboard = new Dashboard();
+  private final Dashboard m_dashboard = new Dashboard();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
+  private final RumbleSubsystem m_rumbleSubsystem = new RumbleSubsystem(m_driverController.getHID());
 
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK),
-      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT),
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
+   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK)
       );
 
@@ -82,11 +86,11 @@ public class RobotContainer {
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_dashboard);
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -97,7 +101,8 @@ public class RobotContainer {
         () -> m_driverController.getRightX(),
         () -> m_driverController.rightStick().getAsBoolean(),
         () -> m_opController.getLeftY(),
-        () -> m_opController.getRightX()));
+        () -> m_opController.getRightX(),
+        m_rumbleSubsystem));
 
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(
@@ -227,6 +232,7 @@ public class RobotContainer {
     // }
     
     // return null;
+    // return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
@@ -235,4 +241,5 @@ public class RobotContainer {
   public double getGyroYAngle() {
     return m_gyroSubsystem.getYAngle();
   }
+
 }

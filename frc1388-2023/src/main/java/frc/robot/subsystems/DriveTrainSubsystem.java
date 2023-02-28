@@ -47,8 +47,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_rightBack.setNeutralMode(NeutralMode.Brake);
     
     // Invert left motors
+    // Controller Port
     m_leftFront.setInverted(true);
     m_leftBack.setInverted(true);
+
     // Invert right motors
     m_rightFront.setInverted(false);
     m_rightBack.setInverted(false);

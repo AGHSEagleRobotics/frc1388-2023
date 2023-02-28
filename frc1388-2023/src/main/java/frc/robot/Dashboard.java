@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.Constants.Objective;
-import frc.robot.Constants.Position;
+import frc.robot.Constants.AutoConstants.Objective;
+import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.subsystems.GyroSubsystem;
 
 public class Dashboard {
@@ -45,10 +46,10 @@ public class Dashboard {
     private final ComplexWidget m_complexWidgetPosition;
     private final GenericEntry m_pitch;
 
-    private final int autonChooserWidth = 5;
-    private final int autonChooserHeight = 5;
-    private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
-    private final int autonChooserRowIndex = 1; //where it is on shuffleboard
+    //private final int autonChooserWidth = 5;
+    //private final int autonChooserHeight = 5;
+    //private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
+    //private final int autonChooserRowIndex = 1; //where it is on shuffleboard
     
     public Dashboard() {
         
@@ -72,7 +73,7 @@ public class Dashboard {
 
         m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(4,4)
+            .withSize(2,2)
             .withPosition(0, 0);
 
         m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
@@ -80,18 +81,27 @@ public class Dashboard {
             .withSize(4, 4)
             .withPosition(10, 0);
 
-            for (Constants.Objective o: Objective.values()) {
+            for (AutoConstants.Objective o: Objective.values()) {
                 m_autoObjective.addOption(o.getDashboardDescript(), o);
             }
 
-            for (Constants.Position p: Position.values()) {
+            m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
+
+            for (AutoConstants.Position p: Position.values()) {
                 m_autoPosition.addOption(p.getDashboardDescript(), p);
             }
 
+            m_autoPosition.setDefaultOption(Position.Default.getDashboardDescript(), Position.Default);
+
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 5)
-            .withPosition(1, 1);
+            .withSize(4, 4)
+            .withPosition(5, 8);
+            
+        m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
+            .withWidget(BuiltInWidgets.kComboBoxChooser)
+            .withSize(4, 4)
+            .withPosition(9, 8);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
@@ -99,10 +109,6 @@ public class Dashboard {
             .withPosition(16, 0)
             .getEntry();
 
-        m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
-            .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 5)
-            .withPosition(1, 1);
 
 
         //DELETEME: testing autobalance pid loop
@@ -111,6 +117,7 @@ public class Dashboard {
         SmartDashboard.putNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
         SmartDashboard.putNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
         SmartDashboard.putNumber("speed", 6);
+        SmartDashboard.putString("balanceState", "null");
 
     } //end constructor
 
@@ -118,6 +125,7 @@ public class Dashboard {
     public Objective getObjective() {
         return m_autoObjective.getSelected();
     }
+    
     public void setPitchEntry(double value){
         m_pitch.setValue(value);
     } 

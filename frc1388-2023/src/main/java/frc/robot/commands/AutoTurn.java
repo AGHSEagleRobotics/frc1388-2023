@@ -18,8 +18,8 @@ public class AutoTurn extends CommandBase {
   /** Creates a new AutoTurn. */
   public AutoTurn(
     //DriveTrainSubsystem driveTrainSubsystem,
-    double turnSpeed,
-    double turnAngleSet
+    double turnAngleSet,
+    double turnSpeed
   ) {
     //m_driveTrainSubsystem = driveTrainSubsystem;
     m_turnSpeed = turnSpeed;
