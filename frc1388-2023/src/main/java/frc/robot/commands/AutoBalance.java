@@ -25,6 +25,7 @@ public class AutoBalance extends CommandBase {
     moveToBalance,
     balanced
   }
+  private boolean m_backwards;
   private BalanceStates m_balanceState = BalanceStates.approachingRamp;
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
