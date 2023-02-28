@@ -136,7 +136,7 @@ public class RobotContainer {
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
-    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrain, m_gyroSubsystem));
+    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrain, m_gyroSubsystem, false));
     
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(

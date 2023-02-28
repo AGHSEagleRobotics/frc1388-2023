@@ -117,7 +117,7 @@ public class AutoMethod {
     public Command ChargeStation()
     {
         return
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, false)
         ;
         // return 
         //     new AutoMove(40, 0.5)
@@ -149,7 +149,7 @@ public class AutoMethod {
             new AutoMove(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
                 )
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, true)
                 )
         ;
     }

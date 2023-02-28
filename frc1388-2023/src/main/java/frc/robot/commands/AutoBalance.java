@@ -32,7 +32,8 @@ public class AutoBalance extends CommandBase {
   private int m_outOfBalanceCounter = 0;
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, boolean backwards) {
+    m_backwards = backwards;
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
 
@@ -56,7 +57,13 @@ public class AutoBalance extends CommandBase {
     
     switch (m_balanceState) {
       case approachingRamp:
-        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
+
+        if (m_backwards == true) {
+          m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
+        }
+          else {
+            m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
+          }
 
         if (Math.abs(currentAngle) >= AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
           m_balanceState = BalanceStates.moveToBalance;
@@ -70,8 +77,14 @@ public class AutoBalance extends CommandBase {
         break;
 
       case driveOnRamp:
-        // Drive a number of inches forward then move to balance state
-        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      // Drive a number of inches forward then move to balance state
+      if (m_backwards == true) {
+        m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      }
+      else {
+        m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      }
+
 
         // if a distance is reached (number of inches)
         if (Math.abs(m_driveTrainSubsystem.getLeftEncoderDistance()) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
