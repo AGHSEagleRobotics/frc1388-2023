@@ -5,6 +5,8 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,7 +16,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
+  
   public final static class RumbleConstants {
     public static final double RUMBLE_PUSLE_TIME = 0.2;
     public static final double ANTI_RUMBLE_TIME = 0.2;
@@ -80,7 +82,7 @@ public final class Constants {
  
   public final class AutoBalanceConstants {
     public static final double HIGH_SPEED = 15.0;
-    public static final double LOW_SPEED = 15.0;
+    //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
     
     public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
@@ -133,6 +135,8 @@ public final class Constants {
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
+
+
       public enum Objective {
         SITSTILL ( "LookPretty"),
         LEAVECOMMUNITY( "LeaveCommunity" ),
@@ -157,11 +161,11 @@ public final class Constants {
       }
 
       public enum Position {
-        A("A"),
-        B("B"),
-        C("C");
+        FAR_bRrL("FAR (bRight rLeft)"),
+        MID("MID"),
+        NEAR_bLrR("NEAR (bLeft rRight )");
     
-        public static final Position Default = A;
+        public static final Position Default = FAR_bRrL;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {
