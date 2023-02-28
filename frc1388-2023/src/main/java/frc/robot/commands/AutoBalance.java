@@ -15,17 +15,17 @@ public class AutoBalance extends CommandBase {
   private GyroSubsystem m_gyroSubsystem;
 
   private class Constants {
-    private static final double ANGLE_BALANCED = 2.0;
+    private static final double ANGLE_BALANCED = 2.5;
     private static final double ANGLE_STEEP = 10.0;
 
     private static final double CLIMB_SPEED = 24.0;
 
     private static final double CREEP_SPEED = 12.0;
-    private static final int CREEP_WAIT_ITERATIONS = 5;
+    private static final int CREEP_WAIT_ITERATIONS = 25;
     
     private static final double BACK_UP_SPEED = 12.0;
     private static final double BACK_UP_DISTANCE = 1.0;
-    private static final int BACK_UP_WAIT_ITERATIONS = 5;
+    private static final int BACK_UP_WAIT_ITERATIONS = 25;
 
     private static final double DECREASING_ANGLE_THRESHOLD = 1.0;
   }
@@ -164,7 +164,10 @@ public class AutoBalance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveTrainSubsystem.stop();
+
+    // Set the state to idle and publish it
     m_balanceState = BalanceStates.idle;
+    SmartDashboard.putString("balanceState", m_balanceState.toString());
   }
 
   // Returns true when the command should end.
