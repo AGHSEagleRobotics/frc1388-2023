@@ -161,11 +161,11 @@ public final class Constants {
       }
 
       public enum Position {
-        FAR_bRrL("FAR (bRight rLeft)"),
+        NEAR("FAR (bRight rLeft)"),
         MID("MID"),
-        NEAR_bLrR("NEAR (bLeft rRight )");
+        FAR("NEAR (bLeft rRight )");
     
-        public static final Position Default = FAR_bRrL;
+        public static final Position Default = NEAR;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.AutoConstants;
@@ -46,7 +47,7 @@ public class AutoMethod {
 
     public Command LeaveCommunityNear()
     {
-        System.out.println("LEAVECOMMUNITYNEARRRR");
+
         return 
             new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
         ;
@@ -202,12 +203,12 @@ public class AutoMethod {
 
     public Command getAutonomousCommand() {
 
-        new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} );
+        m_gyroSubsystem.resetYAngle();
         
         AutoConstants.Objective objective = m_Dashboard.getObjective();
         AutoConstants.Position position = m_Dashboard.getPosition();
-        System.out.println(objective);
-        System.out.println(position);
+        DataLogManager.log("####### objective");
+        DataLogManager.log("####### position");
     
         if (objective == null || position == null) {
           return null;
@@ -216,45 +217,36 @@ public class AutoMethod {
         switch (objective) {
     
           case SITSTILL:
-            System.out.println("SIT STILL");
             return new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
     
           case LEAVECOMMUNITY:
-            if (position == AutoConstants.Position.NEAR_bLrR) {
-              System.out.println("LEAVE COMMUNITY FAR");
+            if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
             } else // handles every position but Position C
             {
-              System.out.println("LEAVE COMMUNITY NEAR");
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
             }
     
           case SCORE:
-            System.out.println("SCORE");
             return new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
     
           case SCOREANDLEAVE:
-            if (position == AutoConstants.Position.NEAR_bLrR) {
-              System.out.println("SCORE, LEAVE COMMUNITY FAR");
+            if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
             } else // handles every position but Position C
             {
-              System.out.println("SCORE, LEAVE COMMUNITY NEAR");
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
             }
     
           case SCORELEAVEPICKUP:
-            if (position == AutoConstants.Position.NEAR_bLrR) {
-              System.out.println("SCORE, LEAVE COMMUNITY, PICK UP FAR");
+            if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
             } else // handles every position but Position C
             {
-              System.out.println("SCORE, LEAVE COMMUNITY, PICK UP NEAR");
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
             }
     
           case CHARGESTATION:
-            System.out.println("CHARGE STATION");
             return new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
     
           case SCORETHENCHARGE:
