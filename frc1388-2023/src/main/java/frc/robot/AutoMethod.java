@@ -222,8 +222,7 @@ public class AutoMethod {
           case LEAVECOMMUNITY:
             if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
-            } else // handles every position but Position C
-            {
+            } else {// handles every position but Position C
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
             }
     
@@ -233,16 +232,14 @@ public class AutoMethod {
           case SCOREANDLEAVE:
             if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
-            } else // handles every position but Position C
-            {
+            } else { //handles every position but Position C
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
             }
     
           case SCORELEAVEPICKUP:
             if (position == AutoConstants.Position.FAR) {
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
-            } else // handles every position but Position C
-            {
+            } else {// handles every position but Position C
               return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
             }
     
