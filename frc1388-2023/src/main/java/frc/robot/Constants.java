@@ -83,15 +83,18 @@ public final class Constants {
   public final class AutoBalanceConstants {
     public static final double HIGH_SPEED = 15.0;
     //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
-    
-    public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
-    public static final double CHARGE_STATION_DETECTION_ANGLE = 12;
-
-    public static final double DRIVE_ON_RAMP_DISTANCE = 24; // in inches
-    public static final double DRIVE_ON_RAMP_SPEED = 24;
+    public static final double BALANCED_ANGLE = 2.5;
     
-    public static final double NOT_BALANCED_TICKS = 10; // 20 ticks per second
+    public static final double GO_UNTIL_ANGLE_SPEED = 36.0;
+
+    public static final double GO_TO_BALANCE = 13.0;
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 12.0;
+
+    public static final double DRIVE_ON_RAMP_DISTANCE = 24.0; // in inches
+    public static final double DRIVE_ON_RAMP_SPEED = 24.0;
+    
+    public static final double NOT_BALANCED_TICKS = 10.0; // 20 ticks per second
   }
     
 	public enum Objective

@@ -43,6 +43,7 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,7 +66,7 @@ public class AutoBalance extends CommandBase {
             m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
           }
 
-        if (Math.abs(currentAngle) >= AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
+        if (Math.abs(currentAngle) >= AutoBalanceConstants.GO_TO_BALANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
 
@@ -103,7 +104,7 @@ public class AutoBalance extends CommandBase {
       case balanced:
         m_driveTrainSubsystem.arcadeDrive(0, 0);
         
-        if (Math.abs(currentAngle) <= 2.5){
+        if (Math.abs(currentAngle) <= AutoBalanceConstants.BALANCED_ANGLE){
           m_outOfBalanceCounter = 0;
         }
         else { // angle >= 2.5
