@@ -18,6 +18,7 @@ import frc.robot.Constants.AutoConstants.Objective;
 import frc.robot.Constants.AutoConstants.Position;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPickUp;
+import frc.robot.commands.AutoTurn;
 import frc.robot.AutoMethod; //TODO review
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;

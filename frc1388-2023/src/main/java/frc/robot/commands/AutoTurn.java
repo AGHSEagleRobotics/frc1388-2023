@@ -36,7 +36,7 @@ public class AutoTurn extends CommandBase {
   @Override
   public void initialize() {
 
-    m_gyroSubsystem.resetAllAngles();
+    m_gyroSubsystem.resetZAngle();
     m_driveTrainSubsystem.setDeadbandZero();
   }
 
