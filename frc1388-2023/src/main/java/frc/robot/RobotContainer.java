@@ -62,7 +62,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Dashboard m_Dashboard = new Dashboard();
+  private final Dashboard m_dashboard = new Dashboard();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
@@ -84,11 +84,11 @@ public class RobotContainer {
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
-   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_Dashboard);
+   private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(new MultiChannelADIS(), m_dashboard);
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
