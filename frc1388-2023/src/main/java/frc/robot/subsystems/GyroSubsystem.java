@@ -164,6 +164,11 @@ public class GyroSubsystem extends SubsystemBase {
     
   }  
   
+  public void resetAllAngles(){
+    resetZAngle();
+    resetYAngle();
+    resetXAngle();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

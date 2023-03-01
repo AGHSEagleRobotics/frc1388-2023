@@ -149,6 +149,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
 
+  public void resetEncoders() {
+    resetRightEncoder();
+    resetLeftEncoder();
+  }
+  
   public void setDeadbandZero() {
     m_differentialDrive.setDeadband(0); 
   }
@@ -168,4 +173,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
     //debug=end============
   }
+
+
 }
