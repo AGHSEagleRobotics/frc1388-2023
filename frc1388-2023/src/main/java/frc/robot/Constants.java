@@ -5,8 +5,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-import edu.wpi.first.wpilibj.DriverStation;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -81,7 +79,7 @@ public final class Constants {
  
  
   public final class AutoBalanceConstants {
-    public static final double HIGH_SPEED = 15.0;
+    public static final double BALANCING_SPEED = 15.0;
     //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
 
     public static final double BALANCED_ANGLE = 2.5;

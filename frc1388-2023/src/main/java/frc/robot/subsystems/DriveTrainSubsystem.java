@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
-import frc.robot.Constants.DriveTrainConstants;
-
 public class DriveTrainSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_leftFront;
   private final WPI_TalonFX m_leftBack;
@@ -23,7 +21,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_rightBack;
 
   private final DifferentialDrive m_differentialDrive;
-
 
   /** Creates a new DriveTrain. */
   public DriveTrainSubsystem(WPI_TalonFX leftFront, WPI_TalonFX leftBack, WPI_TalonFX rightFront, WPI_TalonFX rightBack) {
@@ -79,7 +76,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_rightFront.config_kI(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_I);
     m_rightFront.config_kD(DriveTrainConstants.PID_IDX, DriveTrainConstants.GAINS_VELOCITY_D);
   }
-    
 
   public void arcadeDrive( double xSpeed, double zRotation) {
     m_differentialDrive.arcadeDrive(xSpeed, zRotation);
@@ -110,6 +106,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("integrator", m_leftFront.getIntegralAccumulator());
     // SmartDashboard.putNumber("derivative", m_leftFront.getErrorDerivative());
     // SmartDashboard.putNumber("error", m_leftFront.getClosedLoopError());
+  }
+  
+  // sets motors to stop moving
+  public void stop() {
+    m_leftFront.set(ControlMode.PercentOutput, 0);      
+    m_rightFront.set(ControlMode.PercentOutput, 0);
   }
 
   public void setNeutralMode(NeutralMode mode) {
@@ -151,6 +153,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void setDeadbandZero() {
     m_differentialDrive.setDeadband(0); 
+
   }
   
   

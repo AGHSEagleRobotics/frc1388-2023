@@ -20,7 +20,7 @@ public class AutoBalance extends CommandBase {
     balanced
   }
   private boolean m_backwards;
-  private BalanceStates m_balanceState = BalanceStates.approachingRamp;
+  private BalanceStates m_balanceState;
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
@@ -43,7 +43,7 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    m_balanceState = BalanceStates.approachingRamp;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -94,7 +94,7 @@ public class AutoBalance extends CommandBase {
         break;
 
       case moveToBalance:
-        constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
+        constantSpeedBalance(AutoBalanceConstants.BALANCING_SPEED);
         if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
 
           m_balanceState = BalanceStates.balanced;
@@ -102,7 +102,7 @@ public class AutoBalance extends CommandBase {
         break;
 
       case balanced:
-        m_driveTrainSubsystem.arcadeDrive(0, 0);
+        m_driveTrainSubsystem.stop();
         
         if (Math.abs(currentAngle) <= AutoBalanceConstants.BALANCED_ANGLE){
           m_outOfBalanceCounter = 0;
@@ -128,8 +128,8 @@ public class AutoBalance extends CommandBase {
 
     pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
     pSpeed = Math.copySign(pSpeed, currentAngle);
-    pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
-    pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
+    pSpeed = pSpeed * -AutoBalanceConstants.BALANCING_SPEED;
+    pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.BALANCING_SPEED, AutoBalanceConstants.BALANCING_SPEED);
     m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
   }
 
