@@ -23,12 +23,13 @@ public class AutoMethod {
      
     private DriveTrainSubsystem m_driveTrain;
     private GyroSubsystem m_gyroSubsystem;
-    private final Dashboard m_Dashboard = new Dashboard();
+    private final Dashboard m_Dashboard;
 
-    public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem )
+    public AutoMethod( DriveTrainSubsystem driveTrain, GyroSubsystem gyroSubsystem, Dashboard Dashboard )
     {
         m_driveTrain = driveTrain;
         m_gyroSubsystem = gyroSubsystem;
+        m_Dashboard = Dashboard;
     }
 
     public Command SitStillLookPretty()
@@ -217,43 +218,43 @@ public class AutoMethod {
         switch (objective) {
     
           case SITSTILL:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).SitStillLookPretty();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).SitStillLookPretty();
     
           case LEAVECOMMUNITY:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityFar();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).LeaveCommunityFar();
             } else {// handles every position but Position C
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).LeaveCommunityNear();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).LeaveCommunityNear();
             }
     
           case SCORE:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).Score();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).Score();
     
           case SCOREANDLEAVE:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveFar();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ScoreLeaveFar();
             } else { //handles every position but Position C
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeaveNear();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ScoreLeaveNear();
             }
     
           case SCORELEAVEPICKUP:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpFar();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpFar();
             } else {// handles every position but Position C
-              return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreLeavePickUpNear();
+              return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpNear();
             }
     
           case CHARGESTATION:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).ChargeStation();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ChargeStation();
     
           case SCORETHENCHARGE:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).ScoreThenCharge();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).ScoreThenCharge();
     
           case OVERCHARGESTATION:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeStation();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).OverChargeStation();
     
           case CHARGESTATIONBACK:
-            return new AutoMethod(m_driveTrain, m_gyroSubsystem).OverChargeAndBack();
+            return new AutoMethod(m_driveTrain, m_gyroSubsystem, m_Dashboard).OverChargeAndBack();
     
         }
         return null;
