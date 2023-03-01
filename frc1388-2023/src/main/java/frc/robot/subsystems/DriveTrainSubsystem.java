@@ -149,6 +149,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
 
+  public void resetEncoders() {
+    resetRightEncoder();
+    resetLeftEncoder();
+  }
+  
   public void setDeadbandZero() {
     m_differentialDrive.setDeadband(0); 
   }

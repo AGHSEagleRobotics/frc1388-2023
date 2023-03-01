@@ -85,7 +85,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
             new AutoMove(m_driveTrain, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
@@ -101,7 +101,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
             new AutoMove(m_driveTrain, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
@@ -140,7 +140,7 @@ public class AutoMethod {
         return
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
@@ -185,7 +185,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.4)
+            new AutoTurn(m_driveTrain, 180, 0.4, m_gyroSubsystem)
                 )
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})

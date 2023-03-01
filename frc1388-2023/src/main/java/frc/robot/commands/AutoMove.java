@@ -43,7 +43,7 @@ public class AutoMove extends CommandBase {
   @Override
   public void initialize() {
     DataLogManager.log("setpoint: " + m_setPoint + "   " + "speed: " + m_speed + "   " + "curve: " + m_curve);
-    m_driveTrainSubsystem.resetLeftEncoder();
+    m_driveTrainSubsystem.resetEncoders();
     m_driveTrainSubsystem.setDeadbandZero();
   }
 
