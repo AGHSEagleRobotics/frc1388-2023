@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.GoUntilAngle;
 import frc.robot.commands.GrabberCommand;
@@ -25,6 +27,7 @@ import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -77,6 +80,13 @@ public class RobotContainer {
     new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID)
   );
 
+  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem(
+    new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless), 
+    new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
+    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMITSWITHC_DIO_ID),
+    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMITSWITHC_DIO_ID)
+  );
+
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
@@ -103,6 +113,10 @@ public class RobotContainer {
         ()-> m_opController.getLeftTriggerAxis(), 
         ()->m_opController.getRightTriggerAxis()
       )
+    );
+
+    m_ArmSubsystem.setDefaultCommand(
+      new ArmCommand(m_ArmSubsystem, ()-> m_opController.getLeftY(), ()-> m_opController.getRightY())
     );
 
     // Configure the trigger bindings
