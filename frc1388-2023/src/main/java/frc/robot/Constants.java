@@ -141,16 +141,16 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static final int DEADBAND = 10; // TODO  definitely change this
-
+    
     // primary arm conversion factors
     public static final double FALCON_TICS_PER_REV = 2048;
     public static final double PRIMARY_ARM_VERSA_RATION = 60;
     public static final double GEAR_BOX_TO_ARM_RATIO = 4.66667;
     public static final double ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS = FALCON_TICS_PER_REV * PRIMARY_ARM_VERSA_RATION * GEAR_BOX_TO_ARM_RATIO;
-
+    
     // primary arm
     public static final int PRIMARY_ARM_CANID = 5;
+    public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.01;
     public static final int PRIMARY_ARM_LIMITSWITHC_DIO_ID = 0;
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0; 
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
@@ -162,6 +162,7 @@ public final class Constants {
 
     // wrist arm
     public static final int WRIST_CANID = 6;
+    public static final double WRIST_MOTOR_DEADBADND = 1;
     public static final int WRIST_LIMITSWITHC_DIO_ID = 1;
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;

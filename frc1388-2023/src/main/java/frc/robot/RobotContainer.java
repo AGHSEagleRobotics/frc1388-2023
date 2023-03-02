@@ -94,18 +94,21 @@ public class RobotContainer {
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    m_driveTrain.setDefaultCommand(new DriveTrainCommand(
+    m_driveTrain.setDefaultCommand(
+      new DriveTrainCommand(
         m_driveTrain,
         () -> m_driverController.getLeftY(),
         () -> m_driverController.getRightX(),
         () -> m_driverController.rightStick().getAsBoolean(),
         () -> m_opController.getLeftY(),
-        () -> m_opController.getRightX()));
+        () -> m_opController.getRightX()
+      )
+    );
 
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(
