@@ -204,7 +204,8 @@ public class AutoMethod {
     public Command getAutonomousCommand() {
 
         new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} );
-        
+        new InstantCommand(()-> {m_gyroSubsystem.resetZAngle();} );
+        m_gyroSubsystem.resetZAngle();
         AutoConstants.Objective objective = m_Dashboard.getObjective();
         AutoConstants.Position position = m_Dashboard.getPosition();
         System.out.println(objective);
