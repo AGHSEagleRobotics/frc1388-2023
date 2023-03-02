@@ -19,7 +19,8 @@ public class AutoBalance extends CommandBase {
     moveToBalance,
     balanced
   }
-  private BalanceStates m_balanceState = BalanceStates.approachingRamp;
+  private boolean m_backwards;
+  private BalanceStates m_balanceState;
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
@@ -31,16 +32,18 @@ public class AutoBalance extends CommandBase {
   private int m_outOfBalanceCounter = 0;
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, boolean backwards) {
+    m_backwards = backwards;
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
 
-    addRequirements(driveTrainSubsystem);   
+    addRequirements(driveTrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_balanceState = BalanceStates.approachingRamp;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,14 +53,20 @@ public class AutoBalance extends CommandBase {
 
     double currentAngle = m_gyroSubsystem.getYAngle();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
-
+  
     SmartDashboard.putString("balanceState", m_balanceState.toString());
-     
+    
     switch (m_balanceState) {
       case approachingRamp:
-        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
 
-        if (Math.abs(currentAngle) >= AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
+        if (m_backwards == true) {
+          m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
+        }
+          else {
+            m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.GO_UNTIL_ANGLE_SPEED);
+          }
+
+        if (Math.abs(currentAngle) >= AutoBalanceConstants.GO_TO_BALANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
 
@@ -67,29 +76,35 @@ public class AutoBalance extends CommandBase {
           m_balanceState = BalanceStates.driveOnRamp;
         }
         break;
-      
+
       case driveOnRamp:
-        // Drive a number of inches forward then move to balance state
-        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      // Drive a number of inches forward then move to balance state
+      if (m_backwards == true) {
+        m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      }
+      else {
+        m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+      }
+
 
         // if a distance is reached (number of inches)
         if (Math.abs(m_driveTrainSubsystem.getLeftEncoderDistance()) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
         break;
-        
-      case moveToBalance:
-        constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
 
-        if (averageAngle - Math.abs(currentAngle) > 1) {
+      case moveToBalance:
+        constantSpeedBalance(AutoBalanceConstants.BALANCING_SPEED);
+        if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
+
           m_balanceState = BalanceStates.balanced;
         }
         break;
-  
+
       case balanced:
-        m_driveTrainSubsystem.arcadeDrive(0, 0);
+        m_driveTrainSubsystem.stop();
         
-        if (Math.abs(currentAngle) <= 2.5){
+        if (Math.abs(currentAngle) <= AutoBalanceConstants.BALANCED_ANGLE){
           m_outOfBalanceCounter = 0;
         }
         else { // angle >= 2.5
@@ -100,7 +115,6 @@ public class AutoBalance extends CommandBase {
         }
         break;
     }
-    constantSpeedBalance(AutoBalanceConstants.HIGH_SPEED);
     
     if( m_tickCounter == 1){ m_angle1 = currentAngle; }
     if( m_tickCounter == 2){ m_angle2 = currentAngle; }
@@ -114,8 +128,8 @@ public class AutoBalance extends CommandBase {
 
     pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
     pSpeed = Math.copySign(pSpeed, currentAngle);
-    pSpeed = pSpeed * -AutoBalanceConstants.HIGH_SPEED;
-    pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.HIGH_SPEED, AutoBalanceConstants.HIGH_SPEED);
+    pSpeed = pSpeed * -AutoBalanceConstants.BALANCING_SPEED;
+    pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.BALANCING_SPEED, AutoBalanceConstants.BALANCING_SPEED);
     m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
   }
 

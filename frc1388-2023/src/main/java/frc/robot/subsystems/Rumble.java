@@ -4,10 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
-
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 

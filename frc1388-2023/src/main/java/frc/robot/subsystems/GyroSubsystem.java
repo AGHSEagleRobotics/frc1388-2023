@@ -164,6 +164,11 @@ public class GyroSubsystem extends SubsystemBase {
     
   }  
   
+  public void resetAllAngles(){
+    resetZAngle();
+    resetYAngle();
+    resetXAngle();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -173,5 +178,7 @@ public class GyroSubsystem extends SubsystemBase {
     m_logGyroZ.append(getZAngle());
     m_logGyroX.append(getXAngle());
     m_logGyroY.append(getYAngle());
+
+    SmartDashboard.putNumber("Z angle", getZAngle());
   }
 }

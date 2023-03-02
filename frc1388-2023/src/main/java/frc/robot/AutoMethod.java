@@ -35,14 +35,14 @@ public class AutoMethod {
     public Command SitStillLookPretty()
     {
         return 
-            new AutoMove( 0, 0 )
+            new AutoMove( m_driveTrain, 0, 0 )
         ;
     }
 
     public Command LeaveCommunityFar()
     {
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
+            new AutoMove( m_driveTrain, FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
         ;
     }
 
@@ -50,7 +50,7 @@ public class AutoMethod {
     {
 
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
+            new AutoMove( m_driveTrain, FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
         ;
     }
 
@@ -66,7 +66,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
+            new AutoMove(m_driveTrain, -(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
                 )
         ;
     }
@@ -77,7 +77,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(-(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
+            new AutoMove(m_driveTrain, -(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS), 0.5)
                 )
         ;
     }
@@ -87,10 +87,10 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
+            new AutoMove(m_driveTrain, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
@@ -103,10 +103,10 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
+            new AutoMove(m_driveTrain, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5)
                 )
         .andThen(
             new AutoPickUp()
@@ -119,7 +119,7 @@ public class AutoMethod {
     public Command ChargeStation()
     {
         return
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, false)
         ;
         // return 
         //     new AutoMove(40, 0.5)
@@ -142,16 +142,16 @@ public class AutoMethod {
         return
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5)
+            new AutoTurn(m_driveTrain, 180, 0.5, m_gyroSubsystem)
                 )
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
                 )
         .andThen(
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
+            new AutoMove(m_driveTrain, FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + (FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5) //gets on charge station
                 )
         .andThen(
-            new AutoBalance(m_driveTrain, m_gyroSubsystem)
+            new AutoBalance(m_driveTrain, m_gyroSubsystem, true)
                 )
         ;
     }
@@ -165,16 +165,16 @@ public class AutoMethod {
         }
         */
         return
-            new AutoMove( 190 + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5) // 190 is a guess to end of charge station
+            new AutoMove( m_driveTrain, 190 + FieldConstants.ROBOT_LENGTH_WITH_BUMPERS, 0.5) // 190 is a guess to end of charge station
         ;
     }
 
     public Command OverChargeAndBack()
     {
         return
-            new AutoMove(190, 0.5)
+            new AutoMove(m_driveTrain, 190, 0.5)
         .andThen(
-            new AutoMove( -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
+            new AutoMove( m_driveTrain, -(FieldConstants.CHARGE_STATION_LENGTH / 2), 0.5 )
                 )
         .andThen(
             new GoUntilAngle(m_driveTrain, m_gyroSubsystem, 5) //goes up to ramp, automatically goes to autobalancing
@@ -187,16 +187,16 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.4)
+            new AutoTurn(m_driveTrain, 180, 0.4, m_gyroSubsystem)
                 )
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
                 )
         .andThen(
-            new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5)
+            new AutoMove( m_driveTrain, (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5)
                 )
         .andThen(
-            new AutoMove( -FieldConstants.CHARGE_STATION_LENGTH, 0.5 ) 
+            new AutoMove( m_driveTrain, -FieldConstants.CHARGE_STATION_LENGTH, 0.5 ) 
                 )   
         ; 
     }
@@ -205,7 +205,8 @@ public class AutoMethod {
     public Command getAutonomousCommand() {
 
         m_gyroSubsystem.resetYAngle();
-        
+        new InstantCommand(()-> {m_gyroSubsystem.resetZAngle();} );
+        m_gyroSubsystem.resetZAngle();
         AutoConstants.Objective objective = m_Dashboard.getObjective();
         AutoConstants.Position position = m_Dashboard.getPosition();
         DataLogManager.log("####### objective");

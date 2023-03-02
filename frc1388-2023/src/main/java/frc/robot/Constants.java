@@ -5,8 +5,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-import edu.wpi.first.wpilibj.DriverStation;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -49,7 +47,7 @@ public final class Constants {
     //Encoder stuff
     private final static double COUNTS_PER_REV = 2048;
     private final static double REVS_PER_COUNT = 1/COUNTS_PER_REV;
-    private final static double WHEEL_DIAMETER_INCHES = 6.0; // make range value?
+    private final static double WHEEL_DIAMETER_INCHES = 5.6; // make range value? //TODO when we use new robot change to 6
     private final static double FALCON_TO_SIMPLE_BOX_GEAR_RATIO = 1/4.67;
     private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
     public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
@@ -81,17 +79,20 @@ public final class Constants {
  
  
   public final class AutoBalanceConstants {
-    public static final double HIGH_SPEED = 15.0;
+    public static final double BALANCING_SPEED = 15.0;
     //public static final double LOW_SPEED = 15.0; //possibly needed for autobalancing
-    
-    public static final double GO_UNTIL_ANGLE_SPEED = 36;
 
-    public static final double CHARGE_STATION_DETECTION_ANGLE = 12;
-
-    public static final double DRIVE_ON_RAMP_DISTANCE = 24; // in inches
-    public static final double DRIVE_ON_RAMP_SPEED = 24;
+    public static final double BALANCED_ANGLE = 2.5;
     
-    public static final double NOT_BALANCED_TICKS = 10; // 20 ticks per second
+    public static final double GO_UNTIL_ANGLE_SPEED = 36.0;
+
+    public static final double GO_TO_BALANCE = 13.0;
+    public static final double CHARGE_STATION_DETECTION_ANGLE = 12.0;
+
+    public static final double DRIVE_ON_RAMP_DISTANCE = 24.0; // in inches
+    public static final double DRIVE_ON_RAMP_SPEED = 24.0;
+    
+    public static final double NOT_BALANCED_TICKS = 10.0; // 20 ticks per second
   }
     
 	public enum Objective
@@ -119,7 +120,7 @@ public final class Constants {
   public static class AutoConstants {
     //TEST P VALUE LATER
     
-    public static final double TURN_P_VALUE = 0.03;
+    public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;
     public static final double MOVE_P_VALUE = 0.04;
     public static final double MOVE_P_TOLERANCE = 0.5;

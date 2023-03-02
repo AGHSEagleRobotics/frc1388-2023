@@ -4,25 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.GoUntilAngle;
+import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoTurn;
+import frc.robot.commands.AutoTurnTo;
 import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
-import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.GrabberConstants;
-import frc.robot.Constants.AutoConstants.Objective;
-// import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.AutoConstants.Position;
-import frc.robot.commands.AutoMove;
-import frc.robot.commands.AutoPickUp;
-import frc.robot.AutoMethod; //TODO review
-import frc.robot.commands.AutoBalance;
-import frc.robot.commands.GoUntilAngle;
-import frc.robot.commands.DriveTrainCommand.Direction;
-// import frc.robot.commands.Autos;
+
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
@@ -30,23 +21,14 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
-import javax.lang.model.util.ElementScanner14;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import frc.robot.subsystems.MultiChannelADIS;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.subsystems.RumbleSubsystem;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -136,6 +118,7 @@ public class RobotContainer {
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
+    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrain, m_gyroSubsystem, false));
     
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
