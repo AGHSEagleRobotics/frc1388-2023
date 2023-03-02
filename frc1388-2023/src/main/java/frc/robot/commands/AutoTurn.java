@@ -20,11 +20,11 @@ public class AutoTurn extends CommandBase {
   private final PIDController m_pidController = new PIDController(AutoConstants.TURN_P_VALUE, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoTurn(DriveTrainSubsystem driveTrainSubsystem, double turnSpeed, double turnAngleSet, GyroSubsystem gyroSubsystem) {
-    m_driveTrainSubsystem = driveTrainSubsystem;
+  public AutoTurn(double turnSpeed, double turnAngleSet, GyroSubsystem gyroSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
     m_turnSpeed = turnSpeed;
     m_turnAngleSet = turnAngleSet;
     m_gyroSubsystem = gyroSubsystem;
+    m_driveTrainSubsystem = driveTrainSubsystem;
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);

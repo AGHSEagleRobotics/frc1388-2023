@@ -14,19 +14,19 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class AutoMove extends CommandBase {
   
-  private DriveTrainSubsystem m_driveTrainSubsystem;
   private final double m_setPoint;
   private final double m_speed;
   private final double m_curve;
-
+  private DriveTrainSubsystem m_driveTrainSubsystem;
+  
   private final PIDController m_pidController = new PIDController(MOVE_P_VALUE, 0, 0);
 
   /** Creates a new AutoMove. */
-  public AutoMove(DriveTrainSubsystem driveTrainSubsystem, double setPoint, double speed, double curve) {
-    m_driveTrainSubsystem = driveTrainSubsystem;
+  public AutoMove(double setPoint, double speed, double curve, DriveTrainSubsystem driveTrainSubsystem) {
     m_setPoint = setPoint;
     m_speed = speed;
     m_curve = curve;
+    m_driveTrainSubsystem = driveTrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(driveTrainSubsystem);
@@ -36,7 +36,7 @@ public class AutoMove extends CommandBase {
   }
 
   public AutoMove(DriveTrainSubsystem driveTrainSubsystem, double setPoint, double speed) {
-    this(driveTrainSubsystem, setPoint, speed, 0.0);
+    this(setPoint, speed, 0.0, driveTrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
