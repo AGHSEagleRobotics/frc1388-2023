@@ -74,14 +74,14 @@ public class ArmSubsystem extends SubsystemBase {
   public void setWristMotorPosition(double position) {
     position *= ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
     double distToSetPos = position - m_wristEncoder.getPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND) m_wristMotor.set(Math.copySign(0.5, distToSetPos));
+    if (Math.abs(distToSetPos) > ArmConstants.WRIST_MOTOR_DEADBADND) m_wristMotor.set(Math.copySign(0.5, distToSetPos));
   }
 
   /** position of primary arm in rotations */
   public void setPrimaryMotorPower(double position) {
     position *= ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
     double distToSetPos = position - m_primaryMotor.getSelectedSensorPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND) m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
+    if (Math.abs(distToSetPos) > ArmConstants.PRIMARY_MOTOR_DEADBAND) m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
   }
 
   public void setArmPosition(ArmSetPoint setPoint) {
