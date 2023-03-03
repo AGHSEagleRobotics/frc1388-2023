@@ -216,8 +216,8 @@ public final class Constants {
     public static final double ROBOT_WIDTH = 28;
     public static final double ROBOT_LENGTH = 29; 
     public static final double BUMPER_SIZE = 3.0; 
-    public static final double ROBOT_WIDTH_TOTAL = ROBOT_WIDTH + BUMPER_SIZE;
-    public static final double ROBOT_LENGTH_TOTAL = ROBOT_LENGTH + BUMPER_SIZE;
+    public static final double ROBOT_WIDTH_TOTAL = ROBOT_WIDTH + BUMPER_SIZE + BUMPER_SIZE;
+    public static final double ROBOT_LENGTH_TOTAL = ROBOT_LENGTH + BUMPER_SIZE + BUMPER_SIZE; //even with the u-shape of the robot, side bumpers extend to the front and add 3 inches
 
     public static final double CHARGE_STATION_LENGTH = 76.1;
 
