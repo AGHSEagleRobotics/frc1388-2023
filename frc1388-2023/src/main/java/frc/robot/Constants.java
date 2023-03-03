@@ -97,6 +97,7 @@ public final class Constants {
     
 	public enum Objective
   {
+    SITSTILL("SitStillLookPretty"),
     LEAVECOMMUNITY( "Leave community" ),
     SCORE( "Score" ),
     SCOREANDLEAVE ( "Score and leave community" ),
@@ -104,7 +105,8 @@ public final class Constants {
     CHARGESTATION ( "Balance on charge station" ),
     SCORETHENCHARGE( "Score then charge balance" ),
     OVERCHARGESTATION( "Straight over charge station" ),
-    CHARGESTATIONBACK( "Over station and back" );
+    CHARGESTATIONBACK( "Over station and back" ),
+    SCOREOVERCHARGEBACK( "Score, Over, Back" );
 
     
     private String m_dashboardDescript; //This is what will show on dashboard

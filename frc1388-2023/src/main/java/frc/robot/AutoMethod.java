@@ -197,7 +197,10 @@ public class AutoMethod {
                 )
         .andThen(
             new AutoMove( m_driveTrainSubsystem, -FieldConstants.CHARGE_STATION_LENGTH, 0.5 ) 
-                )   
+                )
+        .andThen(
+            new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false)
+                )
         ; 
     }
 
@@ -209,8 +212,8 @@ public class AutoMethod {
         m_gyroSubsystem.resetZAngle();
         AutoConstants.Objective objective = m_Dashboard.getObjective();
         AutoConstants.Position position = m_Dashboard.getPosition();
-        DataLogManager.log("####### objective");
-        DataLogManager.log("####### position");
+        DataLogManager.log("####### objective:" + objective);
+        DataLogManager.log("####### position:" + position);
     
         if (objective == null || position == null) {
           return null;
@@ -256,6 +259,11 @@ public class AutoMethod {
     
           case CHARGESTATIONBACK:
             return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).OverChargeAndBack();
+
+          case SCOREOVERCHARGEBACK:
+            return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
+          //case :
+            //return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
     
         }
         return null;
