@@ -213,11 +213,11 @@ public final class Constants {
     
   public final class FieldConstants {
     //all measurements in inches
-    public static final double ROBOT_WIDTH = 28; //delete?
-    public static final double ROBOT_LENGTH = 29; //delete?
-    public static final double BUMPER_SIZE = 3.0; //delete?
-    public static final double ROBOT_WIDTH_WITH_BUMPERS = 31;
-    public static final double ROBOT_LENGTH_WITH_BUMPERS = 32;
+    public static final double ROBOT_WIDTH = 28;
+    public static final double ROBOT_LENGTH = 29; 
+    public static final double BUMPER_SIZE = 3.0; 
+    public static final double ROBOT_WIDTH_TOTAL = ROBOT_WIDTH + BUMPER_SIZE;
+    public static final double ROBOT_LENGTH_TOTAL = ROBOT_LENGTH + BUMPER_SIZE;
 
     public static final double CHARGE_STATION_LENGTH = 76.1;
 
