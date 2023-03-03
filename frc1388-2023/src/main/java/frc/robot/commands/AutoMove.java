@@ -21,7 +21,10 @@ public class AutoMove extends CommandBase {
   
   private final PIDController m_pidController = new PIDController(MOVE_P_VALUE, 0, 0);
 
-  /** Creates a new AutoMove. */
+  /** Creates a new AutoMove. 
+   * @setPoint distance to travel in inches
+   * @speed motor power
+  */
   public AutoMove(double setPoint, double speed, double curve, DriveTrainSubsystem driveTrainSubsystem) {
     m_setPoint = setPoint;
     m_speed = speed;
