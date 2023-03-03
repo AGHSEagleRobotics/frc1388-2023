@@ -11,32 +11,30 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
-public class AutoTurn extends CommandBase {
+public class AutoTurnTo extends CommandBase {
 
-  private DriveTrainSubsystem m_driveTrainSubsystem;
   private final double m_turnSpeed;
   private final double m_turnAngleSet;
   private GyroSubsystem m_gyroSubsystem;
+  private DriveTrainSubsystem m_driveTrainSubsystem;
   private final PIDController m_pidController = new PIDController(AutoConstants.TURN_P_VALUE, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoTurn(double turnSpeed, double turnAngleSet, GyroSubsystem gyroSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
+  public AutoTurnTo(double turnSpeed, double turnAngleSet, DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_turnSpeed = turnSpeed;
     m_turnAngleSet = turnAngleSet;
-    m_gyroSubsystem = gyroSubsystem;
     m_driveTrainSubsystem = driveTrainSubsystem;
+    m_gyroSubsystem = gyroSubsystem;
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
-
-    m_pidController.setTolerance(AutoConstants.TURN_P_TOLERANCE);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    m_gyroSubsystem.resetZAngle();
+    m_pidController.setTolerance(AutoConstants.TURN_P_TOLERANCE);
+    m_pidController.enableContinuousInput(0, 360);
     m_driveTrainSubsystem.setDeadbandZero();
   }
 

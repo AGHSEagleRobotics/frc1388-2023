@@ -6,10 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoTurn;
+import frc.robot.commands.AutoTurnTo;
 import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.GrabberConstants;
+
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;

@@ -120,7 +120,7 @@ public final class Constants {
   public static class AutoConstants {
     //TEST P VALUE LATER
     
-    public static final double TURN_P_VALUE = 0.03;
+    public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;
     public static final double MOVE_P_VALUE = 0.04;
     public static final double MOVE_P_TOLERANCE = 0.5;
@@ -162,11 +162,11 @@ public final class Constants {
       }
 
       public enum Position {
-        FAR_bRrL("FAR (bRight rLeft)"),
+        NEAR("FAR (bRight rLeft)"),
         MID("MID"),
-        NEAR_bLrR("NEAR (bLeft rRight )");
+        FAR("NEAR (bLeft rRight )");
     
-        public static final Position Default = FAR_bRrL;
+        public static final Position Default = NEAR;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {
@@ -213,11 +213,11 @@ public final class Constants {
     
   public final class FieldConstants {
     //all measurements in inches
-    public static final double ROBOT_WIDTH = 28; //delete?
-    public static final double ROBOT_LENGTH = 29; //delete?
-    public static final double BUMPER_SIZE = 3.0; //delete?
-    public static final double ROBOT_WIDTH_WITH_BUMPERS = 31;
-    public static final double ROBOT_LENGTH_WITH_BUMPERS = 32;
+    public static final double ROBOT_WIDTH = 28;
+    public static final double ROBOT_LENGTH = 29; 
+    public static final double BUMPER_SIZE = 3.0; 
+    public static final double ROBOT_WIDTH_TOTAL = ROBOT_WIDTH + BUMPER_SIZE + BUMPER_SIZE;
+    public static final double ROBOT_LENGTH_TOTAL = ROBOT_LENGTH + BUMPER_SIZE + BUMPER_SIZE; //even with the u-shape of the robot, side bumpers extend to the front and add 3 inches
 
     public static final double CHARGE_STATION_LENGTH = 76.1;
 
