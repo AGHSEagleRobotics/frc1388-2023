@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmCommand extends CommandBase {
+  private enum WristPosition {
+    flat, stowed
+  }
+  private WristPosition m_wristPosition = WristPosition.stowed;
+
   private final ArmSubsystem m_ArmSubsystem;
 
   private final Supplier<Double> m_opLeftY;
@@ -28,6 +33,11 @@ public class ArmCommand extends CommandBase {
     addRequirements(m_ArmSubsystem);
   }
 
+  public void toggleWristPosition() {
+    if (m_wristPosition == WristPosition.stowed) m_wristPosition = WristPosition.flat;
+    if (m_wristPosition == WristPosition.flat) m_wristPosition = WristPosition.stowed;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -37,6 +47,8 @@ public class ArmCommand extends CommandBase {
   public void execute() {
     m_ArmSubsystem.setWristPower(m_opLeftY.get());
     m_ArmSubsystem.setPrimaryPower(m_opRightY.get());
+    if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
+    if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
   }
 
   // Called once the command ends or is interrupted.

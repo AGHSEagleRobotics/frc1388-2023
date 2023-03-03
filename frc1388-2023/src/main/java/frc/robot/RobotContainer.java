@@ -139,6 +139,10 @@ public class RobotContainer {
     m_opController.rightBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrain
     ));
+
+    m_opController.a().onTrue(new InstantCommand(
+      ()-> {((ArmCommand)m_ArmSubsystem.getDefaultCommand()).toggleWristPosition();}, m_ArmSubsystem
+    ));
   }
   
 

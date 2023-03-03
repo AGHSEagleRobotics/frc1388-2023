@@ -56,7 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setWristPower(double power) {
     if (
       (power < 0) && (!m_wristLimitSwitch.get())
-      || (power > 0) && (m_wristEncoder.getPosition() > ArmConstants.WRIST_POSITION_MAX)
+      || (power > 0) && (m_wristEncoder.getPosition() < ArmConstants.WRIST_POSITION_MAX)
       || power == 0
     ) m_wristMotor.set(power);
   }
@@ -65,23 +65,27 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryPower(double power) {
     if (
       (power < 0) && (!m_primaryArmLimitSwitch.get())
-      || (power > 0) && (m_primaryMotor.getSelectedSensorPosition() > ArmConstants.PRIMARY_ARM_POSITION_MAX)
+      || (power > 0) && (!(m_primaryMotor.getSelectedSensorPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX))
       || power == 0
     ) m_primaryMotor.set(power);
   }
 
   /** position of mid arm in rotations */
   public void setWristMotorPosition(double position) {
-    position *= ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
-    double distToSetPos = position - m_wristEncoder.getPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.WRIST_MOTOR_DEADBADND) m_wristMotor.set(Math.copySign(0.5, distToSetPos));
+    // position *= ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
+    double distToSetPos = position - getPrimaryArmPosition();
+    if (Math.abs(distToSetPos) > ArmConstants.WRIST_MOTOR_DEADBADND){
+      m_wristMotor.set(Math.copySign(0.5, distToSetPos));
+    }
   }
 
   /** position of primary arm in rotations */
   public void setPrimaryMotorPower(double position) {
-    position *= ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
-    double distToSetPos = position - m_primaryMotor.getSelectedSensorPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.PRIMARY_MOTOR_DEADBAND) m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
+    // position *= ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
+    double distToSetPos = position - getWristPosition();
+    if (Math.abs(distToSetPos) > ArmConstants.PRIMARY_MOTOR_DEADBAND){
+      m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
+    }
   }
 
   public void setArmPosition(ArmSetPoint setPoint) {
@@ -98,6 +102,29 @@ public class ArmSubsystem extends SubsystemBase {
         break;
       }
     }
+  }
+
+  public void parallelArmSet(double speed) {
+    setPrimaryMotorPower(speed);
+    setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP);
+  }
+
+  public void stowedArmSet(double speed) {
+    setPrimaryMotorPower(speed);
+    setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP + 0.25);
+  }
+
+  public double getPrimaryArmPosition() {
+    return m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
+  }
+
+  public double getWristPosition() {
+    return m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
+  }
+
+  // gets the wrist position relative to the ground
+  public double getWristRelativePosition() {
+    return -getWristPosition() + getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP;
   }
 
   @Override

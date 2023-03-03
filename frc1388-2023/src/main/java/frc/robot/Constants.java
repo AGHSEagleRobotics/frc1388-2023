@@ -202,6 +202,11 @@ public final class Constants {
   }
 
   public final class ArmConstants {
+
+    // general
+    public static final double DEADBAND = 0.0;
+    /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
+    public static final double FLAT_TO_UP = 0.27;
     
     // primary arm conversion factors
     public static final double FALCON_TICS_PER_REV = 2048;
@@ -211,7 +216,7 @@ public final class Constants {
     
     // primary arm
     public static final int PRIMARY_ARM_CANID = 5;
-    public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.01;
+    public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.05;
     public static final int PRIMARY_ARM_LIMITSWITHC_DIO_ID = 0;
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0; 
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
