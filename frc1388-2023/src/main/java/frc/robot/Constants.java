@@ -94,30 +94,6 @@ public final class Constants {
     
     public static final double NOT_BALANCED_TICKS = 10.0; // 20 ticks per second
   }
-    
-	public enum Objective
-  {
-    SITSTILL("SitStillLookPretty"),
-    LEAVECOMMUNITY( "Leave community" ),
-    SCORE( "Score" ),
-    SCOREANDLEAVE ( "Score and leave community" ),
-    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
-    CHARGESTATION ( "Balance on charge station" ),
-    SCORETHENCHARGE( "Score then charge balance" ),
-    OVERCHARGESTATION( "Straight over charge station" ),
-    CHARGESTATIONBACK( "Over station and back" ),
-    SCOREOVERCHARGEBACK( "Score, Over, Back" );
-
-    
-    private String m_dashboardDescript; //This is what will show on dashboard
-    private Objective ( String dashboardDescript ) {
-      	m_dashboardDescript = dashboardDescript;
-  }
-
-    public String getDashboardDescript() {
-      return m_dashboardDescript;
-    }
-  }
   
   public static class AutoConstants {
     //TEST P VALUE LATER
@@ -149,7 +125,8 @@ public final class Constants {
         CHARGESTATION ( "Balance" ),
         SCORETHENCHARGE( "Score, Balance" ),
         OVERCHARGESTATION( "OverChargeStation" ),
-        CHARGESTATIONBACK( "OverCharge, Return" );
+        CHARGESTATIONBACK( "OverCharge, Balance" ), 
+        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" );
     
         public static final Objective Default = SITSTILL;
       
