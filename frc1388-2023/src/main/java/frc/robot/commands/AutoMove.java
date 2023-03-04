@@ -40,7 +40,7 @@ public class AutoMove extends CommandBase {
     m_pidController.setTolerance(MOVE_P_TOLERANCE); //change P tolerance?
   }
 
-  public AutoMove(DriveTrainSubsystem driveTrainSubsystem, double setPoint, double speed) {
+  public AutoMove( double setPoint, double speed, DriveTrainSubsystem driveTrainSubsystem) {
     this(setPoint, speed, 0.0, driveTrainSubsystem);
   }
 
@@ -57,9 +57,10 @@ public class AutoMove extends CommandBase {
   @Override
   public void execute() {
     double speed;
-    double leftEncoderDistance = m_driveTrainSubsystem.getLeftEncoderDistance();
+    double averageEncoderDistance = m_driveTrainSubsystem.getAverageEncoderDistance();
+    DataLogManager.log("average encoder distance" + averageEncoderDistance);
 
-    speed = m_pidController.calculate(leftEncoderDistance, m_setPoint);
+    speed = m_pidController.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
     // speed += Math.copySign(MOVE_F_VALUE, speed);
     if (speed > 0) {
