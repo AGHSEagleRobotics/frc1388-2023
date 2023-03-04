@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
@@ -35,6 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final CANSparkMax m_wristMotor;
   private final RelativeEncoder m_wristEncoder;
   private final DigitalInput m_wristLimitSwitch;
+  private final PIDController m_pidController = new PIDController(0.1, 0, 0);
   
   // primary
   private final WPI_TalonFX m_primaryMotor;
@@ -59,6 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
       || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
       || power == 0
     ) m_wristMotor.set(power);
+    // m_wristMotor.set(power);
   }
 
   /** sets the power of the primary motor */
@@ -68,6 +72,12 @@ public class ArmSubsystem extends SubsystemBase {
       || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
       || power == 0
     ) m_primaryMotor.set(power);
+  }
+
+  @Deprecated
+  /** doesn't work */
+  public void setWristMotorSpeed(double speed) {
+    m_wristMotor.set(m_pidController.calculate(m_wristEncoder.getVelocity(), speed));
   }
 
   /** position of mid arm in rotations */

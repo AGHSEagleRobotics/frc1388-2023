@@ -64,7 +64,7 @@ public class RobotContainer {
   );
 
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem(
-    new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless), 
+    new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless),
     new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
     new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
     new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID) //TODO XXX FIXME change this
