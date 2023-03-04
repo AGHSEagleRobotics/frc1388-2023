@@ -125,7 +125,7 @@ public final class Constants {
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
-
+    public static double AUTO_TURN_ANGLE = 180;
 
       public enum Objective {
         SITSTILL ( "LookPretty"),
@@ -152,11 +152,11 @@ public final class Constants {
       }
 
       public enum Position {
-        NEAR("FAR (bRight rLeft)"),
+        SUBSTATION("SUBSTATION"),
         MID("MID"),
-        FAR("NEAR (bLeft rRight )");
+        FAR("FAR");
     
-        public static final Position Default = NEAR;
+        public static final Position Default = SUBSTATION;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {
@@ -166,13 +166,8 @@ public final class Constants {
         public String getDashboardDescript() {
           return m_dashboardDescript;
         }
-    
-        public static final double AUTO_POSITION_4_DISTANCE_TO_WALL_BALL = 42;
-        public static final double AUTO_POSITION_4_DISTANCE_TAXI = 7;
-        public static final double AUTO_POSITION_4_DISTANCE_2_BALL_BACK = -37; //was -28
-        public static final double AUTO_POSITION_4_DISTANCE_3_BALL = -26;
       }
-    }
+  }
 
 
   public final class ArmConstants {
@@ -246,5 +241,6 @@ public final class Constants {
   public final class Logging {
     public static final boolean LOG_ACCELERATION = true;
   }
+  
 
 }
