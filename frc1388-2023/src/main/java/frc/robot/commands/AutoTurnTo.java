@@ -43,9 +43,8 @@ public class AutoTurnTo extends CommandBase {
   public void execute() {
     double speed;
     double angle = m_gyroSubsystem.getZAngle();
-
     speed = m_pidController.calculate(angle, m_turnAngleSet);
-    // speed = MathUtil.clamp(speed, -m_turnSpeed, m_turnSpeed);
+    
     if (speed > 0) {
       speed = MathUtil.clamp(speed, AutoConstants.TURN_MIN_SPEED, m_turnSpeed);
     }
