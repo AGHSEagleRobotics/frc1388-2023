@@ -102,16 +102,6 @@ public class Dashboard {
             .withPosition(16, 0)
             .getEntry();
 
-
-
-        //DELETEME: testing autobalance pid loop
-        SmartDashboard.putNumber("F", DriveTrainConstants.GAINS_VELOCITY_F);
-        SmartDashboard.putNumber("P", DriveTrainConstants.GAINS_VELOCITY_P);
-        SmartDashboard.putNumber("I", DriveTrainConstants.GAINS_VELOCITY_I);
-        SmartDashboard.putNumber("D", DriveTrainConstants.GAINS_VELOCITY_D);
-        SmartDashboard.putNumber("speed", 6);
-        SmartDashboard.putString("balanceState", "null");
-
     } //end constructor
 
     //TODO place AUTO OBJECTIVE code here so we can choose our auto path

@@ -3,27 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Dashboard;
-import edu.wpi.first.wpilibj.DataLogManager;
+
 public class GyroSubsystem extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private ADIS16470_IMU m_gyro16470;
   private ADIS16448_IMU m_gyro16448;
   private MultiChannelADIS m_gyro16470Multi;
   private Dashboard m_Dashboard;
-
-  private DataLog m_log = DataLogManager.getLog();
-  private DoubleLogEntry m_logGyroZ = new DoubleLogEntry(m_log, "/robot/GyroZ");
-  private DoubleLogEntry m_logGyroX = new DoubleLogEntry(m_log, "/robot/GyroX");
-  private DoubleLogEntry m_logGyroY = new DoubleLogEntry(m_log, "/robot/GyroY");
-  
   
   private enum gyroType{
     ADIS16448,
@@ -40,7 +31,7 @@ public class GyroSubsystem extends SubsystemBase {
   } 
   public GyroSubsystem(ADIS16470_IMU gyro){
     m_gyro16470 = gyro;
-    m_gyro16470.setYawAxis(IMUAxis.kZ);
+    m_gyro16470.setYawAxis(ADIS16470_IMU.IMUAxis.kZ);
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
   }
@@ -161,9 +152,18 @@ public class GyroSubsystem extends SubsystemBase {
       default:
         break;
     }
-    
   }  
-  
+
+  public double getZRate() {
+    switch (m_gyroType) {
+      case ADIS16470Multi:
+        return m_gyro16470Multi.getRate(MultiChannelADIS.IMUAxis.kZ);
+
+      default:
+        return 0;
+    }
+  }
+
   public void resetAllAngles(){
     resetZAngle();
     resetYAngle();
@@ -175,10 +175,8 @@ public class GyroSubsystem extends SubsystemBase {
     
     m_Dashboard.setPitchEntry(Math.round(getYAngle() * 2) / 2.0);
 
-    m_logGyroZ.append(getZAngle());
-    m_logGyroX.append(getXAngle());
-    m_logGyroY.append(getYAngle());
-
+    SmartDashboard.putNumber("X angle", getXAngle());
+    SmartDashboard.putNumber("Y angle", getYAngle());
     SmartDashboard.putNumber("Z angle", getZAngle());
   }
 }

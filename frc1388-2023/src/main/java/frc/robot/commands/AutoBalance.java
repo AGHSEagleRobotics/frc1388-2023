@@ -69,8 +69,8 @@ public class AutoBalance extends CommandBase {
         if (Math.abs(currentAngle) >= AutoBalanceConstants.GO_TO_BALANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
-
-        if (Math.abs(currentAngle) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
+        
+        else if (Math.abs(currentAngle) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
           // reset encoder before switching to driveOnRamp
           m_driveTrainSubsystem.resetLeftEncoder();
           m_balanceState = BalanceStates.driveOnRamp;
@@ -83,9 +83,8 @@ public class AutoBalance extends CommandBase {
         m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
       }
       else {
-        m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
+        m_driveTrainSubsystem.constantSpeedDrive(AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
       }
-
 
         // if a distance is reached (number of inches)
         if (Math.abs(m_driveTrainSubsystem.getLeftEncoderDistance()) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
@@ -95,8 +94,8 @@ public class AutoBalance extends CommandBase {
 
       case moveToBalance:
         constantSpeedBalance(AutoBalanceConstants.BALANCING_SPEED);
+        
         if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
-
           m_balanceState = BalanceStates.balanced;
         }
         break;
@@ -107,7 +106,7 @@ public class AutoBalance extends CommandBase {
         if (Math.abs(currentAngle) <= AutoBalanceConstants.BALANCED_ANGLE){
           m_outOfBalanceCounter = 0;
         }
-        else { // angle >= 2.5
+        else {
           m_outOfBalanceCounter++;
         }
         if (m_outOfBalanceCounter >= AutoBalanceConstants.NOT_BALANCED_TICKS) {
