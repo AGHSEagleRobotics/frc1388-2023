@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
@@ -55,7 +56,7 @@ public class AutoMove extends CommandBase {
   public void execute() {
     double speed;
     double averageEncoderDistance = m_driveTrainSubsystem.getAverageEncoderDistance();
-    DataLogManager.log("average encoder distance" + averageEncoderDistance);
+    SmartDashboard.putNumber("AverageEncoderDistance", averageEncoderDistance);
 
     speed = m_pidController.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
