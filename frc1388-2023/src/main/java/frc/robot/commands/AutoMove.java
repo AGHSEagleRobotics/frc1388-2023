@@ -39,6 +39,7 @@ public class AutoMove extends CommandBase {
     m_angleSet = angle;
     m_isSteering = true;
 
+    m_gyroSubsystem = gyroSubsystem;
     m_driveTrainSubsystem = driveTrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
 
@@ -51,9 +52,10 @@ public class AutoMove extends CommandBase {
   public AutoMove( double setPoint, double speed, DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_setPoint = setPoint;
     m_speed = speed;
-    m_driveTrainSubsystem = driveTrainSubsystem;
     m_angleSet = -1;
     m_isSteering = false;
+    m_driveTrainSubsystem = driveTrainSubsystem;
+    m_gyroSubsystem = gyroSubsystem;
 
     addRequirements(driveTrainSubsystem);
   }
@@ -75,7 +77,7 @@ public class AutoMove extends CommandBase {
     double angle = m_gyroSubsystem.getZAngle();
 
     double averageEncoderDistance = m_driveTrainSubsystem.getAverageEncoderDistance();
-    DataLogManager.log("average encoder distance" + averageEncoderDistance);
+
 
     speed = m_pidMove.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
@@ -88,7 +90,8 @@ public class AutoMove extends CommandBase {
       curve = m_pidTurn.calculate(angle, m_angleSet);
       curve = MathUtil.clamp(curve, -CURVE_MAX, CURVE_MAX);
     }
-
+    SmartDashboard.putNumber("AutoMoveSpeed", speed);
+    SmartDashboard.putNumber("AutoMoveCurve", curve);
 
     m_driveTrainSubsystem.curvatureDrive(speed, curve, false); 
   
