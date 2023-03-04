@@ -21,7 +21,10 @@ public class AutoMove extends CommandBase {
   
   private final PIDController m_pidController = new PIDController(MOVE_P_VALUE, 0, 0);
 
-  /** Creates a new AutoMove. */
+  /** Creates a new AutoMove. 
+   * @setPoint distance to travel in inches
+   * @speed motor power
+  */
   public AutoMove(double setPoint, double speed, double curve, DriveTrainSubsystem driveTrainSubsystem) {
     m_setPoint = setPoint;
     m_speed = speed;
@@ -51,9 +54,10 @@ public class AutoMove extends CommandBase {
   @Override
   public void execute() {
     double speed;
-    double leftEncoderDistance = m_driveTrainSubsystem.getLeftEncoderDistance();
+    double averageEncoderDistance = m_driveTrainSubsystem.getAverageEncoderDistance();
+    DataLogManager.log("average encoder distance" + averageEncoderDistance);
 
-    speed = m_pidController.calculate(leftEncoderDistance, m_setPoint);
+    speed = m_pidController.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
     speed += Math.copySign(MOVE_F_VALUE, speed);
 

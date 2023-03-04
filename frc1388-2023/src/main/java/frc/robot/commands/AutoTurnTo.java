@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -20,7 +21,7 @@ public class AutoTurnTo extends CommandBase {
   private final PIDController m_pidController = new PIDController(AutoConstants.TURN_P_VALUE, 0, 0);
 
   /** Creates a new AutoTurn. */
-  public AutoTurnTo(double turnSpeed, double turnAngleSet, DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
+  public AutoTurnTo(double turnAngleSet, double turnSpeed, DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem) {
     m_turnSpeed = turnSpeed;
     m_turnAngleSet = turnAngleSet;
     m_driveTrainSubsystem = driveTrainSubsystem;
@@ -28,6 +29,7 @@ public class AutoTurnTo extends CommandBase {
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
+    SmartDashboard.putNumber("AutoTurnToSpeed", 0);
   }
 
   // Called when the command is initially scheduled.
@@ -41,16 +43,22 @@ public class AutoTurnTo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnSpeed;
+    double speed;
     double angle = m_gyroSubsystem.getZAngle();
-
-
-    turnSpeed = m_pidController.calculate(angle, m_turnAngleSet);
-    turnSpeed = MathUtil.clamp(turnSpeed, -m_turnSpeed, m_turnSpeed);
+    speed = m_pidController.calculate(angle, m_turnAngleSet);
+    
+    if (speed > 0) {
+      speed = MathUtil.clamp(speed, AutoConstants.TURN_MIN_SPEED, m_turnSpeed);
+    }
+    else {
+      speed = MathUtil.clamp(speed, -m_turnSpeed, -AutoConstants.TURN_MIN_SPEED);
+    }
+   
+    SmartDashboard.putNumber("AutoTurnToSpeed", speed);
 
     //System.out.println("Angle: "+angle+"\tturnSpeed: "+turnSpeed+"\tTurnSetPoint"+m_turnAngleSet);
 
-    m_driveTrainSubsystem.curvatureDrive(0, turnSpeed, true);
+    m_driveTrainSubsystem.curvatureDrive(0, speed, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -58,6 +66,7 @@ public class AutoTurnTo extends CommandBase {
   public void end(boolean interrupted) {
     m_pidController.reset();
     m_driveTrainSubsystem.curvatureDrive(0, 0, false);
+    SmartDashboard.putNumber("AutoTurnToSpeed", 0);
   }
 
   // Returns true when the command should end.
