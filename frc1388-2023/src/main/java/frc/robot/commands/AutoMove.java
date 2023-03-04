@@ -38,7 +38,7 @@ public class AutoMove extends CommandBase {
     m_pidController.setTolerance(MOVE_P_TOLERANCE); //change P tolerance?
   }
 
-  public AutoMove(DriveTrainSubsystem driveTrainSubsystem, double setPoint, double speed) {
+  public AutoMove( double setPoint, double speed, DriveTrainSubsystem driveTrainSubsystem) {
     this(setPoint, speed, 0.0, driveTrainSubsystem);
   }
 
