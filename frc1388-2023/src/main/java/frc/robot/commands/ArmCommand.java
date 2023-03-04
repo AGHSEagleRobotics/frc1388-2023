@@ -19,6 +19,8 @@ public class ArmCommand extends CommandBase {
 
   private final Supplier<Double> m_opLeftY;
   private final Supplier<Double> m_opRightY;
+  // private final Supplier<Double> m_opLTrigger;
+  // private final Supplier<Double> m_opRTrigger;
 
   /** Creates a new ArmCommand. */
   public ArmCommand(
@@ -45,8 +47,8 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.setWristPower(m_opLeftY.get());
-    m_ArmSubsystem.setPrimaryPower(m_opRightY.get());
+    m_ArmSubsystem.setWristMotorPower(0.2 * m_opLeftY.get()); //XXX scaling
+    m_ArmSubsystem.setPrimaryMotorPower(m_opRightY.get());
     if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
     if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
   }

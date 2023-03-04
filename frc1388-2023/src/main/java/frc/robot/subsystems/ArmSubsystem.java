@@ -53,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   /** sets the power of the wrist motor */
-  public void setWristPower(double power) {
+  public void setWristMotorPower(double power) {
     if (
       (power < 0) && (!m_wristLimitSwitch.get())
       || (power > 0) && (m_wristEncoder.getPosition() < ArmConstants.WRIST_POSITION_MAX)
@@ -62,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   /** sets the power of the primary motor */
-  public void setPrimaryPower(double power) {
+  public void setPrimaryMotorPower(double power) {
     if (
       (power < 0) && (!m_primaryArmLimitSwitch.get())
       || (power > 0) && (!(m_primaryMotor.getSelectedSensorPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX))
@@ -72,18 +72,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   /** position of mid arm in rotations */
   public void setWristMotorPosition(double position) {
-    // position *= ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
     double distToSetPos = position - getPrimaryArmPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.WRIST_MOTOR_DEADBADND){
+    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
       m_wristMotor.set(Math.copySign(0.5, distToSetPos));
     }
   }
 
   /** position of primary arm in rotations */
-  public void setPrimaryMotorPower(double position) {
-    // position *= ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
+  public void setPrimaryMotorPosition(double position) {
     double distToSetPos = position - getWristPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.PRIMARY_MOTOR_DEADBAND){
+    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
       m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
     }
   }
@@ -130,7 +128,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
+    // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
     if (m_primaryArmLimitSwitch.get()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
   }
 

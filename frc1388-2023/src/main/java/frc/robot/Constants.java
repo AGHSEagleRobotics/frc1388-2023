@@ -188,23 +188,11 @@ public final class Constants {
     }
 
 
-  public final class GrabberConstants {
-    public static final int GRABBER_CANID = 7;
-    public static final int GRABBER_LIMIT_SWITCH_ID = 0;
-    /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
-    public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
-    /** the position of the motor when the grabber is open, measured in motor rotations */
-    public static final int GRABBER_POSITION_OPEN = 100;
-    /** the position of the motor when the grabber is closed, measured in motor rotations */
-    public static final int GRABBER_POSITION_CLOSED = 0;
-    /** the dead band tolerance for the grabber, measured in motor rotations */
-    public static final int GRABBER_ENCODER_DEADBAND = 5;
-  }
-
   public final class ArmConstants {
 
     // general
-    public static final double DEADBAND = 0.0;
+    /**arm rotations */
+    public static final double DEADBAND = 0.04;
     /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
     public static final double FLAT_TO_UP = 0.27;
     
@@ -216,9 +204,10 @@ public final class Constants {
     
     // primary arm
     public static final int PRIMARY_ARM_CANID = 5;
-    public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.05;
-    public static final int PRIMARY_ARM_LIMITSWITHC_DIO_ID = 0;
-    public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0; 
+    public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
+
+    // public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.05;
+    public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
     public static final double PRIMARY_ARM_POSITION_MAX = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.3; 
@@ -228,15 +217,26 @@ public final class Constants {
 
     // wrist arm
     public static final int WRIST_CANID = 6;
-    public static final double WRIST_MOTOR_DEADBADND = 1;
-    public static final int WRIST_LIMITSWITHC_DIO_ID = 1;
+    // public static final double WRIST_MOTOR_DEADBADND = 1;
+    public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
   }
-
   
+  public final class GrabberConstants {
+    public static final int GRABBER_CANID = 7;
+    public static final int GRABBER_LIMIT_SWITCH_ID = 3;
+    /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
+    public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
+    /** the position of the motor when the grabber is open, measured in motor rotations */
+    public static final int GRABBER_POSITION_OPEN = 100;
+    /** the position of the motor when the grabber is closed, measured in motor rotations */
+    public static final int GRABBER_POSITION_CLOSED = 0;
+    /** the dead band tolerance for the grabber, measured in motor rotations */
+    public static final int GRABBER_ENCODER_DEADBAND = 5;
+  }  
     
   public final class FieldConstants {
     //all measurements in inches

@@ -66,8 +66,8 @@ public class RobotContainer {
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem(
     new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless), 
     new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
-    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMITSWITHC_DIO_ID),
-    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMITSWITHC_DIO_ID)
+    new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
+    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID) //TODO XXX FIXME change this
   );
 
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
@@ -101,7 +101,11 @@ public class RobotContainer {
     );
 
     m_ArmSubsystem.setDefaultCommand(
-      new ArmCommand(m_ArmSubsystem, ()-> m_opController.getLeftY(), ()-> m_opController.getRightY())
+      new ArmCommand(
+        m_ArmSubsystem,
+        ()-> m_opController.getLeftY(),
+        ()-> m_opController.getRightY()
+      )
     );
 
     // Configure the trigger bindings
