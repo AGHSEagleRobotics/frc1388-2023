@@ -54,9 +54,10 @@ public class AutoMove extends CommandBase {
   @Override
   public void execute() {
     double speed;
-    double leftEncoderDistance = m_driveTrainSubsystem.getLeftEncoderDistance();
+    double averageEncoderDistance = m_driveTrainSubsystem.getAverageEncoderDistance();
+    DataLogManager.log("average encoder distance" + averageEncoderDistance);
 
-    speed = m_pidController.calculate(leftEncoderDistance, m_setPoint);
+    speed = m_pidController.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
     speed += Math.copySign(MOVE_F_VALUE, speed);
 
