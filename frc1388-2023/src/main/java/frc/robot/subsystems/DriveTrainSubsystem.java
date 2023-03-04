@@ -151,6 +151,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
   }
 
+  public double getAverageEncoderDistance(){
+    return ((getLeftEncoderDistance() + getRightEncoderDistance()) / 2 );
+  }
+
   public void resetEncoders() {
     resetRightEncoder();
     resetLeftEncoder();
