@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class AutoMove extends CommandBase {
@@ -39,7 +40,7 @@ public class AutoMove extends CommandBase {
     m_pidController.setTolerance(MOVE_P_TOLERANCE); //change P tolerance?
   }
 
-  public AutoMove(DriveTrainSubsystem driveTrainSubsystem, double setPoint, double speed) {
+  public AutoMove( double setPoint, double speed, DriveTrainSubsystem driveTrainSubsystem) {
     this(setPoint, speed, 0.0, driveTrainSubsystem);
   }
 
@@ -47,6 +48,7 @@ public class AutoMove extends CommandBase {
   @Override
   public void initialize() {
     DataLogManager.log("setpoint: " + m_setPoint + "   " + "speed: " + m_speed + "   " + "curve: " + m_curve);
+    SmartDashboard.putNumber("AutoSpeed", m_speed);
     m_driveTrainSubsystem.resetEncoders();
     m_driveTrainSubsystem.setDeadbandZero();
   }
@@ -60,8 +62,13 @@ public class AutoMove extends CommandBase {
 
     speed = m_pidController.calculate(averageEncoderDistance, m_setPoint);
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
-    speed += Math.copySign(MOVE_F_VALUE, speed);
-
+    // speed += Math.copySign(MOVE_F_VALUE, speed);
+    if (speed > 0) {
+      MathUtil.clamp(speed, AutoConstants.MOVE_MIN_SPEED, m_speed);
+    }
+    else {
+      MathUtil.clamp(speed, -m_speed, -AutoConstants.MOVE_MIN_SPEED);
+    }
     m_driveTrainSubsystem.curvatureDrive(speed, m_curve, false); 
   
   }

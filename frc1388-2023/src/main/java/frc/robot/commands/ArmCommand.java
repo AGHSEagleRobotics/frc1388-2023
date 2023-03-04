@@ -10,10 +10,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmCommand extends CommandBase {
+  private enum WristPosition {
+    flat, stowed
+  }
+  private WristPosition m_wristPosition = WristPosition.stowed;
+
   private final ArmSubsystem m_ArmSubsystem;
 
   private final Supplier<Double> m_opLeftY;
   private final Supplier<Double> m_opRightY;
+  // private final Supplier<Double> m_opLTrigger;
+  // private final Supplier<Double> m_opRTrigger;
 
   /** Creates a new ArmCommand. */
   public ArmCommand(
@@ -28,6 +35,11 @@ public class ArmCommand extends CommandBase {
     addRequirements(m_ArmSubsystem);
   }
 
+  public void toggleWristPosition() {
+    if (m_wristPosition == WristPosition.stowed) m_wristPosition = WristPosition.flat;
+    if (m_wristPosition == WristPosition.flat) m_wristPosition = WristPosition.stowed;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -35,13 +47,18 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.setMidArmMotor(m_opLeftY.get());
-    m_ArmSubsystem.setPrimaryMotor(m_opRightY.get());
+    m_ArmSubsystem.setWristMotorPower(0.05 * m_opLeftY.get()); //XXX scaling
+    m_ArmSubsystem.setPrimaryMotorPower(m_opRightY.get());
+    // if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
+    // if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_ArmSubsystem.setPrimaryMotorPower(0);
+    m_ArmSubsystem.setWristMotorPower(0);
+  }
 
   // Returns true when the command should end.
   @Override

@@ -86,7 +86,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDrive( double leftSpeed, double rightSpeed) {
     m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
-  
   /**
    * Constant speed drive method for differential drive platform.
    *

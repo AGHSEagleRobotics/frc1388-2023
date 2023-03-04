@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Dashboard;
+
 public class GyroSubsystem extends SubsystemBase {
   /** Creates a new GyroSubsystem. */
   private ADIS16470_IMU m_gyro16470;
@@ -31,7 +31,7 @@ public class GyroSubsystem extends SubsystemBase {
   } 
   public GyroSubsystem(ADIS16470_IMU gyro){
     m_gyro16470 = gyro;
-    m_gyro16470.setYawAxis(IMUAxis.kZ);
+    m_gyro16470.setYawAxis(ADIS16470_IMU.IMUAxis.kZ);
     m_gyro16470.reset();
     m_gyroType = gyroType.ADIS16470;
   }
@@ -152,9 +152,18 @@ public class GyroSubsystem extends SubsystemBase {
       default:
         break;
     }
-    
   }  
-  
+
+  public double getZRate() {
+    switch (m_gyroType) {
+      case ADIS16470Multi:
+        return m_gyro16470Multi.getRate(MultiChannelADIS.IMUAxis.kZ);
+
+      default:
+        return 0;
+    }
+  }
+
   public void resetAllAngles(){
     resetZAngle();
     resetYAngle();
