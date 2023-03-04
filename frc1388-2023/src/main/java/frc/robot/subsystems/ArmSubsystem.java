@@ -56,7 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setWristMotorPower(double power) {
     if (
       (power < 0) && (!m_wristLimitSwitch.get())
-      || (power > 0) && (m_wristEncoder.getPosition() < ArmConstants.WRIST_POSITION_MAX)
+      || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
       || power == 0
     ) m_wristMotor.set(power);
   }
@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryMotorPower(double power) {
     if (
       (power < 0) && (!m_primaryArmLimitSwitch.get())
-      || (power > 0) && (!(m_primaryMotor.getSelectedSensorPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX))
+      || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
       || power == 0
     ) m_primaryMotor.set(power);
   }
