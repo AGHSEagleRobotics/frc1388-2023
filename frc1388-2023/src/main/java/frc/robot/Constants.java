@@ -97,36 +97,19 @@ public final class Constants {
     
     public static final double NOT_BALANCED_TICKS = 10.0; // 20 ticks per second
   }
-    
-	public enum Objective
-  {
-    LEAVECOMMUNITY( "Leave community" ),
-    SCORE( "Score" ),
-    SCOREANDLEAVE ( "Score and leave community" ),
-    SCORELEAVEPICKUP ( "Score, leave, pickup" ),
-    CHARGESTATION ( "Balance on charge station" ),
-    SCORETHENCHARGE( "Score then charge balance" ),
-    OVERCHARGESTATION( "Straight over charge station" ),
-    CHARGESTATIONBACK( "Over station and back" );
-
-    
-    private String m_dashboardDescript; //This is what will show on dashboard
-    private Objective ( String dashboardDescript ) {
-      	m_dashboardDescript = dashboardDescript;
-  }
-
-    public String getDashboardDescript() {
-      return m_dashboardDescript;
-    }
-  }
   
   public static class AutoConstants {
     //TEST P VALUE LATER
-    
     public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;
-    public static final double MOVE_P_VALUE = 0.04;
+    public static final double MOVE_P_VALUE = 0.045;
     public static final double MOVE_P_TOLERANCE = 0.5;
+
+    public static final double MOVE_MIN_SPEED = 0.1;
+   
+    public static final double TURN_MIN_SPEED_STOPPED = 0.12;
+    public static final double TURN_MIN_SPEED_MOVING = 0.075;
+    public static final double TURN_MIN_SPEED_THRESHOLD = 2;
     
     public static final double MOVE_F_VALUE = 0;
  
@@ -150,7 +133,8 @@ public final class Constants {
         CHARGESTATION ( "Balance" ),
         SCORETHENCHARGE( "Score, Balance" ),
         OVERCHARGESTATION( "OverChargeStation" ),
-        CHARGESTATIONBACK( "OverCharge, Return" );
+        CHARGESTATIONBACK( "OverCharge, Balance" ), 
+        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" );
     
         public static final Objective Default = SITSTILL;
       
@@ -165,11 +149,11 @@ public final class Constants {
       }
 
       public enum Position {
-        FAR_bRrL("FAR (bRight rLeft)"),
+        NEAR("FAR (bRight rLeft)"),
         MID("MID"),
-        NEAR_bLrR("NEAR (bLeft rRight )");
+        FAR("NEAR (bLeft rRight )");
     
-        public static final Position Default = FAR_bRrL;
+        public static final Position Default = NEAR;
     
         private String m_dashboardDescript; //This is what will show on dashboard
         private Position ( String dashboardDescript ) {
@@ -240,11 +224,11 @@ public final class Constants {
     
   public final class FieldConstants {
     //all measurements in inches
-    public static final double ROBOT_WIDTH = 28; //delete?
-    public static final double ROBOT_LENGTH = 29; //delete?
-    public static final double BUMPER_SIZE = 3.0; //delete?
-    public static final double ROBOT_WIDTH_WITH_BUMPERS = 31;
-    public static final double ROBOT_LENGTH_WITH_BUMPERS = 32;
+    public static final double ROBOT_WIDTH = 28;
+    public static final double ROBOT_LENGTH = 29; 
+    public static final double BUMPER_SIZE = 3.0; 
+    public static final double ROBOT_WIDTH_TOTAL = ROBOT_WIDTH + BUMPER_SIZE + BUMPER_SIZE;
+    public static final double ROBOT_LENGTH_TOTAL = ROBOT_LENGTH + BUMPER_SIZE + BUMPER_SIZE; //even with the u-shape of the robot, side bumpers extend to the front and add 3 inches
 
     public static final double CHARGE_STATION_LENGTH = 76.1;
 

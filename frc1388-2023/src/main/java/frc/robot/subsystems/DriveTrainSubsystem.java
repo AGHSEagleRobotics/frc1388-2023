@@ -86,7 +86,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDrive( double leftSpeed, double rightSpeed) {
     m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
-  
   /**
    * Constant speed drive method for differential drive platform.
    *
@@ -149,6 +148,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double getRightEncoderDistance() {
     return m_rightFront.getSelectedSensorPosition()
         * DriveTrainConstants.INCHES_PER_ENCODER_UNITS;
+  }
+
+  public double getAverageEncoderDistance(){
+    return ((getLeftEncoderDistance() + getRightEncoderDistance()) / 2 );
   }
 
   public void resetEncoders() {

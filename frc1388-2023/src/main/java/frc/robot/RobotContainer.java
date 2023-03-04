@@ -8,6 +8,9 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoTurn;
+import frc.robot.commands.AutoTurnTo;
 import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
@@ -51,7 +54,7 @@ public class RobotContainer {
   private final CommandXboxController m_opController = new CommandXboxController(ControllerConstants.OP_CONTROLLER_PORT);
   private final RumbleSubsystem m_rumbleSubsystem = new RumbleSubsystem(m_driverController.getHID());
 
-  private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(
+  private final DriveTrainSubsystem m_driveTrainSubsystem = new DriveTrainSubsystem(
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
    new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
@@ -77,14 +80,16 @@ public class RobotContainer {
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrain, m_gyroSubsystem, m_dashboard );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_gyroSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    m_driveTrain.setDefaultCommand(
-      new DriveTrainCommand(
-        m_driveTrain,
+    // m_driveTrain.setDefaultCommand(
+    //   new DriveTrainCommand(
+    //     m_driveTrain,
+    m_driveTrainSubsystem.setDefaultCommand(new DriveTrainCommand(
+        m_driveTrainSubsystem,
         () -> m_driverController.getLeftY(),
         () -> m_driverController.getRightX(),
         () -> m_driverController.rightStick().getAsBoolean(),
@@ -129,19 +134,19 @@ public class RobotContainer {
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
     m_driverController.a().onTrue(new InstantCommand(
-      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.reverse);}
+      ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).setDirection(Direction.reverse);}
     ));
     m_driverController.b().onTrue(new InstantCommand(
-      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).setDirection(Direction.forwards);}
+      ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
-    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrain, m_gyroSubsystem, false));
+    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false));
     
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
-      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrain
+      ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).turnSlow(Side.left);}, m_driveTrainSubsystem
     ));
     m_opController.rightBumper().whileTrue(new RunCommand(
-      ()-> {((DriveTrainCommand)m_driveTrain.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrain
+      ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrainSubsystem
     ));
 
     m_opController.a().onTrue(new InstantCommand(
@@ -149,18 +154,33 @@ public class RobotContainer {
     ));
   }
   
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+    m_gyroSubsystem.resetAllAngles();
+    // return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+    return new AutoMove(24, 0.25, 0, m_driveTrainSubsystem)
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(24, 0.25, 0, m_driveTrainSubsystem));
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
-    m_driveTrain.setNeutralMode(mode);
+    m_driveTrainSubsystem.setNeutralMode(mode);
   }
 
 }
