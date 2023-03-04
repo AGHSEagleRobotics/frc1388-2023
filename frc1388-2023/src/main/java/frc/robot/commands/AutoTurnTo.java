@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -28,6 +29,7 @@ public class AutoTurnTo extends CommandBase {
     //System.out.println("*****************TURNCONSTUCTOR****************************************TURNCONSTRUCTOR*******************");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
+    SmartDashboard.putNumber("AutoTurnToSpeed", 0);
   }
 
   // Called when the command is initially scheduled.
@@ -51,7 +53,8 @@ public class AutoTurnTo extends CommandBase {
     else {
       speed = MathUtil.clamp(speed, -m_turnSpeed, -AutoConstants.TURN_MIN_SPEED);
     }
-
+   
+    SmartDashboard.putNumber("AutoTurnToSpeed", speed);
 
     //System.out.println("Angle: "+angle+"\tturnSpeed: "+turnSpeed+"\tTurnSetPoint"+m_turnAngleSet);
 
@@ -63,6 +66,7 @@ public class AutoTurnTo extends CommandBase {
   public void end(boolean interrupted) {
     m_pidController.reset();
     m_driveTrainSubsystem.curvatureDrive(0, 0, false);
+    SmartDashboard.putNumber("AutoTurnToSpeed", 0);
   }
 
   // Returns true when the command should end.
