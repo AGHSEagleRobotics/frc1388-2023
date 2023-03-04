@@ -52,7 +52,7 @@ public class AutoMethod {
     public Command LeaveCommunityFar()
     {
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem)
+            new AutoMove( 0.25, FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
         ;
     }
 
@@ -60,7 +60,7 @@ public class AutoMethod {
     {
 
         return 
-            new AutoMove( FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem)
+            new AutoMove( 0.25, FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
         ;
     }
 

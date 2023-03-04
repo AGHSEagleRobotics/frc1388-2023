@@ -27,7 +27,7 @@ public class AutoMove extends CommandBase {
    * @setPoint distance to travel in inches
    * @speed motor power
   */
-  public AutoMove(double setPoint, double speed, double curve, DriveTrainSubsystem driveTrainSubsystem) {
+  public AutoMove(double speed, double setPoint, double curve, DriveTrainSubsystem driveTrainSubsystem) {
     m_setPoint = setPoint;
     m_speed = speed;
     m_curve = curve;
@@ -40,7 +40,7 @@ public class AutoMove extends CommandBase {
     m_pidController.setTolerance(MOVE_P_TOLERANCE); //change P tolerance?
   }
 
-  public AutoMove( double setPoint, double speed, DriveTrainSubsystem driveTrainSubsystem) {
+  public AutoMove( double speed, double setPoint, DriveTrainSubsystem driveTrainSubsystem) {
     this(setPoint, speed, 0.0, driveTrainSubsystem);
   }
 
