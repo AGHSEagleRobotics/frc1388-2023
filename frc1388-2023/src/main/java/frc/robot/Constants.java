@@ -121,11 +121,13 @@ public final class Constants {
     //TEST P VALUE LATER
     public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;
-    public static final double MOVE_P_VALUE = 0.04;
+    public static final double MOVE_P_VALUE = 0.045;
     public static final double MOVE_P_TOLERANCE = 0.5;
+
+    public static final double MOVE_MIN_SPEED = 0.1;
    
-    public static final double TURN_MIN_SPEED_STOPPED = 0.1;
-    public static final double TURN_MIN_SPEED_MOVING = 0;
+    public static final double TURN_MIN_SPEED_STOPPED = 0.12;
+    public static final double TURN_MIN_SPEED_MOVING = 0.075;
     public static final double TURN_MIN_SPEED_THRESHOLD = 2;
     
     public static final double MOVE_F_VALUE = 0;
