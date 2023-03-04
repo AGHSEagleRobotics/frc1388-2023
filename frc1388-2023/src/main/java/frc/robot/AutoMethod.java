@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.AutoConstants;
@@ -25,11 +27,19 @@ public class AutoMethod {
     private GyroSubsystem m_gyroSubsystem;
     private final Dashboard m_Dashboard;
 
+    //assume blue
+    private double m_autoTurnAngle = AutoConstants.AUTO_TURN_ANGLE; //local variable to avoid changing constant
+
     public AutoMethod( DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, Dashboard Dashboard )
     {
         m_driveTrainSubsystem = driveTrainSubsystem;
         m_gyroSubsystem = gyroSubsystem;
         m_Dashboard = Dashboard;
+
+        if( DriverStation.getAlliance() == Alliance.Red )
+        {
+            m_autoTurnAngle = -m_autoTurnAngle;
+        }
     }
 
     public Command SitStillLookPretty()
@@ -87,13 +97,13 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
+            new AutoTurn(0.5, 180, m_gyroSubsystem, m_driveTrainSubsystem)
                 )
         .andThen(
             new AutoMove(m_driveTrainSubsystem, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25)
                 )
         .andThen(
-            new AutoPickUp()
+            new AutoPickUp() //do we need to turn here to pick up? Will determine
                 )
         ;
     }
@@ -103,13 +113,13 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
+            new AutoTurn(0.5, 180, m_gyroSubsystem, m_driveTrainSubsystem)
                 )
         .andThen(
-            new AutoMove(m_driveTrainSubsystem, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25)
+            new AutoMove(m_driveTrainSubsystem, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25) //use m_autoTurn!!
                 )
         .andThen(
-            new AutoPickUp()
+            new AutoPickUp() //do we need to turn here to pick up? Will determine
                 )
         ;
     }
