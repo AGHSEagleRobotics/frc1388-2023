@@ -136,15 +136,15 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     m_gyroSubsystem.resetAllAngles();
-    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
-    // return new AutoMove(48, 0.25, 0, m_driveTrainSubsystem)
-    //   .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
-    //   .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
-    //   .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
-    //   .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
-    //   .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
-    //   .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
-    //   .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem));
+    // return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+    return new AutoMove(48, 0.25, 0, m_driveTrainSubsystem)
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
+      .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
+      .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem));
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
