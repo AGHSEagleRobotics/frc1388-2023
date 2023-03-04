@@ -39,7 +39,7 @@ public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new Grabber. */
   public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch) {
     m_grabberMotor = motor;
-      m_grabberMotor.setSmartCurrentLimit(20); // in amps
+      m_grabberMotor.setSmartCurrentLimit(5); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;
@@ -48,7 +48,6 @@ public class GrabberSubsystem extends SubsystemBase {
   public void setGrabberPosition(GrabberPosition position) {
     m_grabberSetPosition = position;
     double distToSetPoint = m_grabberSetPosition.get() - m_grabberEncoder.getPosition();
-
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
       m_grabberMotor.set(Math.copySign(0.5, distToSetPoint));
     }

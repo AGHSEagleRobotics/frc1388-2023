@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoTurn;
@@ -17,6 +19,7 @@ import frc.robot.Constants.GrabberConstants;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
@@ -63,6 +66,13 @@ public class RobotContainer {
     new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID)
   );
 
+  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem(
+    new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless),
+    new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
+    new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
+    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID) //TODO XXX FIXME change this
+  );
+
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
@@ -75,6 +85,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    // m_driveTrain.setDefaultCommand(
+    //   new DriveTrainCommand(
+    //     m_driveTrain,
     m_driveTrainSubsystem.setDefaultCommand(new DriveTrainCommand(
         m_driveTrainSubsystem,
         () -> m_driverController.getLeftY(),
@@ -89,6 +102,14 @@ public class RobotContainer {
         m_grabberSubsystem, 
         ()-> m_opController.getLeftTriggerAxis(), 
         ()->m_opController.getRightTriggerAxis()
+      )
+    );
+
+    m_ArmSubsystem.setDefaultCommand(
+      new ArmCommand(
+        m_ArmSubsystem,
+        ()-> m_opController.getLeftY(),
+        ()-> m_opController.getRightY()
       )
     );
 
@@ -127,6 +148,10 @@ public class RobotContainer {
     m_opController.rightBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrainSubsystem
     ));
+
+    m_opController.a().onTrue(new InstantCommand(
+      ()-> {((ArmCommand)m_ArmSubsystem.getDefaultCommand()).toggleWristPosition();}, m_ArmSubsystem
+    ));
   }
   
   /**
@@ -136,7 +161,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     m_gyroSubsystem.resetAllAngles();
-    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+//    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
     // return new AutoMove(48, 0.25, 0, m_driveTrainSubsystem)
     //   .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
     //   .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
@@ -145,7 +170,7 @@ public class RobotContainer {
     //   .andThen(new AutoTurnTo(180, 0.25, m_driveTrainSubsystem, m_gyroSubsystem))
     //   .andThen(new AutoMove(48, 0.25, 0, m_driveTrainSubsystem))
     //   .andThen(new AutoTurnTo(0, 0.25, m_driveTrainSubsystem, m_gyroSubsystem));
-
+    return new AutoMove(24, 0.25, 90, m_driveTrainSubsystem, m_gyroSubsystem);
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
@@ -44,14 +45,23 @@ public class AutoTurnTo extends CommandBase {
   @Override
   public void execute() {
     double speed;
+    double turnMinSpeed; 
     double angle = m_gyroSubsystem.getZAngle();
-    speed = m_pidController.calculate(angle, m_turnAngleSet);
-    
-    if (speed > 0) {
-      speed = MathUtil.clamp(speed, AutoConstants.TURN_MIN_SPEED, m_turnSpeed);
+    double rate = m_gyroSubsystem.getZRate();
+   
+    if (rate > AutoConstants.TURN_MIN_SPEED_THRESHOLD) {
+      turnMinSpeed = AutoConstants.TURN_MIN_SPEED_MOVING;
     }
     else {
-      speed = MathUtil.clamp(speed, -m_turnSpeed, -AutoConstants.TURN_MIN_SPEED);
+      turnMinSpeed = AutoConstants.TURN_MIN_SPEED_STOPPED;
+    }
+
+    speed = m_pidController.calculate(angle, m_turnAngleSet);
+    if (speed > 0) {
+      speed = MathUtil.clamp(speed, turnMinSpeed, m_turnSpeed);
+    }
+    else {
+      speed = MathUtil.clamp(speed, -m_turnSpeed, -turnMinSpeed);
     }
    
     SmartDashboard.putNumber("AutoTurnToSpeed", speed);

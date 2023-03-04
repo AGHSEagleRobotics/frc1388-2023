@@ -3,6 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+import java.security.PublicKey;
+import java.util.zip.Inflater;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
@@ -99,13 +102,18 @@ public final class Constants {
     //TEST P VALUE LATER
     public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;
-    public static final double MOVE_P_VALUE = 0.04;
+    public static final double MOVE_P_VALUE = 0.045;
     public static final double MOVE_P_TOLERANCE = 0.5;
-    public static final double TURN_MIN_SPEED = 0.1;
+
+    public static final double MOVE_MIN_SPEED = 0.1;
 
     public static final double CURVE_P_VALUE = 0.0125;
     public static final double CURVE_MAX = 0.25;
 
+    public static final double TURN_MIN_SPEED_STOPPED = 0.12;
+    public static final double TURN_MIN_SPEED_MOVING = 0.075;
+    public static final double TURN_MIN_SPEED_THRESHOLD = 2;
+    
     public static final double MOVE_F_VALUE = 0;
  
     public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
@@ -167,9 +175,46 @@ public final class Constants {
     }
 
 
+  public final class ArmConstants {
+
+    // general
+    /**arm rotations */
+    public static final double DEADBAND = 0.04;
+    /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
+    public static final double FLAT_TO_UP = 0.27;
+    
+    // primary arm conversion factors
+    public static final double FALCON_TICS_PER_REV = 2048;
+    public static final double PRIMARY_ARM_VERSA_RATION = 60;
+    public static final double GEAR_BOX_TO_ARM_RATIO = 4.66667;
+    public static final double ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS = FALCON_TICS_PER_REV * PRIMARY_ARM_VERSA_RATION * GEAR_BOX_TO_ARM_RATIO;
+    
+    // primary arm
+    public static final int PRIMARY_ARM_CANID = 5;
+    public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
+
+    // public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.05;
+    public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
+    public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
+    public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
+    public static final double PRIMARY_ARM_POSITION_MAX = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.3; 
+
+    // wrist arm conversion factor
+    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 9.0; // TODO check this
+
+    // wrist arm
+    public static final int WRIST_CANID = 6;
+    // public static final double WRIST_MOTOR_DEADBADND = 1;
+    public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
+    public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
+    public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
+    public static final double WRIST_POSITION_DOWN = 0;
+    public static final double WRIST_POSITION_MAX = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
+  }
+  
   public final class GrabberConstants {
     public static final int GRABBER_CANID = 7;
-    public static final int GRABBER_LIMIT_SWITCH_ID = 0;
+    public static final int GRABBER_LIMIT_SWITCH_ID = 2;
     /**when the grabber limit switch is triggered, the encoder knows it is at this value and resets, measured in motor rotations */
     public static final int GRABBER_POSITION_AT_LIMIT_SWITCH = 50;
     /** the position of the motor when the grabber is open, measured in motor rotations */
@@ -178,21 +223,8 @@ public final class Constants {
     public static final int GRABBER_POSITION_CLOSED = 0;
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final int GRABBER_ENCODER_DEADBAND = 5;
-  }
-
-  public final class ArmConstants {
-    public static final int DEADBAND = 10;
-    public static final int PRIMARY_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
-    public static final int PRIMARY_ARM_POSITION_UP = 10; // TODO  definitely change this
-    public static final int PRIMARY_ARM_POSITION_DOWN = 3; // TODO  definitely change this
-
-    public static final int MID_ARM_POSITION_AT_ENCODER = 5; // TODO  definitely change this
-    public static final int MID_ARM_POSITION_UP = 10; // TODO  definitely change this
-    public static final int MID_ARM_POSITION_DOWN = 3; // TODO  definitely change this
-  }
-
+  }  
   
-    
   public final class FieldConstants {
     //all measurements in inches
     public static final double ROBOT_WIDTH = 28;

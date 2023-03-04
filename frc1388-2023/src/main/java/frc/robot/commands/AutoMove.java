@@ -7,9 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.AutoConstants.*;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
@@ -59,7 +61,8 @@ public class AutoMove extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DataLogManager.log("setpoint: " + m_setPoint + "   " + "speed: " + m_speed + "   " + "angle: " + m_angleSet);
+    DataLogManager.log("setpoint: " + m_setPoint + "   " + "speed: " + m_speed + "   " + "curve: " + m_angleSet);
+    SmartDashboard.putNumber("AutoSpeed", m_speed);
     m_driveTrainSubsystem.resetEncoders();
     m_driveTrainSubsystem.setDeadbandZero();
   }
