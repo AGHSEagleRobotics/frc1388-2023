@@ -102,7 +102,10 @@ public final class Constants {
     public static final double MOVE_P_VALUE = 0.04;
     public static final double MOVE_P_TOLERANCE = 0.5;
     public static final double TURN_MIN_SPEED = 0.1;
-    
+
+    public static final double CURVE_P_VALUE = 0.0125;
+    public static final double CURVE_MAX = 0.25;
+
     public static final double MOVE_F_VALUE = 0;
  
     public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
