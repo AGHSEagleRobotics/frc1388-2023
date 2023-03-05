@@ -62,7 +62,8 @@ public class GyroSubsystem extends SubsystemBase {
 
       case ADIS16470Multi:
         xAngle = -m_gyro16470Multi.getGyroAngleX(); // Lint
-//        xAngle = m_gyro16470Multi.getGyroAngleY(); // RoboRio
+        //  xAngle = m_gyro16470Multi.getGyroAngleY(); // RoboRio
+        xAngle = m_gyro16470Multi.getGyroAngleY(); // 2023
         break;
 
       default:
@@ -75,7 +76,7 @@ public class GyroSubsystem extends SubsystemBase {
   public void resetXAngle(){
     switch (m_gyroType){
       case ADIS16470Multi:
-        m_gyro16470Multi.setGyroAngleX(0);
+        m_gyro16470Multi.setGyroAngleY(0);
         break;
 
       default:
@@ -98,7 +99,8 @@ public class GyroSubsystem extends SubsystemBase {
         break;
       
       case ADIS16470Multi:
-        yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+        // yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+        yAngle = -m_gyro16470Multi.getGyroAngleX(); // 2023 
 //        yAngle = -m_gyro16470Multi.getGyroAngleX(); // RoboRio
         break;
 
@@ -112,7 +114,7 @@ public class GyroSubsystem extends SubsystemBase {
   public void resetYAngle(){
     switch (m_gyroType){
       case ADIS16470Multi:
-        m_gyro16470Multi.setGyroAngleY(0);
+        m_gyro16470Multi.setGyroAngleX(0);
         break;
 
       default:
