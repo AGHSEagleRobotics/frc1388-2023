@@ -130,11 +130,6 @@ public class ArmSubsystem extends SubsystemBase {
     return m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
   }
 
-  // gets the wrist position relative to the ground
-  public double getWristRelativePosition() {
-    return -getWristPosition() + getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP;
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
