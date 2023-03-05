@@ -105,7 +105,7 @@ public final class Constants {
     public static final double MOVE_P_VALUE = 0.045;
     public static final double MOVE_P_TOLERANCE = 0.5;
 
-    public static final double MOVE_MIN_SPEED = 0.1;
+    public static final double MOVE_MIN_SPEED = 0.15;
 
     public static final double CURVE_P_VALUE = 0.025;
     public static final double CURVE_MAX = 0.25;
