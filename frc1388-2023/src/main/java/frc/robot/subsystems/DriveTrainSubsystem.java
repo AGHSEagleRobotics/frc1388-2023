@@ -174,9 +174,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    SmartDashboard.putNumber("average encoder distance", getAverageEncoderDistance());
     //debug===============
     SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
+
     //debug=end============
   }
 
