@@ -57,21 +57,22 @@ public class ArmSubsystem extends SubsystemBase {
 
   /** sets the power of the wrist motor */
   public void setWristMotorPower(double power) {
-    if (
-      (power < 0) && (!m_wristLimitSwitch.get())
-      || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
-      || power == 0
-    ) m_wristMotor.set(power);
-    // m_wristMotor.set(power);
+  //   if (
+  //     (power < 0) && (!m_wristLimitSwitch.get())
+  //     || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
+  //     || power == 0
+  //   ) m_wristMotor.set(power);
+    m_wristMotor.set(power);
   }
 
   /** sets the power of the primary motor */
   public void setPrimaryMotorPower(double power) {
-    if (
-      (power < 0) && (!m_primaryArmLimitSwitch.get())
-      || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
-      || power == 0
-    ) m_primaryMotor.set(power);
+    // if (
+    //   (power < 0) && (!m_primaryArmLimitSwitch.get())
+    //   || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
+    //   || power == 0
+    // ) m_primaryMotor.set(power);
+    m_primaryMotor.set(power);
   }
 
   @Deprecated

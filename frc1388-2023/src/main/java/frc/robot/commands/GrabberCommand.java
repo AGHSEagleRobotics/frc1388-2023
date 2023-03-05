@@ -41,11 +41,11 @@ public class GrabberCommand extends CommandBase {
   public void execute() {
     m_grabberSubsystem.setGrabberMotor(0);
     if(m_opLeftTrigger.get() > 0.3) {
-      m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
-      // m_grabberSubsystem.setGrabberMotor(0.5);
+      // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
+      m_grabberSubsystem.setGrabberMotor(1.0);
     } else if(m_opRightTrigger.get() > 0.3) {
-      m_grabberSubsystem.setGrabberPosition(GrabberPosition.closed);
-      // m_grabberSubsystem.setGrabberMotor(-0.5);
+      // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
+      m_grabberSubsystem.setGrabberMotor(-1.0);
     } else {
     }
   }
