@@ -98,7 +98,8 @@ public class GyroSubsystem extends SubsystemBase {
         break;
       
       case ADIS16470Multi:
-        yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+        // yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+        yAngle = -m_gyro16470Multi.getGyroAngleX(); // 2023 
 //        yAngle = -m_gyro16470Multi.getGyroAngleX(); // RoboRio
         break;
 
