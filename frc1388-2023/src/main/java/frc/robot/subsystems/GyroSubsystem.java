@@ -51,17 +51,19 @@ public class GyroSubsystem extends SubsystemBase {
     double xAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        xAngle = -m_gyro16470.getYComplementaryAngle(); // Lint
-//        xAngle = -m_gyro16470.getXComplementaryAngle(); // RoboRio
+        // xAngle = -m_gyro16470.getYComplementaryAngle(); // Lint
+        // xAngle = -m_gyro16470.getXComplementaryAngle(); // RoboRio
+        xAngle = -m_gyro16470.getXComplementaryAngle(); // 2023
         break;
 
       case ADIS16448:
-        xAngle = -m_gyro16448.getGyroAngleY(); // Lint
-//        xAngle = m_gyro16448.getGyroAngleX(); // RoboRio
+        // xAngle = -m_gyro16448.getGyroAngleY(); // Lint
+        // xAngle = m_gyro16448.getGyroAngleX(); // RoboRio
+        xAngle = m_gyro16448.getGyroAngleX(); // 2023
         break;
 
       case ADIS16470Multi:
-        xAngle = -m_gyro16470Multi.getGyroAngleX(); // Lint
+        // xAngle = -m_gyro16470Multi.getGyroAngleX(); // Lint
         //  xAngle = m_gyro16470Multi.getGyroAngleY(); // RoboRio
         xAngle = m_gyro16470Multi.getGyroAngleY(); // 2023
         break;
@@ -89,19 +91,21 @@ public class GyroSubsystem extends SubsystemBase {
     double yAngle;
     switch (m_gyroType) {
       case ADIS16470:
-        yAngle = m_gyro16470.getXComplementaryAngle(); // Lint
-//        yAngle = -m_gyro16470.getYComplementaryAngle(); // RoboRio
+        // yAngle = m_gyro16470.getXComplementaryAngle(); // Lint
+        // yAngle = -m_gyro16470.getYComplementaryAngle(); // RoboRio
+        yAngle = -m_gyro16470.getYComplementaryAngle(); // 2023
         break;
 
       case ADIS16448:
-        yAngle = -m_gyro16448.getGyroAngleX(); // Lint
-//        yAngle = -m_gyro16448.getGyroAngleY(); // RoboRio
+        // yAngle = -m_gyro16448.getGyroAngleX(); // Lint
+        // yAngle = -m_gyro16448.getGyroAngleY(); // RoboRio
+        yAngle = -m_gyro16448.getGyroAngleY(); // 2023
         break;
       
       case ADIS16470Multi:
-        yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
-        // yAngle = -m_gyro16470Multi.getGyroAngleX(); // 2023 
-//        yAngle = -m_gyro16470Multi.getGyroAngleX(); // RoboRio
+        // yAngle = -m_gyro16470Multi.getGyroAngleY(); // Lint
+        // yAngle = -m_gyro16470Multi.getGyroAngleX(); // RoboRio
+        yAngle = -m_gyro16470Multi.getGyroAngleX(); // 2023
         break;
 
       default:
@@ -135,7 +139,7 @@ public class GyroSubsystem extends SubsystemBase {
         break;
 
       case ADIS16470Multi:
-        zAngle = m_gyro16470Multi.getGyroAngleZ(); // Lint
+        zAngle = m_gyro16470Multi.getGyroAngleZ(); // 2023
         break;
 
       default:
