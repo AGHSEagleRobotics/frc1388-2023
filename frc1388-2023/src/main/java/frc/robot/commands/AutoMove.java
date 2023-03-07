@@ -83,6 +83,13 @@ public class AutoMove extends CommandBase {
     speed = MathUtil.clamp(speed, -m_speed, m_speed);
     speed += Math.copySign(MOVE_F_VALUE, speed);
 
+    if (speed > 0) {
+      speed = MathUtil.clamp(speed, AutoConstants.MOVE_MIN_SPEED, m_speed);
+    }
+    else {
+     speed = MathUtil.clamp(speed, -m_speed, -AutoConstants.MOVE_MIN_SPEED);
+    }
+
     if( m_isSteering == false){
       curve = 0;
     }
