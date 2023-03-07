@@ -16,90 +16,60 @@ import frc.robot.Constants.AutoConstants.Position;
 
 public class Dashboard {
     private final ShuffleboardTab m_shuffleboardTab;
-    private final String SHUFFLEBOARD_TAB_NAME = "Competition"; //TODO maybe? put this in constants
+    private final String SHUFFLEBOARD_TAB_NAME = "Competition";
     private static SendableChooser<Objective> m_autoObjective = new SendableChooser<>();
     private static SendableChooser<Position> m_autoPosition = new SendableChooser<>();
 
-    private final UsbCamera m_cameraLarge;
-    private final int CAMERA_LARGE_RES_HEIGHT = 480;
-    private final int CAMERA_LARGE_RES_WIDTH = 640;
-    private final int CAMERA_LARGE_FPS = 60;
+    private final UsbCamera m_cameraView;
+    private final int CAMERA_RES_HEIGHT = 120;
+    private final int CAMERA_RES_WIDTH = 160;
+    private final int CAMERA_FPS = 40;
 
-    private final UsbCamera m_cameraSmall;
-    private final int CAMERA_SMALL_RES_HEIGHT = 120;
-    private final int CAMERA_SMALL_RES_WIDTH = 160;
-    private final int CAMERA_SMALL_FPS = 10;
-
-    // private final VideoSink m_videoSinkLargeCamera;
-    // private final VideoSink m_videoSinkSmallCamera;
-
-    private final ComplexWidget m_largeCameraComplexWidget;
-    private final ComplexWidget m_smallCameraComplexWidget;
+    private final ComplexWidget m_CameraComplexWidget;
     private final ComplexWidget m_complexWidgetObjective;
     private final ComplexWidget m_complexWidgetPosition;
     private final GenericEntry m_pitch;
-
-    //private final int autonChooserWidth = 5;
-    //private final int autonChooserHeight = 5;
-    //private final int autonChooserColumnIndex = 15; //where it is on shuffleboard
-    //private final int autonChooserRowIndex = 1; //where it is on shuffleboard
     
     public Dashboard() {
-        
-        System.out.println("**********************************\n\n\n\n\n\n\n\ndashboard\n\n\n\n\n\n\n\n\n****************************************");
         m_shuffleboardTab =  Shuffleboard.getTab(SHUFFLEBOARD_TAB_NAME);
         Shuffleboard.selectTab(SHUFFLEBOARD_TAB_NAME);
 
-        m_cameraLarge = CameraServer.startAutomaticCapture(0); // TODO add constants
-        m_cameraLarge.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-        m_cameraLarge.setFPS(CAMERA_LARGE_FPS);
-        m_cameraLarge.setResolution(CAMERA_LARGE_RES_WIDTH, CAMERA_LARGE_RES_HEIGHT);
-        // m_videoSinkLargeCamera = CameraServer.getServer();
-        // m_videoSinkLargeCamera.setSource(m_cameraLarge);
+        m_cameraView = CameraServer.startAutomaticCapture(0); // TODO add constants
+        m_cameraView.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        m_cameraView.setFPS(CAMERA_FPS);
+        m_cameraView.setResolution(CAMERA_RES_WIDTH, CAMERA_RES_HEIGHT);
 
-        m_cameraSmall = CameraServer.startAutomaticCapture(1); // TODO add constantss
-        m_cameraSmall.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-        m_cameraSmall.setFPS(CAMERA_SMALL_FPS);
-        m_cameraSmall.setResolution(CAMERA_SMALL_RES_WIDTH, CAMERA_SMALL_RES_HEIGHT);
-        // m_videoSinkLargeCamera.setSource(m_cameraSmall);
-
-
-        m_largeCameraComplexWidget = m_shuffleboardTab.add("primary camera view", m_cameraLarge)
+        m_CameraComplexWidget = m_shuffleboardTab.add("Camera View", m_cameraView)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(2,2)
+            .withSize(13, 11)
             .withPosition(0, 0);
 
-        m_smallCameraComplexWidget = m_shuffleboardTab.add("secondary camera view", m_cameraSmall)
-            .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(4, 4)
-            .withPosition(10, 0);
-
-            for (AutoConstants.Objective o: Objective.values()) {
-                m_autoObjective.addOption(o.getDashboardDescript(), o);
-            }
-
-            m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
-
-            for (AutoConstants.Position p: Position.values()) {
-                m_autoPosition.addOption(p.getDashboardDescript(), p);
-            }
-
-            m_autoPosition.setDefaultOption(Position.Default.getDashboardDescript(), Position.Default);
-
+        // objectives
+        for (AutoConstants.Objective o : Objective.values()) {
+            m_autoObjective.addOption(o.getDashboardDescript(), o);
+        }
+        m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(5, 8);
+            .withPosition(13, 0);
+
+        // position
+        for (AutoConstants.Position p : Position.values()) {
+            m_autoPosition.addOption(p.getDashboardDescript(), p);
+        }
+        m_autoPosition.setDefaultOption(Position.Default.getDashboardDescript(), Position.Default);
+
             
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(9, 8);
+            .withPosition(17, 0);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
             .withSize(2, 2)
-            .withPosition(16, 0)
+            .withPosition(13, 4)
             .getEntry();
 
     } //end constructor
