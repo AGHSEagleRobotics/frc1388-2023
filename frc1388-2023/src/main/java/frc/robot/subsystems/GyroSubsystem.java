@@ -139,7 +139,7 @@ public class GyroSubsystem extends SubsystemBase {
         break;
 
       case ADIS16470Multi:
-        zAngle = m_gyro16470Multi.getGyroAngleZ(); // Lint
+        zAngle = m_gyro16470Multi.getGyroAngleZ(); // 2023
         break;
 
       default:
