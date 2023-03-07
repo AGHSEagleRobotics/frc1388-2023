@@ -150,7 +150,7 @@ public class AutoMethod {
     public Command OverChargeStation()
     {
         return
-            new AutoMove(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem) //leaves community from mid position
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.35, m_driveTrainSubsystem, m_gyroSubsystem) //leaves community from mid position
         ;
     }
 
@@ -172,7 +172,7 @@ public class AutoMethod {
         return 
             new AutoScore()
             .andThen(
-                new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), -0.25, m_driveTrainSubsystem, m_gyroSubsystem)
+                new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), -0.35, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
             .andThen(
                 new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
