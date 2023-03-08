@@ -21,8 +21,8 @@ public class Dashboard {
     private static SendableChooser<Position> m_autoPosition = new SendableChooser<>();
 
     private final UsbCamera m_cameraView;
-    private final int CAMERA_RES_HEIGHT = 120;
-    private final int CAMERA_RES_WIDTH = 160;
+    private final int CAMERA_RES_HEIGHT = 60;
+    private final int CAMERA_RES_WIDTH = 80;
     private final int CAMERA_FPS = 40;
 
     private final ComplexWidget m_CameraComplexWidget;
