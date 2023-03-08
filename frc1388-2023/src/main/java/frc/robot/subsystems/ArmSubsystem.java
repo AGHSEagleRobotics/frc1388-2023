@@ -66,7 +66,9 @@ public class ArmSubsystem extends SubsystemBase {
       // m_primaryArmLimitSwitch.
   }
 
-  /** sets the power of the wrist motor */
+  /** Sets the power of the wrist motor. The range of motion is limited by the limit switch and encoder 
+   * @param power the power to set the motor [-1, 1]
+  */
   public void setWristMotorPower(double power) {
     if (
       (power < 0) && (!m_wristLimitSwitch.get())
@@ -78,7 +80,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  /** sets the power of the primary motor */
+  /** Sets the power of the primary motor. The range of motion is limited by the limit switch and encoder
+   * @param power the power to set the motor [-1, 1]
+   */
   public void setPrimaryMotorPower(double power) {
     // SmartDashboard.putNumber("right y input > ", power);
     if (
@@ -89,8 +93,6 @@ public class ArmSubsystem extends SubsystemBase {
     } else {
       m_primaryMotor.set(0);
     }
-    
-    // m_primaryMotor.set(power);
   }
 
   @Deprecated
@@ -131,24 +133,41 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  @Deprecated
   public void parallelArmSet(double speed) {
     setPrimaryMotorPower(speed);
-    setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP);
+    // setWristMotorPosition(getPrimaryArmPosition());
+    // setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP); // <-- doesn't work
   }
 
+  @Deprecated //maybe ?
   public void stowedArmSet(double speed) {
     setPrimaryMotorPower(speed);
-    setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP + 0.25);
+    setWristMotorPower(-1.0);
+    // setWristMotorPosition(ArmConstants.FLAT_TO_UP + 0.25);
+    // setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP + 0.25); // <-- doesn't work
   }
 
+  /**
+   * the primary arm position is zeroed every time it hits the limit switch
+   * @return the arm position in rotations, 0 is at the limit switch, positive is up
+   */
   public double getPrimaryArmPosition() {
     return m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
   }
 
+    /**
+   * the wrist arm position is zeroed every time it hits the limit switch
+   * @return the arm position in rotations, 0 is at the limit switch, positive is down and away from the limit switch
+   */
   public double getWristPosition() {
     return m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
   }
-
+  
+  /**
+   * the limit switch on the primary arm
+   * @return true if the arm is down, in contact with the limit switch, false if the arm is not in contact with the limit switch
+   */
   private boolean isPrimaryLimitContacted() {
     return !m_primaryArmLimitSwitch.get();
   }
