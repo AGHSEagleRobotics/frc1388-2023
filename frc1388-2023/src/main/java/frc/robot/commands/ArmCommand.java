@@ -47,10 +47,12 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.setWristMotorPower(0.05 * m_opLeftY.get()); //XXX scaling
-    m_ArmSubsystem.setPrimaryMotorPower(m_opRightY.get());
+    m_ArmSubsystem.setWristMotorPower(0.3 * m_opLeftY.get()); //XXX scaling
+    m_ArmSubsystem.setPrimaryMotorPower(0.6 * m_opRightY.get());
+    //test
     // if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
     // if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
+    //endtest
   }
 
   // Called once the command ends or is interrupted.

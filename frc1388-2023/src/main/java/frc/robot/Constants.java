@@ -50,7 +50,7 @@ public final class Constants {
     //Encoder stuff
     private final static double COUNTS_PER_REV = 2048;
     private final static double REVS_PER_COUNT = 1/COUNTS_PER_REV;
-    private final static double WHEEL_DIAMETER_INCHES = 5.6; // make range value? //TODO when we use new robot change to 6
+    private final static double WHEEL_DIAMETER_INCHES = 6; // make range value? //TODO when we use new robot change to 6
     private final static double FALCON_TO_SIMPLE_BOX_GEAR_RATIO = 1/4.67;
     private final static double SIMPLE_BOX_TO_WHEELS_RATIO = 12.0/30.0; //12 sprockets simple box to 30 sprockets wheel
     public final static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_INCHES;
@@ -105,8 +105,11 @@ public final class Constants {
     public static final double MOVE_P_VALUE = 0.045;
     public static final double MOVE_P_TOLERANCE = 0.5;
 
-    public static final double MOVE_MIN_SPEED = 0.1;
-   
+    public static final double MOVE_MIN_SPEED = 0.15;
+
+    public static final double CURVE_P_VALUE = 0.025;
+    public static final double CURVE_MAX = 0.25;
+
     public static final double TURN_MIN_SPEED_STOPPED = 0.12;
     public static final double TURN_MIN_SPEED_MOVING = 0.075;
     public static final double TURN_MIN_SPEED_THRESHOLD = 2;
@@ -216,7 +219,7 @@ public final class Constants {
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final int GRABBER_ENCODER_DEADBAND = 5;
   }  
-    
+  
   public final class FieldConstants {
     //all measurements in inches
     public static final double ROBOT_WIDTH = 28;

@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -51,27 +52,32 @@ public class ArmSubsystem extends SubsystemBase {
     m_wristLimitSwitch = midArmLimit;
 
     m_primaryMotor = primary;
+      m_primaryMotor.setInverted(true);
       m_primaryMotor.setNeutralMode(NeutralMode.Brake);
     m_primaryArmLimitSwitch = primaryLimit;
+      // m_primaryArmLimitSwitch.
   }
 
   /** sets the power of the wrist motor */
   public void setWristMotorPower(double power) {
-    if (
-      (power < 0) && (!m_wristLimitSwitch.get())
-      || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
-      || power == 0
-    ) m_wristMotor.set(power);
-    // m_wristMotor.set(power);
+    power *= -1.0;
+    // if (
+    //   (power < 0) && (!m_wristLimitSwitch.get())
+    //   || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
+    //   || power == 0
+    // ) m_wristMotor.set(power);
+    m_wristMotor.set(power);
   }
 
   /** sets the power of the primary motor */
   public void setPrimaryMotorPower(double power) {
+    // need to negate limit switch
     if (
-      (power < 0) && (!m_primaryArmLimitSwitch.get())
+      (power < 0) && (!isPrimaryLimitContacted())
       || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
       || power == 0
     ) m_primaryMotor.set(power);
+    // m_primaryMotor.set(power);
   }
 
   @Deprecated
@@ -130,9 +136,8 @@ public class ArmSubsystem extends SubsystemBase {
     return m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
   }
 
-  // gets the wrist position relative to the ground
-  public double getWristRelativePosition() {
-    return -getWristPosition() + getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP;
+  private boolean isPrimaryLimitContacted() {
+    return !m_primaryArmLimitSwitch.get();
   }
 
   @Override
@@ -140,6 +145,10 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
     if (m_primaryArmLimitSwitch.get()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
+    SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
+    SmartDashboard.putNumber("primary arm", m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS);
+    SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
   }
 
   public class AnArmPosition {

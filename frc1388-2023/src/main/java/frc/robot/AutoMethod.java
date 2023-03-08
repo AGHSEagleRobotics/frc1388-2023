@@ -45,14 +45,14 @@ public class AutoMethod {
     public Command SitStillLookPretty()
     {
         return 
-            new AutoMove( 0, 0, m_driveTrainSubsystem )
+            new AutoMove( 0, 0, m_driveTrainSubsystem, m_gyroSubsystem )
         ;
     }
 
     public Command LeaveCommunityFar()
     {
         return 
-            new AutoMove( 0.25, FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
         ;
     }
 
@@ -60,7 +60,7 @@ public class AutoMethod {
     {
 
         return 
-            new AutoMove( 0.25, FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
         ;
     }
 
@@ -76,7 +76,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(0.25, -(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), m_driveTrainSubsystem) //scores, backs out of community
+            new AutoMove( -(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), 0.25, m_driveTrainSubsystem, m_gyroSubsystem) //scores, backs out of community
                 )
         ;
     }
@@ -87,7 +87,7 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoMove(0.25, -(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), m_driveTrainSubsystem) //scores, backs out of community
+            new AutoMove( -(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), 0.25, m_driveTrainSubsystem, m_gyroSubsystem) //scores, backs out of community
                 )
         ;
     }
@@ -97,10 +97,10 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180, m_gyroSubsystem, m_driveTrainSubsystem)
+            new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
                 )
         .andThen(
-            new AutoMove(0.25, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
         .andThen(
             new AutoPickUp() //do we need to turn here to pick up? Will determine
@@ -113,10 +113,10 @@ public class AutoMethod {
         return 
             new AutoScore()
         .andThen(
-            new AutoTurn(0.5, 180, m_gyroSubsystem, m_driveTrainSubsystem)
+            new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
                 )
         .andThen(
-            new AutoMove(0.25, FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
         .andThen(
             new AutoPickUp() //do we need to turn here to pick up? Will determine
@@ -150,14 +150,14 @@ public class AutoMethod {
     public Command OverChargeStation()
     {
         return
-            new AutoMove( 0.25, FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem) //leaves community from mid position
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.35, m_driveTrainSubsystem, m_gyroSubsystem) //leaves community from mid position
         ;
     }
 
     public Command OverChargeAndBack()
     {
         return
-            new AutoMove(0.25, FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, m_driveTrainSubsystem)
+            new AutoMove(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL, 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
                 )
@@ -172,13 +172,13 @@ public class AutoMethod {
         return 
             new AutoScore()
             .andThen(
-                new AutoMove( 0.25, (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), m_driveTrainSubsystem)
+                new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), -0.35, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
             .andThen(
                 new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
                     )
             .andThen(
-                new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, true)
+                new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false)
                     )
                     ; 
     }

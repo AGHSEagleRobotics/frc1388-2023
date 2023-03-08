@@ -81,6 +81,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
   public void curvatureDrive( double xSpeed, double zRotation, boolean allowTurnInPlace) {
+    if (!allowTurnInPlace) zRotation *= -1.0;
     m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
   }
   public void tankDrive( double leftSpeed, double rightSpeed) {
@@ -174,9 +175,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    SmartDashboard.putNumber("average encoder distance", getAverageEncoderDistance());
     //debug===============
     SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
+
     //debug=end============
   }
 

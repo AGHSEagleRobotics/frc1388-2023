@@ -51,6 +51,7 @@ public class AutoBalance extends CommandBase {
   public void execute() {
     m_tickCounter++;
 
+    double pSpeed = 0;
     double currentAngle = m_gyroSubsystem.getYAngle();
     double averageAngle = Math.abs((m_angle1 + m_angle2 + m_angle3) / 3);
   
@@ -118,6 +119,13 @@ public class AutoBalance extends CommandBase {
     if( m_tickCounter == 1){ m_angle1 = currentAngle; }
     if( m_tickCounter == 2){ m_angle2 = currentAngle; }
     if( m_tickCounter == 3){ m_angle3 = currentAngle; m_tickCounter=0; }
+
+    // averageAngleList.remove(0);
+    // averageAngleList.add(currentAngle);
+
+    // System.out.println("Angle: "+angle + "/t Speed: " + pSpeed);
+    // SmartDashboard.putNumber("TargetSpeed", pSpeed);
+    SmartDashboard.putNumber("angle", currentAngle);
   }
 
 
@@ -125,7 +133,7 @@ public class AutoBalance extends CommandBase {
     double pSpeed;
     double currentAngle = m_gyroSubsystem.getYAngle();
 
-    pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
+    pSpeed = Math.pow(((Math.abs(currentAngle))/8), 3);
     pSpeed = Math.copySign(pSpeed, currentAngle);
     pSpeed = pSpeed * -AutoBalanceConstants.BALANCING_SPEED;
     pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.BALANCING_SPEED, AutoBalanceConstants.BALANCING_SPEED);

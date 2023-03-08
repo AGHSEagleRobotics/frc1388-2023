@@ -17,12 +17,16 @@ import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.GrabberConstants;
 
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.FastAutoBalance;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
+
+import javax.lang.model.util.ElementScanner14;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -131,6 +135,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //These are the binding for the driver controller
+    m_driverController.x().whileTrue(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false));
+    
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
     m_driverController.a().onTrue(new InstantCommand(
@@ -139,7 +145,6 @@ public class RobotContainer {
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
-    m_driverController.rightBumper().whileTrue(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false));
     
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
@@ -152,6 +157,8 @@ public class RobotContainer {
     m_opController.a().onTrue(new InstantCommand(
       ()-> {((ArmCommand)m_ArmSubsystem.getDefaultCommand()).toggleWristPosition();}, m_ArmSubsystem
     ));
+
+    m_driverController.rightBumper().whileTrue(new FastAutoBalance(m_driveTrainSubsystem, m_gyroSubsystem));
   }
   
   /**
@@ -166,6 +173,9 @@ public class RobotContainer {
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
     m_driveTrainSubsystem.setNeutralMode(mode);
+  }
+  public double getGyroYAngle() {
+    return m_gyroSubsystem.getYAngle();
   }
 
 }
