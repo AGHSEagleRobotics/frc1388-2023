@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -48,35 +51,45 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem(CANSparkMax midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
     m_wristMotor = midArm;
       m_wristMotor.setIdleMode(IdleMode.kBrake);
+      m_wristMotor.setInverted(false);
     m_wristEncoder = m_wristMotor.getEncoder();
     m_wristLimitSwitch = midArmLimit;
 
     m_primaryMotor = primary;
       m_primaryMotor.setInverted(true);
+      m_primaryMotor.configFactoryDefault();
+      // m_primaryMotor.getSelectedSensorPosition(0);
       m_primaryMotor.setNeutralMode(NeutralMode.Brake);
+      m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
     m_primaryArmLimitSwitch = primaryLimit;
       // m_primaryArmLimitSwitch.
   }
 
   /** sets the power of the wrist motor */
   public void setWristMotorPower(double power) {
-    power *= -1.0;
-    // if (
-    //   (power < 0) && (!m_wristLimitSwitch.get())
-    //   || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
-    //   || power == 0
-    // ) m_wristMotor.set(power);
-    m_wristMotor.set(power);
+    if (
+      (power < 0) && (!m_wristLimitSwitch.get())
+      || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
+    ) {
+      m_wristMotor.set(power);
+    } else {
+      m_wristMotor.set(0);
+    }
   }
 
   /** sets the power of the primary motor */
   public void setPrimaryMotorPower(double power) {
-    // need to negate limit switch
+    // SmartDashboard.putNumber("right y input > ", power);
     if (
       (power < 0) && (!isPrimaryLimitContacted())
       || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
-      || power == 0
-    ) m_primaryMotor.set(power);
+    ) {
+      m_primaryMotor.set(power);
+    } else {
+      m_primaryMotor.set(0);
+    }
+    
     // m_primaryMotor.set(power);
   }
 
@@ -144,11 +157,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
-    if (m_primaryArmLimitSwitch.get()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
     SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
-    SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
+    // SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
     SmartDashboard.putNumber("primary arm", m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS);
-    SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
+    SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
   }
 
   public class AnArmPosition {

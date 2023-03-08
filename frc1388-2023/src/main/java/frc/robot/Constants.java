@@ -192,7 +192,7 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
-    public static final double PRIMARY_ARM_POSITION_MAX = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.3; 
+    public static final double PRIMARY_ARM_POSITION_MAX = 0.2; 
 
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 9.0; // TODO check this
@@ -204,7 +204,7 @@ public final class Constants {
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     public static final double WRIST_POSITION_DOWN = 0;
-    public static final double WRIST_POSITION_MAX = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
+    public static final double WRIST_POSITION_MAX = 0.45;
   }
   
   public final class GrabberConstants {
