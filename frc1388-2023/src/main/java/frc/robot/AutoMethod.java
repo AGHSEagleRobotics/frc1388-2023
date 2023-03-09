@@ -74,10 +74,10 @@ public class AutoMethod {
     public Command ScoreLeaveNear()
     {
         return 
-            new AutoScore()
-        .andThen(
+            //new AutoScore()
+        //.andThen(
             new AutoMove( -(FieldConstants.SCORE_ZONE_TO_NEAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), 0.25, m_driveTrainSubsystem, m_gyroSubsystem) //scores, backs out of community
-                )
+        //        )
         ;
     }
 
@@ -85,42 +85,43 @@ public class AutoMethod {
     public Command ScoreLeaveFar()
     {
         return 
-            new AutoScore()
-        .andThen(
+            //new AutoScore()
+        //.andThen(
+            
             new AutoMove( -(FieldConstants.SCORE_ZONE_TO_FAR_COMMUNITY + FieldConstants.ROBOT_LENGTH_TOTAL), 0.25, m_driveTrainSubsystem, m_gyroSubsystem) //scores, backs out of community
-                )
+        //        )
         ;
     }
 
     public Command ScoreLeavePickUpNear()
     {
         return 
-            new AutoScore()
-        .andThen(
+            //new AutoScore()
+        //.andThen(
             new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
-                )
+        //        )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
-        .andThen(
-            new AutoPickUp() //do we need to turn here to pick up? Will determine
-                )
+        //.andThen(
+            //new AutoPickUp() //do we need to turn here to pick up? Will determine
+               // )
         ;
     }
 
     public Command ScoreLeavePickUpFar()
     {
         return 
-            new AutoScore()
-        .andThen(
+            //new AutoScore()
+        //.andThen(
             new AutoTurn(180, 0.5, m_gyroSubsystem, m_driveTrainSubsystem)
-                )
+        //        )
         .andThen(
             new AutoMove(FieldConstants.SCORE_ZONE_TO_GAME_PIECE + FieldConstants.ROBOT_LENGTH_TOTAL, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
-        .andThen(
-            new AutoPickUp() //do we need to turn here to pick up? Will determine
-                )
+        //.andThen(
+         //   new AutoPickUp() //do we need to turn here to pick up? Will determine
+         //       )
         ;
     }
 
@@ -137,10 +138,10 @@ public class AutoMethod {
     public Command ScoreThenCharge()
     {
         return
-            new AutoScore()
-        .andThen(
+            //new AutoScore()
+        //.andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
-            )
+            //)
         .andThen(
             new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, true)
                 )
@@ -170,10 +171,10 @@ public class AutoMethod {
     public Command ScoreOverChargeAndBack()
     {
         return 
-            new AutoScore()
-            .andThen(
-                new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), -0.35, m_driveTrainSubsystem, m_gyroSubsystem)
-                )
+            //new AutoScore()
+            //.andThen(
+                new AutoMove( -(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
+            //    )
             .andThen(
                 new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
                     )
@@ -181,6 +182,12 @@ public class AutoMethod {
                 new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false)
                     )
                     ; 
+    }
+
+    public Command hybridScoreCommand() {
+        return new AutoMove(-18, 0.5, m_driveTrainSubsystem, m_gyroSubsystem)
+            .andThen(new AutoMove(18, 0.5, m_driveTrainSubsystem, m_gyroSubsystem))
+            .andThen(new AutoMove(-(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH), 0.5, m_driveTrainSubsystem, m_gyroSubsystem));
     }
 
 
@@ -241,8 +248,11 @@ public class AutoMethod {
 
           case SCOREOVERCHARGEBACK:
             return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
+          case HYBRIDSCORE: 
+            return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).hybridScoreCommand();
           //case :
             //return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
+        
     
         }
         return null;

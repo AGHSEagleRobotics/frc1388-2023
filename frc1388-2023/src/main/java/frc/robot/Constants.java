@@ -137,7 +137,8 @@ public final class Constants {
         SCORETHENCHARGE( "Score, Balance" ),
         OVERCHARGESTATION( "OverChargeStation" ),
         CHARGESTATIONBACK( "OverCharge, Balance" ), 
-        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" );
+        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" ),
+        HYBRIDSCORE("score in hybrid node");
     
         public static final Objective Default = SITSTILL;
       
