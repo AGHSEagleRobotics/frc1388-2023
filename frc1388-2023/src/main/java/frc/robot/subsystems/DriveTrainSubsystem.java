@@ -82,6 +82,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
   public void curvatureDrive( double xSpeed, double zRotation, boolean allowTurnInPlace) {
     // if (!allowTurnInPlace) zRotation *= -1.0;
+    //TODO fix to make true car mode (or what driver wants) backwards and forwards
     m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
   }
   public void tankDrive( double leftSpeed, double rightSpeed) {
