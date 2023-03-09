@@ -70,14 +70,15 @@ public class ArmSubsystem extends SubsystemBase {
    * @param power the power to set the motor [-1, 1]
   */
   public void setWristMotorPower(double power) {
-    if (
-      (power < 0) && (!m_wristLimitSwitch.get())
-      || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
-    ) {
-      m_wristMotor.set(power);
-    } else {
-      m_wristMotor.set(0);
-    }
+    // if (
+    //   (power < 0) && (!m_wristLimitSwitch.get())
+    //   || (power > 0) && (getWristPosition() < ArmConstants.WRIST_POSITION_MAX)
+    // ) {
+    //   m_wristMotor.set(power);
+    // } else {
+    //   m_wristMotor.set(0);
+    // }
+    m_wristMotor.set(power);
   }
 
   /** Sets the power of the primary motor. The range of motion is limited by the limit switch and encoder

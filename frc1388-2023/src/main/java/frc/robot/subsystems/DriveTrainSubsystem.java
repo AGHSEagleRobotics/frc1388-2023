@@ -81,7 +81,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
   public void curvatureDrive( double xSpeed, double zRotation, boolean allowTurnInPlace) {
-    if (!allowTurnInPlace) zRotation *= -1.0;
+    // if (!allowTurnInPlace) zRotation *= -1.0;
     m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
   }
   public void tankDrive( double leftSpeed, double rightSpeed) {
