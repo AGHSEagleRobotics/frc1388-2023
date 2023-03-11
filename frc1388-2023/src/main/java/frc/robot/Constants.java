@@ -193,7 +193,7 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
-    public static final double PRIMARY_ARM_POSITION_MAX = 0.2; 
+    public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 9.0; // TODO check this
@@ -220,6 +220,8 @@ public final class Constants {
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final double GRABBER_ENCODER_DEADBAND = 0.4;
 
+    public static final double GRABBER_POWER_OUT = 0.25;
+    public static final double GRABBER_POWER_IN = -0.25;
     public static final int SMART_CURRENT_LIMIT = 30;
   }  
   

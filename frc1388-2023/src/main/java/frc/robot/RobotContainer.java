@@ -187,7 +187,7 @@ public class RobotContainer {
   }
 
   public void resetGrabberEncoder() {
-    m_grabberSubsystem.resetGrabberEncoder();
+    m_grabberSubsystem.setGrabberEncoder(0);
   }
 
 }

@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.GrabberSubsystem.GrabberPosition;
@@ -34,10 +35,10 @@ public class GrabberCommand extends CommandBase {
     addRequirements(m_grabberSubsystem);
   }
 
-  @Deprecated
-  public void setGrabber(GrabberPosition setPoint) {
-    m_grabberSubsystem.setGrabberPresetPosition(setPoint);
-  }
+  // @Deprecated
+  // public void setGrabber(GrabberPosition setPoint) {
+  //   m_grabberSubsystem.setGrabberPresetPosition(setPoint);
+  // }
 
   // Called when the command is initially scheduled.
   @Override
@@ -46,17 +47,22 @@ public class GrabberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if ((m_ArmSubsystem.getPrimaryArmPosition() > 0.2) && (m_ArmSubsystem.getWristPosition() < 0.3)) {
-    //   m_grabberSubsystem.setGrabberPosition(10);
-    // } else {
-    // }
-    m_grabberSubsystem.setGrabberMotor(0);
-    if(m_opLeftTrigger.get() > 0.3) {
-      // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
-      m_grabberSubsystem.setGrabberMotor(0.25);
-    } else if(m_opRightTrigger.get() > 0.3) {
-      // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
-      m_grabberSubsystem.setGrabberMotor(-0.25);
+    if (
+        (m_ArmSubsystem.getPrimaryArmPosition() > 0.2) // TODO
+        && (m_ArmSubsystem.getPrimaryArmPosition() < 0.3) // TODO
+        && (m_grabberSubsystem.getGrabberEncoder() > -2) // TODO
+       ) {
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+    } else {
+      if(m_opLeftTrigger.get() > 0.3) {
+        // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+      } else if(m_opRightTrigger.get() > 0.3) {
+        // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+      } else {
+        m_grabberSubsystem.setGrabberMotor(0);
+      }
     }
   }
 
