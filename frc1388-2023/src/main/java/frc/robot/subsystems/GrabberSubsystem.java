@@ -97,6 +97,7 @@ public class GrabberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
     SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
     if (!m_hasEncoderBeenReset && m_grabberMotor.getOutputCurrent() > 20);
+    SmartDashboard.putBoolean("|||has the arm been reset?|||", m_hasEncoderBeenReset);
     // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
   }
 }
