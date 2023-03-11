@@ -44,7 +44,7 @@ public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new Grabber. */
   public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch) {
     m_grabberMotor = motor;
-      m_grabberMotor.setSmartCurrentLimit(35); // in amps
+      m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;

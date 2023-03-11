@@ -219,6 +219,8 @@ public final class Constants {
     public static final int GRABBER_POSITION_CLOSED = 0;
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final double GRABBER_ENCODER_DEADBAND = 0.4;
+
+    public static final int SMART_CURRENT_LIMIT = 30;
   }  
   
   public final class FieldConstants {
