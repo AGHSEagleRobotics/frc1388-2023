@@ -25,7 +25,7 @@ public class DriveTrainCommand extends CommandBase {
   }
   private Direction m_direction = Direction.forwards;
 
-  private boolean m_quickTurn;
+  private boolean m_quickTurn = true;
   private Supplier<Double> m_driveLeftStickYAxis;
   private Supplier<Double> m_driveRightStickXAxis;
   private Supplier<Boolean> m_driveRightStickButton;

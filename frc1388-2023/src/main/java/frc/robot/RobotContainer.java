@@ -70,7 +70,7 @@ public class RobotContainer {
     new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID)
   );
 
-  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem(
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(
     new CANSparkMax(ArmConstants.WRIST_CANID, MotorType.kBrushless),
     new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
     new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
@@ -103,15 +103,16 @@ public class RobotContainer {
 
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(
-        m_grabberSubsystem, 
+        m_grabberSubsystem,
+        m_armSubsystem,
         ()-> m_opController.getLeftTriggerAxis(), 
         ()->m_opController.getRightTriggerAxis()
       )
     );
 
-    m_ArmSubsystem.setDefaultCommand(
+    m_armSubsystem.setDefaultCommand(
       new ArmCommand(
-        m_ArmSubsystem,
+        m_armSubsystem,
         ()-> m_opController.getLeftY(),
         ()-> m_opController.getRightY()
       )
@@ -155,7 +156,7 @@ public class RobotContainer {
     ));
 
     m_opController.a().onTrue(new InstantCommand(
-      ()-> {((ArmCommand)m_ArmSubsystem.getDefaultCommand()).toggleWristPosition();}, m_ArmSubsystem
+      ()-> {((ArmCommand)m_armSubsystem.getDefaultCommand()).toggleWristPosition();}, m_armSubsystem
     ));
 
     m_driverController.rightBumper().whileTrue(new FastAutoBalance(m_driveTrainSubsystem, m_gyroSubsystem));
@@ -176,6 +177,14 @@ public class RobotContainer {
   }
   public double getGyroYAngle() {
     return m_gyroSubsystem.getYAngle();
+  }
+
+  public double getPrimaryArmPos() {
+    return m_armSubsystem.getPrimaryArmPosition();
+  }
+
+  public void resetGrabberEncoder() {
+    m_grabberSubsystem.resetGrabberEncoder();
   }
 
 }

@@ -106,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setWristMotorPosition(double position) {
     double distToSetPos = position - getPrimaryArmPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
-      m_wristMotor.set(Math.copySign(0.5, distToSetPos));
+      setWristMotorPower(Math.copySign(0.5, distToSetPos));
     }
   }
 
@@ -114,7 +114,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryMotorPosition(double position) {
     double distToSetPos = position - getWristPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
-      m_primaryMotor.set(Math.copySign(0.5, distToSetPos));
+      setPrimaryMotorPower(Math.copySign(0.5, distToSetPos));
     }
   }
 

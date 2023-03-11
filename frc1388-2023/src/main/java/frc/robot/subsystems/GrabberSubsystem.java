@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +17,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.GrabberConstants;
 
 public class GrabberSubsystem extends SubsystemBase {
+  private DataLog m_log = DataLogManager.getLog();
+
+
   public enum GrabberPosition{
     open(GrabberConstants.GRABBER_POSITION_OPEN), closed(GrabberConstants.GRABBER_POSITION_CLOSED);
 
@@ -45,9 +50,17 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberLimit = limitSwitch;
   }
 
+  @Deprecated
   public void setGrabberPosition(GrabberPosition position) {
     m_grabberSetPosition = position;
     double distToSetPoint = m_grabberSetPosition.get() - m_grabberEncoder.getPosition();
+    if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
+      m_grabberMotor.set(Math.copySign(0.5, distToSetPoint));
+    }
+  }
+
+  public void setGrabberPosition(double position) {
+    double distToSetPoint = position - m_grabberEncoder.getPosition();
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
       m_grabberMotor.set(Math.copySign(0.5, distToSetPoint));
     }
@@ -57,11 +70,15 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberMotor.set(power);
   }
 
+  public void resetGrabberEncoder() {
+    m_grabberEncoder.setPosition(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_LIMIT_SWITCH);
+    // if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_LIMIT_SWITCH);
     // System.out.println("grabber limit switch: " + m_grabberLimit.get());
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
+    // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
   }
 }

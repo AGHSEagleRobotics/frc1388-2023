@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
     // set motors to coast mode when user button on RoboRio is pressed
     if (RobotController.getUserButton()) {
       m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Coast);
+      m_robotContainer.resetGrabberEncoder();
       System.out.println("###RobotPeriodic() -> UserButtonPressed -> NeutralMode.Coast###");
     }
   }

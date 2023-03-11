@@ -34,7 +34,7 @@ public class FastAutoBalance extends CommandBase {
   @Override
   public void execute() {
     double angle = m_gyroSubsystem.getYAngle();
-    if ((Math.abs(angle) > Math.abs(lastAngle) - 0.15) && (Math.abs(angle) > 2.5)) {
+    if ((Math.abs(angle) > Math.abs(lastAngle) - 0.12) && (Math.abs(angle) > 2.5)) {
       double speed = (Math.pow(angle, 4) * 0.0005) + 3.0;
       speed = MathUtil.clamp(speed, -24.0, 24.0);
       m_driveTrainSubsystem.constantSpeedDrive(Math.copySign(speed, -angle));
