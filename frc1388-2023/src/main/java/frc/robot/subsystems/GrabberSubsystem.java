@@ -74,8 +74,8 @@ public class GrabberSubsystem extends SubsystemBase {
   }
 
   public void setGrabberMotor(double power) {
-    m_grabberMotor.set(power);
     if (m_hasEncoderBeenReset) {
+      m_grabberMotor.set(power);
     } else {
       m_grabberMotor.set(MathUtil.clamp(power, -1, 0));
     }
