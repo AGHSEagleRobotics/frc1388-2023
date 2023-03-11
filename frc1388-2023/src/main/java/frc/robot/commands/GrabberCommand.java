@@ -36,7 +36,7 @@ public class GrabberCommand extends CommandBase {
 
   @Deprecated
   public void setGrabber(GrabberPosition setPoint) {
-    m_grabberSubsystem.setGrabberPosition(setPoint);
+    m_grabberSubsystem.setGrabberPresetPosition(setPoint);
   }
 
   // Called when the command is initially scheduled.
@@ -47,7 +47,7 @@ public class GrabberCommand extends CommandBase {
   @Override
   public void execute() {
     // if ((m_ArmSubsystem.getPrimaryArmPosition() > 0.2) && (m_ArmSubsystem.getWristPosition() < 0.3)) {
-    //   m_grabberSubsystem.setGrabberPosition(2);
+    //   m_grabberSubsystem.setGrabberPosition(10);
     // } else {
     // }
     m_grabberSubsystem.setGrabberMotor(0);

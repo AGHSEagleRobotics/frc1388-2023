@@ -46,23 +46,24 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
+      // m_grabberMotor.setInverted(true);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;
   }
 
   @Deprecated
-  public void setGrabberPosition(GrabberPosition position) {
+  public void setGrabberPresetPosition(GrabberPosition position) {
     m_grabberSetPosition = position;
     double distToSetPoint = m_grabberSetPosition.get() - m_grabberEncoder.getPosition();
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
-      m_grabberMotor.set(Math.copySign(0.5, distToSetPoint));
+      m_grabberMotor.set(Math.copySign(0.2, distToSetPoint));
     }
   }
 
   public void setGrabberPosition(double position) {
     double distToSetPoint = position - m_grabberEncoder.getPosition();
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
-      m_grabberMotor.set(Math.copySign(0.5, distToSetPoint));
+      m_grabberMotor.set(Math.copySign(0.2, distToSetPoint));
     }
   }
 
@@ -79,6 +80,7 @@ public class GrabberSubsystem extends SubsystemBase {
     // if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_LIMIT_SWITCH);
     // System.out.println("grabber limit switch: " + m_grabberLimit.get());
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
+    SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
     // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
   }
 }
