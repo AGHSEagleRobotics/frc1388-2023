@@ -8,6 +8,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.AutoKeepArmUp;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnTo;
@@ -172,7 +173,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     m_gyroSubsystem.resetAllAngles();
-    return m_autoMethod.getAutonomousCommand(); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+    return m_autoMethod.getAutonomousCommand()
+    .alongWith(
+      new AutoKeepArmUp(m_armSubsystem)
+    )
+    ; //have to return autoMethod because it's set to m_autonomousCommand in robot class
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
