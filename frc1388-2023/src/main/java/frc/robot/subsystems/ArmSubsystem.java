@@ -177,7 +177,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
-    if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    if (isPrimaryLimitContacted()) {
+      m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    }
     SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
     // SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
     SmartDashboard.putNumber("primary arm", m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS);
