@@ -206,6 +206,8 @@ public final class Constants {
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = 0.45;
+
+    public static final double WRIST_HOLD_POWER = 0.15;
   }
   
   public final class GrabberConstants {
