@@ -52,6 +52,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_wristMotor = midArm;
       m_wristMotor.setIdleMode(IdleMode.kBrake);
       m_wristMotor.setInverted(false);
+      m_wristMotor.setSmartCurrentLimit(40);
     m_wristEncoder = m_wristMotor.getEncoder();
     m_wristLimitSwitch = midArmLimit;
 

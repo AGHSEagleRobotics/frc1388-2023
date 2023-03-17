@@ -71,6 +71,8 @@ public final class Constants {
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
+
+    public static final double DRIVE_SCALING_CONSTANT = 5;
   } 
 
   //XBOX CONTROLLERS
@@ -126,6 +128,10 @@ public final class Constants {
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
     public static double AUTO_TURN_ANGLE = 180;
+
+    //we need extra distance because the encoder takes distance regardless of angle. 
+    //This makes going up the charge station come up a bit short. 
+    public static double CHARGE_STATION_MAGIC_NUM = 25;
 
       public enum Objective {
         SITSTILL ( "LookPretty"),

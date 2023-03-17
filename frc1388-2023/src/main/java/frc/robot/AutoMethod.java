@@ -181,7 +181,7 @@ public class AutoMethod {
     public Command OverChargeAndBack()
     {
         return //start at charge station
-            new AutoMove((FieldConstants.CHARGE_STATION_LENGTH + FieldConstants.ROBOT_LENGTH_TOTAL + 25), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
+            new AutoMove((FieldConstants.CHARGE_STATION_LENGTH + FieldConstants.ROBOT_LENGTH_TOTAL + AutoConstants.CHARGE_STATION_MAGIC_NUM), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
         .andThen(
             new InstantCommand(()-> {m_driveTrainSubsystem.resetEncoders();})
                 )
@@ -199,7 +199,7 @@ public class AutoMethod {
             new AutoMove(-18, 0.5, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
         .andThen(
-            new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH + 25), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
+            new AutoMove( (FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH + AutoConstants.CHARGE_STATION_MAGIC_NUM), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
                 )
         .andThen(
             new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();})
