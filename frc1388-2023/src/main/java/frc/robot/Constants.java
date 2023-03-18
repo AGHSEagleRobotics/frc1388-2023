@@ -71,6 +71,8 @@ public final class Constants {
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
+
+    public static final double DRIVE_SCALING_CONSTANT = 5;
   } 
 
   //XBOX CONTROLLERS
@@ -127,6 +129,10 @@ public final class Constants {
 
     public static double AUTO_TURN_ANGLE = 180;
 
+    //we need extra distance because the encoder takes distance regardless of angle. 
+    //This makes going up the charge station come up a bit short. 
+    public static double CHARGE_STATION_MAGIC_NUM = 25;
+
       public enum Objective {
         SITSTILL ( "LookPretty"),
         LEAVECOMMUNITY( "LeaveCommunity" ),
@@ -137,7 +143,8 @@ public final class Constants {
         SCORETHENCHARGE( "Score, Balance" ),
         OVERCHARGESTATION( "OverChargeStation" ),
         CHARGESTATIONBACK( "OverCharge, Balance" ), 
-        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" );
+        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" ),
+        HYBRIDSCORE("score in hybrid node");
     
         public static final Objective Default = SITSTILL;
       
@@ -192,7 +199,7 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
-    public static final double PRIMARY_ARM_POSITION_MAX = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.3; 
+    public static final double PRIMARY_ARM_POSITION_MAX = 0.2;
 
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 9.0; // TODO check this
@@ -204,7 +211,9 @@ public final class Constants {
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     public static final double WRIST_POSITION_DOWN = 0;
-    public static final double WRIST_POSITION_MAX = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
+    public static final double WRIST_POSITION_MAX = 0.45;
+
+    public static final double WRIST_HOLD_POWER = 0.15;
   }
   
   public final class GrabberConstants {
@@ -217,7 +226,9 @@ public final class Constants {
     /** the position of the motor when the grabber is closed, measured in motor rotations */
     public static final int GRABBER_POSITION_CLOSED = 0;
     /** the dead band tolerance for the grabber, measured in motor rotations */
-    public static final int GRABBER_ENCODER_DEADBAND = 5;
+    public static final double GRABBER_ENCODER_DEADBAND = 0.4;
+
+    public static final int SMART_CURRENT_LIMIT = 30;
   }  
   
   public final class FieldConstants {

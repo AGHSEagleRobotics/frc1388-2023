@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AutoMove;
@@ -61,6 +62,7 @@ public class Robot extends TimedRobot {
     // set motors to coast mode when user button on RoboRio is pressed
     if (RobotController.getUserButton()) {
       m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Coast);
+      m_robotContainer.resetGrabberEncoder();
       System.out.println("###RobotPeriodic() -> UserButtonPressed -> NeutralMode.Coast###");
     }
   }
@@ -128,7 +130,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    SmartDashboard.putNumber("y angle > ", m_robotContainer.getGyroYAngle());
+  }
 
   @Override
   public void testInit() {

@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.RumbleSubsystem;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.RumbleConstants;
 
 public class DriveTrainCommand extends CommandBase {
@@ -25,7 +26,7 @@ public class DriveTrainCommand extends CommandBase {
   }
   private Direction m_direction = Direction.forwards;
 
-  private boolean m_quickTurn;
+  private boolean m_quickTurn = true;
   private Supplier<Double> m_driveLeftStickYAxis;
   private Supplier<Double> m_driveRightStickXAxis;
   private Supplier<Boolean> m_driveRightStickButton;
@@ -74,11 +75,11 @@ public class DriveTrainCommand extends CommandBase {
 
     double speed = -m_driveLeftStickYAxis.get();
     speed = MathUtil.applyDeadband(speed, 0.03);
-    speed = Math.tan(speed * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
+    speed = Math.tan(speed * Math.atan(DriveTrainConstants.DRIVE_SCALING_CONSTANT)) / DriveTrainConstants.DRIVE_SCALING_CONSTANT; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.
 
     double  rotation = -m_driveRightStickXAxis.get();
     rotation = MathUtil.applyDeadband(rotation, 0.03);
-    rotation = Math.tan(rotation * Math.atan(5)) / 5; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
+    rotation = Math.tan(rotation * Math.atan(DriveTrainConstants.DRIVE_SCALING_CONSTANT)) / DriveTrainConstants.DRIVE_SCALING_CONSTANT; // posable scaling curve idea, math.atan(5) could be precalculated, or this entire function could be precalculated.\
 
     // maybe add this later
     // double opSpeed = m_opLeftStickYAxis.get();
