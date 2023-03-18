@@ -185,31 +185,29 @@ public final class Constants {
     /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
     public static final double FLAT_TO_UP = 0.27;
     
-    // primary arm conversion factors
+    // primary arm
     public static final double FALCON_TICS_PER_REV = 2048;
     public static final double PRIMARY_ARM_VERSA_RATION = 60;
     public static final double GEAR_BOX_TO_ARM_RATIO = 4.66667;
     public static final double ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS = FALCON_TICS_PER_REV * PRIMARY_ARM_VERSA_RATION * GEAR_BOX_TO_ARM_RATIO;
     
-    // primary arm
     public static final int PRIMARY_ARM_CANID = 5;
     public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
 
-    // public static final double PRIMARY_MOTOR_DEADBAND = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.05;
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
-    public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
-    public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
     public static final double PRIMARY_ARM_POSITION_MAX = 0.2;
+    public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25;
+    public static final double PRIMARY_ARM_POSITION_DOWN = 0;
 
-    // wrist arm conversion factor
-    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 9.0; // TODO check this
+    // wrist arm 
+    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = FALCON_TICS_PER_REV * 16.0; // TODO check this
 
-    // wrist arm
     public static final int WRIST_CANID = 6;
-    // public static final double WRIST_MOTOR_DEADBADND = 1;
     public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
+
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
+    
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = 0.45;
 
