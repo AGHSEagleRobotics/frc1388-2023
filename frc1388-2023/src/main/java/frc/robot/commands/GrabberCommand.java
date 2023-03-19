@@ -50,25 +50,24 @@ public class GrabberCommand extends CommandBase {
   @Override
   public void execute() {
     String state;
-    
+
     if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM &&
-        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW
-        && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
+        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW)
+        && (m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
       m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
       state = "arm too high, pulling grabber in ";
+    } else if ((m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE)
+        && ( (m_grabberSubsystem.getGrabberEncoder() < GrabberConstants.GRABBER_CLOSE_MAX_AT_FULL_ARM)
+        || ( (m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_LOW) 
+          || (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH) )) ) {
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+      state = "left trigger out";
+    } else if (m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+      state = "right trigger in";
     } else {
-      if(m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
-        // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
-        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
-        state = "left trigger out";
-      } else if(m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
-        // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
-        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
-        state = "right trigger in";
-      } else {
-        m_grabberSubsystem.setGrabberMotor(0);
-        state = "default, grabber at 0";
-      }
+      m_grabberSubsystem.setGrabberMotor(0);
+      state = "default, grabber at 0";
     }
 
     SmartDashboard.putString("current grabber state   ", state);

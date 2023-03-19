@@ -57,9 +57,16 @@ public class ArmCommand extends CommandBase {
     
     if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM && 
         (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
-      m_ArmSubsystem.setPrimaryMotorPower(0);
+          if (-m_opRightY.get() < 0 )
+          {
+            m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
+          }
+          else
+          {
+            m_ArmSubsystem.setPrimaryMotorPower(0);
+          }
     } else {
-      m_ArmSubsystem.setPrimaryMotorPower(-0.6 * m_opRightY.get());
+      m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
     }
 
     //test
