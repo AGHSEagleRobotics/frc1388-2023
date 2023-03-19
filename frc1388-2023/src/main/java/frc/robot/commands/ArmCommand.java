@@ -7,7 +7,10 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class ArmCommand extends CommandBase {
   private enum WristPosition {
@@ -16,6 +19,7 @@ public class ArmCommand extends CommandBase {
   private WristPosition m_wristPosition = WristPosition.stowed;
 
   private final ArmSubsystem m_ArmSubsystem;
+  private final GrabberSubsystem m_grabberSubsystem;
 
   private final Supplier<Double> m_opLeftY;
   private final Supplier<Double> m_opRightY;
@@ -25,10 +29,12 @@ public class ArmCommand extends CommandBase {
   /** Creates a new ArmCommand. */
   public ArmCommand(
     ArmSubsystem armSubsystem,
+    GrabberSubsystem grabberSubsystem,
     Supplier<Double> opLeftY,
     Supplier<Double> opRightY
   ) {
     m_ArmSubsystem = armSubsystem;
+    m_grabberSubsystem = grabberSubsystem;
     m_opLeftY = opLeftY;
     m_opRightY = opRightY;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,7 +54,14 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     m_ArmSubsystem.setWristMotorPower(-0.3 * m_opLeftY.get()); //XXX scaling
-    m_ArmSubsystem.setPrimaryMotorPower(-0.6 * m_opRightY.get());
+    
+    if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM && 
+        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
+      m_ArmSubsystem.setPrimaryMotorPower(0);
+    } else {
+      m_ArmSubsystem.setPrimaryMotorPower(-0.6 * m_opRightY.get());
+    }
+
     //test
     // if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
     // if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
