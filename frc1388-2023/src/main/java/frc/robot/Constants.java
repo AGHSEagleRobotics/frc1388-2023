@@ -202,6 +202,8 @@ public final class Constants {
     public static final double ARM_MAX_EXTEND_HIGH = 0.25;
     public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
+    public static final double ARM_POWER_SCALE_FACTOR = 0.6;
+
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
 
@@ -237,6 +239,7 @@ public final class Constants {
     public static final int SMART_CURRENT_LIMIT = 30;
 
     public static final double GRABBER_MAX_AT_FULL_ARM = -2;
+    public static final double GRABBER_CLOSE_MAX_AT_FULL_ARM = GRABBER_MAX_AT_FULL_ARM - 0.2; //close to max is bigger to ensure grabber doesn't try to both go in and out at once 
     public static final double GRABBER_GOOD_ENOUGH_SQUEEZE = 0.3; //when the triggers are substantially pressed 
 
   }  
