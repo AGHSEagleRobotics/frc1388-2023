@@ -74,6 +74,11 @@ public class GrabberSubsystem extends SubsystemBase {
   public void resetGrabberEncoder() {
     m_grabberEncoder.setPosition(0);
   }
+
+  public double getGrabberEncoder() {
+    return m_grabberEncoder.getPosition();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -52,7 +52,7 @@ public class ArmCommand extends CommandBase {
     //test
     // if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
     // if (m_wristPosition == WristPosition.stowed) m_ArmSubsystem.stowedArmSet(m_opRightY.get());
-    //endtest
+    // endtest
   }
 
   // Called once the command ends or is interrupted.

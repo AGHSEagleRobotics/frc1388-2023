@@ -8,11 +8,18 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.GrabberSubsystem.GrabberPosition;
 
 public class GrabberCommand extends CommandBase {
+  private enum Direction {
+    in, out
+  }
+  private Direction m_grabberDirection;
+
   private final GrabberSubsystem m_grabberSubsystem;
   private final ArmSubsystem m_ArmSubsystem;
 
@@ -46,17 +53,31 @@ public class GrabberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if ((m_ArmSubsystem.getPrimaryArmPosition() > 0.2) && (m_ArmSubsystem.getWristPosition() < 0.3)) {
-    //   m_grabberSubsystem.setGrabberPosition(10);
-    // } else {
-    // }
-    m_grabberSubsystem.setGrabberMotor(0);
-    if(m_opLeftTrigger.get() > 0.3) {
-      // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
-      m_grabberSubsystem.setGrabberMotor(0.25);
-    } else if(m_opRightTrigger.get() > 0.3) {
-      // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
-      m_grabberSubsystem.setGrabberMotor(-0.25);
+    String state;
+    
+    if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM &&
+        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW
+        && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+      state = "arm too high, pulling grabber in ";
+    } else {
+      if(m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
+        // m_grabberSubsystem.setGrabberPosition(GrabberPosition.open);
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+        m_grabberDirection = Direction.out;
+        state = "left trigger out";
+      } else if(m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
+        // m_grabberSubsystem.setGrabberPosition(GrbabberPosition.closed);
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+        m_grabberDirection = Direction.in;
+        state = "right trigger in";
+      }else if (m_grabberDirection == Direction.in) {
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
+        state = "grabber low power in";
+      } else {
+        m_grabberSubsystem.setGrabberMotor(0);
+        state = "default, grabber at 0";
+      }
     }
   }
 
