@@ -15,9 +15,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Dashboard;
 import frc.robot.Constants.GrabberConstants;
 
 public class GrabberSubsystem extends SubsystemBase {
@@ -45,16 +47,20 @@ public class GrabberSubsystem extends SubsystemBase {
 
   private boolean m_hasEncoderBeenReset = false;
 
+  private final Dashboard m_Dashboard;
+
   // private double m_encoderOffset = 0;
 
   /** Creates a new Grabber. */
-  public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch) {
+  public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch, Dashboard dashboard) {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
       m_grabberMotor.setInverted(true);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;
+
+    m_Dashboard = dashboard;
   }
 
   // @Deprecated
@@ -90,6 +96,10 @@ public class GrabberSubsystem extends SubsystemBase {
     return m_grabberEncoder.getPosition();
   }
 
+  public void setHasGrabberBeenReset(boolean hasGrabberBeenReset) {
+    m_hasEncoderBeenReset = hasGrabberBeenReset;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -98,7 +108,10 @@ public class GrabberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
     SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
     if (!m_hasEncoderBeenReset && m_grabberMotor.getOutputCurrent() > 20);
-    SmartDashboard.putBoolean("|||has the arm been reset?|||", m_hasEncoderBeenReset);
+    // SmartDashboard.putBoolean("|||has the arm been reset?|||", m_hasEncoderBeenReset);
+    // Shuffleboard.putBoolean("has the grabber been reset? ", m_hasEncoderBeenReset);
     // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
+
+    m_Dashboard.setIfGrabberReset(m_hasEncoderBeenReset);
   }
 }

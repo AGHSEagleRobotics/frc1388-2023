@@ -29,6 +29,8 @@ public class Dashboard {
     private final ComplexWidget m_complexWidgetObjective;
     private final ComplexWidget m_complexWidgetPosition;
     private final GenericEntry m_pitch;
+
+    private final GenericEntry m_isGrabberReset;
     
     public Dashboard() {
         m_shuffleboardTab =  Shuffleboard.getTab(SHUFFLEBOARD_TAB_NAME);
@@ -71,6 +73,11 @@ public class Dashboard {
             .withSize(2, 2)
             .withPosition(13, 4)
             .getEntry();
+        m_isGrabberReset = m_shuffleboardTab.add("Grabber reset", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withSize(3, 4)
+            .withPosition(13, 8)
+            .getEntry();
 
     } //end constructor
 
@@ -85,6 +92,10 @@ public class Dashboard {
 
     public Position getPosition() {
         return m_autoPosition.getSelected();
+    }
+
+    public void setIfGrabberReset(boolean isReset) {
+        m_isGrabberReset.setBoolean(isReset);
     }
 
 }

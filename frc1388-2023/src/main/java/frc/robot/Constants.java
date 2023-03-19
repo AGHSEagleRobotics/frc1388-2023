@@ -233,7 +233,7 @@ public final class Constants {
 
     public static final double GRABBER_POWER_OUT = 0.25;
     public static final double GRABBER_POWER_IN = -0.25;
-    public static final double GRABBER_LOW_POWER_IN = -0.10;
+    public static final double GRABBER_LOW_POWER_IN = -0.15;
     public static final int SMART_CURRENT_LIMIT = 30;
 
     public static final double GRABBER_MAX_AT_FULL_ARM = -2;

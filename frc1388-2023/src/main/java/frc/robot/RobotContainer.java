@@ -68,7 +68,8 @@ public class RobotContainer {
 
    private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
     new CANSparkMax(GrabberConstants.GRABBER_CANID, MotorType.kBrushless), 
-    new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID)
+    new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID),
+    m_dashboard
   );
 
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(
@@ -194,6 +195,10 @@ public class RobotContainer {
 
   public void resetGrabberEncoder() {
     m_grabberSubsystem.setGrabberEncoder(0);
+  }
+
+  public void setHasGrabberBeenReset(boolean hasGrabberBeenReset) {
+    m_grabberSubsystem.setHasGrabberBeenReset(hasGrabberBeenReset);
   }
 
 }
