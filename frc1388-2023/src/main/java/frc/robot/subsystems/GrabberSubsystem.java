@@ -90,10 +90,6 @@ public class GrabberSubsystem extends SubsystemBase {
     return m_grabberEncoder.getPosition();
   }
 
-  public double getGrabberEncoder() {
-    return m_grabberEncoder.getPosition();
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
