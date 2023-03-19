@@ -53,7 +53,7 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.setWristMotorPower(-0.3 * m_opLeftY.get()); //XXX scaling
+    m_ArmSubsystem.setWristMotorPower(-0.3 * m_opLeftY.get()); //XXX scaling]\[]
     
     if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM && 
         (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {

@@ -71,6 +71,8 @@ public final class Constants {
     public static final double GAINS_VELOCITY_D = 0;
     public static final int PID_IDX = 0;
     public static final double CLOSED_LOOP_RAMP_RATE = 3;
+
+    public static final double DRIVE_SCALING_CONSTANT = 5;
   } 
 
   //XBOX CONTROLLERS
@@ -126,6 +128,10 @@ public final class Constants {
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
     public static double AUTO_TURN_ANGLE = 180;
+
+    //we need extra distance because the encoder takes distance regardless of angle. 
+    //This makes going up the charge station come up a bit short. 
+    public static double CHARGE_STATION_MAGIC_NUM = 25;
 
       public enum Objective {
         SITSTILL ( "LookPretty"),
@@ -193,10 +199,10 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
-    public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     public static final double ARM_MAX_EXTEND_LOW = 0.13;
     public static final double ARM_MAX_EXTEND_HIGH = 0.25;
+    public static final double PRIMARY_ARM_POSITION_MAX = 0.2;
 
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
@@ -209,6 +215,8 @@ public final class Constants {
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = 0.45;
+
+    public static final double WRIST_HOLD_POWER = 0.15;
   }
   
   public final class GrabberConstants {

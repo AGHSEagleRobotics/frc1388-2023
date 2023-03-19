@@ -53,6 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
       // m_wristMotor.setIdleMode(IdleMode.kBrake);
       m_wristMotor.setNeutralMode(NeutralMode.Brake);
       m_wristMotor.setInverted(false);
+    //   m_wristMotor.setSmartCurrentLimit(40);
     // m_wristEncoder = m_wristMotor.getEncoder();
     m_wristLimitSwitch = midArmLimit;
 
@@ -180,6 +181,10 @@ public class ArmSubsystem extends SubsystemBase {
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
     if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
     SmartDashboard.putBoolean("primary limit switch ", isPrimaryLimitContacted());
+    if (isPrimaryLimitContacted()) {
+      m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    }
+    SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
     // SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
     SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
     // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());

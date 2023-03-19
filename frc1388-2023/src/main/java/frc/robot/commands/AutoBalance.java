@@ -132,18 +132,13 @@ public class AutoBalance extends CommandBase {
   public void constantSpeedBalance(double maxSpeed) {
     double pSpeed;
     double currentAngle = m_gyroSubsystem.getYAngle();
-
-    if ( Math.abs(currentAngle) < 11 )
-    {
-      m_driveTrainSubsystem.stop();
-    } else {
-      pSpeed = Math.pow(((Math.abs(currentAngle))/8), 3);
+      pSpeed = Math.pow(((Math.abs(currentAngle))/15), 3);
       pSpeed = Math.copySign(pSpeed, currentAngle);
       pSpeed = pSpeed * -AutoBalanceConstants.BALANCING_SPEED;
       pSpeed = MathUtil.clamp(pSpeed, -AutoBalanceConstants.BALANCING_SPEED, AutoBalanceConstants.BALANCING_SPEED);
       m_driveTrainSubsystem.constantSpeedDrive(pSpeed);
     }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override
