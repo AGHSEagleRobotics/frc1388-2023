@@ -200,7 +200,7 @@ public final class Constants {
 
     public static final double ARM_MAX_EXTEND_LOW = 0.13;
     public static final double ARM_MAX_EXTEND_HIGH = 0.25;
-    public static final double PRIMARY_ARM_POSITION_MAX = 0.2;
+    public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
