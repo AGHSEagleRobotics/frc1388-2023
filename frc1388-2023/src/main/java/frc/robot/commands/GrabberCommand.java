@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
@@ -41,10 +42,10 @@ public class GrabberCommand extends CommandBase {
     addRequirements(m_grabberSubsystem);
   }
 
-  @Deprecated
-  public void setGrabber(GrabberPosition setPoint) {
-    m_grabberSubsystem.setGrabberPresetPosition(setPoint);
-  }
+  // @Deprecated
+  // public void setGrabber(GrabberPosition setPoint) {
+  //   m_grabberSubsystem.setGrabberPresetPosition(setPoint);
+  // }
 
   // Called when the command is initially scheduled.
   @Override
@@ -74,11 +75,14 @@ public class GrabberCommand extends CommandBase {
       }else if (m_grabberDirection == Direction.in) {
         m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
         state = "grabber low power in";
+        state = "right trigger in";
       } else {
         m_grabberSubsystem.setGrabberMotor(0);
         state = "default, grabber at 0";
       }
     }
+
+    SmartDashboard.putString("current grabber state   ", state);
   }
 
   // Called once the command ends or is interrupted.

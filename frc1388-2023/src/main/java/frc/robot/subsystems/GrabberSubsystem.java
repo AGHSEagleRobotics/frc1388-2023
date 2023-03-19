@@ -4,10 +4,14 @@
 
 package frc.robot.subsystems;
 
+import javax.print.attribute.standard.PrinterMessageFromOperator;
+
+import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -39,6 +43,8 @@ public class GrabberSubsystem extends SubsystemBase {
   private final RelativeEncoder m_grabberEncoder;
   private final DigitalInput m_grabberLimit;
 
+  private boolean m_hasEncoderBeenReset = false;
+
   // private double m_encoderOffset = 0;
 
   /** Creates a new Grabber. */
@@ -46,19 +52,19 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
-      // m_grabberMotor.setInverted(true);
+      m_grabberMotor.setInverted(true);
     m_grabberEncoder = m_grabberMotor.getEncoder();
     m_grabberLimit = limitSwitch;
   }
 
-  @Deprecated
-  public void setGrabberPresetPosition(GrabberPosition position) {
-    m_grabberSetPosition = position;
-    double distToSetPoint = m_grabberSetPosition.get() - m_grabberEncoder.getPosition();
-    if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
-      m_grabberMotor.set(Math.copySign(0.2, distToSetPoint));
-    }
-  }
+  // @Deprecated
+  // public void setGrabberPresetPosition(GrabberPosition position) {
+  //   m_grabberSetPosition = position;
+  //   double distToSetPoint = m_grabberSetPosition.get() - m_grabberEncoder.getPosition();
+  //   if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
+  //     m_grabberMotor.set(Math.copySign(0.2, distToSetPoint));
+  //   }
+  // }
 
   public void setGrabberPosition(double position) {
     double distToSetPoint = position - m_grabberEncoder.getPosition();
@@ -68,11 +74,20 @@ public class GrabberSubsystem extends SubsystemBase {
   }
 
   public void setGrabberMotor(double power) {
-    m_grabberMotor.set(power);
+    if (m_hasEncoderBeenReset) {
+      m_grabberMotor.set(power);
+    } else {
+      m_grabberMotor.set(MathUtil.clamp(power, -1, 0));
+    }
   }
 
-  public void resetGrabberEncoder() {
-    m_grabberEncoder.setPosition(0);
+  public void setGrabberEncoder(double value) {
+    m_hasEncoderBeenReset = true;
+    m_grabberEncoder.setPosition(value);
+  }
+
+  public double getGrabberEncoder() {
+    return m_grabberEncoder.getPosition();
   }
 
   public double getGrabberEncoder() {
@@ -86,6 +101,8 @@ public class GrabberSubsystem extends SubsystemBase {
     // System.out.println("grabber limit switch: " + m_grabberLimit.get());
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
     SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
+    if (!m_hasEncoderBeenReset && m_grabberMotor.getOutputCurrent() > 20);
+    SmartDashboard.putBoolean("|||has the arm been reset?|||", m_hasEncoderBeenReset);
     // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
   }
 }

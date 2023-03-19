@@ -195,14 +195,19 @@ public final class Constants {
     public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
 
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
+    public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
+    public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
+
+    public static final double ARM_MAX_EXTEND_LOW = 0.13;
+    public static final double ARM_MAX_EXTEND_HIGH = 0.25;
     public static final double PRIMARY_ARM_POSITION_MAX = 0.2;
-    public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25;
-    public static final double PRIMARY_ARM_POSITION_DOWN = 0;
 
-    // wrist arm 
-    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = FALCON_TICS_PER_REV * 16.0; // TODO check this
+    // wrist arm conversion factor
+    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
 
-    public static final int WRIST_CANID = 6;
+    // wrist arm
+    public static final int WRIST_CANID = 8;
+    // public static final double WRIST_MOTOR_DEADBADND = 1;
     public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
 
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
@@ -212,9 +217,6 @@ public final class Constants {
     public static final double WRIST_POSITION_MAX = 0.45;
 
     public static final double WRIST_HOLD_POWER = 0.15;
-
-    public static final double ARM_MAX_EXTEND_LOW = 0.2;
-    public static final double ARM_MAX_EXTEND_HIGH = 0.3;
   }
   
   public final class GrabberConstants {
@@ -229,13 +231,14 @@ public final class Constants {
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final double GRABBER_ENCODER_DEADBAND = 0.4;
 
-    public static final double GRABBER_GOOD_ENOUGH_SQUEEZE = 0.3;
-    public static final double GRABBER_POWER_IN = -0.25;
     public static final double GRABBER_POWER_OUT = 0.25;
+    public static final double GRABBER_POWER_IN = -0.25;
     public static final double GRABBER_LOW_POWER_IN = -0.15;
     public static final int SMART_CURRENT_LIMIT = 30;
 
     public static final double GRABBER_MAX_AT_FULL_ARM = -2;
+    public static final double GRABBER_GOOD_ENOUGH_SQUEEZE = 0.3; //when the triggers are substantially pressed 
+
   }  
   
   public final class FieldConstants {

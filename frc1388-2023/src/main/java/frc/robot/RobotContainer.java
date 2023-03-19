@@ -114,6 +114,7 @@ public class RobotContainer {
     m_armSubsystem.setDefaultCommand(
       new ArmCommand(
         m_armSubsystem,
+        m_grabberSubsystem,
         ()-> m_opController.getLeftY(),
         ()-> m_opController.getRightY()
       )
@@ -192,7 +193,7 @@ public class RobotContainer {
   }
 
   public void resetGrabberEncoder() {
-    m_grabberSubsystem.resetGrabberEncoder();
+    m_grabberSubsystem.setGrabberEncoder(0);
   }
 
 }
