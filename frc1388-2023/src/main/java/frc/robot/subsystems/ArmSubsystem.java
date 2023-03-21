@@ -38,8 +38,8 @@ public class ArmSubsystem extends SubsystemBase {
   private ArmSetPoint m_armSetPoint = ArmSetPoint.retracted;
 
   // mid arm
-  private final CANSparkMax m_wristMotor;
-  private final RelativeEncoder m_wristEncoder;
+  private final WPI_TalonFX m_wristMotor;
+  // private final RelativeEncoder m_wristEncoder;
   private final DigitalInput m_wristLimitSwitch;
   private final PIDController m_pidController = new PIDController(0.1, 0, 0);
   
@@ -48,12 +48,13 @@ public class ArmSubsystem extends SubsystemBase {
   private final DigitalInput m_primaryArmLimitSwitch;
 
   /** Creates a new Arm. */
-  public ArmSubsystem(CANSparkMax midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
+  public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
     m_wristMotor = midArm;
-      m_wristMotor.setIdleMode(IdleMode.kBrake);
+      // m_wristMotor.setIdleMode(IdleMode.kBrake);
+      m_wristMotor.setNeutralMode(NeutralMode.Brake);
       m_wristMotor.setInverted(false);
-      m_wristMotor.setSmartCurrentLimit(40);
-    m_wristEncoder = m_wristMotor.getEncoder();
+    //   m_wristMotor.setSmartCurrentLimit(40);
+    // m_wristEncoder = m_wristMotor.getEncoder();
     m_wristLimitSwitch = midArmLimit;
 
     m_primaryMotor = primary;
@@ -86,7 +87,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @param power the power to set the motor [-1, 1]
    */
   public void setPrimaryMotorPower(double power) {
-    // SmartDashboard.putNumber("right y input > ", power);
+    SmartDashboard.putNumber("primary arm power ", power);
     if (
       (power < 0) && (!isPrimaryLimitContacted())
       || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
@@ -100,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Deprecated
   /** doesn't work */
   public void setWristMotorSpeed(double speed) {
-    m_wristMotor.set(m_pidController.calculate(m_wristEncoder.getVelocity(), speed));
+    m_wristMotor.set(m_pidController.calculate(m_wristMotor.getSelectedSensorVelocity(), speed));
   }
 
   /** position of mid arm in rotations */
@@ -163,7 +164,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @return the arm position in rotations, 0 is at the limit switch, positive is down and away from the limit switch
    */
   public double getWristPosition() {
-    return m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
+    return m_wristMotor.getSelectedSensorPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS;
   }
   
   /**
@@ -178,13 +179,15 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
+    if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
+    SmartDashboard.putBoolean("primary limit switch ", isPrimaryLimitContacted());
     if (isPrimaryLimitContacted()) {
       m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
     }
     SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
     // SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
-    SmartDashboard.putNumber("primary arm", m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS);
-    SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
+    // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
     // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
   }
 
