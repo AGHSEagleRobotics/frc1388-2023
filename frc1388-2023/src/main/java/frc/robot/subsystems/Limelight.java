@@ -24,6 +24,7 @@ public class Limelight extends SubsystemBase {
   private final NetworkTableEntry m_tlong;
   private final NetworkTableEntry m_thor;
   private final NetworkTableEntry m_tvert;
+  private final NetworkTableEntry m_botpos;
   private int tick = 0;
 
 
@@ -41,6 +42,7 @@ public class Limelight extends SubsystemBase {
     m_tlong = m_table.getEntry("tlong");
     m_thor = m_table.getEntry("thor");
     m_tvert = m_table.getEntry("tvert");
+    m_botpos = m_table.getEntry("botpose");
 
 
   }
@@ -77,6 +79,9 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("target long", m_tlong.getDouble(0.0));
     SmartDashboard.putNumber("target hor", m_thor.getDouble(0.0));
     SmartDashboard.putNumber("target vert", m_tvert.getDouble(0.0));
+    SmartDashboard.putNumber("bot position 0", m_botpos.getDoubleArray(new double[6])[0]);
+    SmartDashboard.putNumber("bot position 1", m_botpos.getDoubleArray(new double[6])[1]);
+    SmartDashboard.putNumber("bot position 2", m_botpos.getDoubleArray(new double[6])[2]);
 
   }
 }
