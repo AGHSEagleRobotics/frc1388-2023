@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final ArmGrabberClass m_armGrabber = new ArmGrabberClass();
   // The robot's subsystems and commands are defined here...
   private final Dashboard m_dashboard = new Dashboard();
 
@@ -69,14 +70,16 @@ public class RobotContainer {
    private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
     new CANSparkMax(GrabberConstants.GRABBER_CANID, MotorType.kBrushless), 
     new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID),
-    m_dashboard
+    m_dashboard,
+    m_armGrabber
   );
 
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(
     new WPI_TalonFX(ArmConstants.WRIST_CANID),
     new WPI_TalonFX(ArmConstants.PRIMARY_ARM_CANID),
     new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
-    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID) //TODO XXX FIXME change this
+    new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID), //TODO XXX FIXME change this
+    m_armGrabber
   );
 
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
@@ -199,6 +202,11 @@ public class RobotContainer {
 
   public void setHasGrabberBeenReset(boolean hasGrabberBeenReset) {
     m_grabberSubsystem.setHasGrabberBeenReset(hasGrabberBeenReset);
+  }
+
+  public class ArmGrabberClass{
+    public double primaryArmPosition;
+    public double grabberPosition;
   }
 
 }
