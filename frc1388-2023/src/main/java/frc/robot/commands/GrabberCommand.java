@@ -66,11 +66,16 @@ public class GrabberCommand extends CommandBase {
             || ((m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_LOW)
                 || (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH)))) {
       m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+      m_grabberDirection = Direction.out;
       state = "left trigger out";
     } else if (m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
       m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+      m_grabberDirection = Direction.in;
       state = "right trigger in";
     } else {
+      if (m_grabberDirection == Direction.in) {
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
+      }
       m_grabberSubsystem.setGrabberMotor(0);
       state = "default, grabber at 0";
     }

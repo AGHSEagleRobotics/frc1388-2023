@@ -24,6 +24,8 @@ public class ArmSubsystem extends SubsystemBase {
   public enum ArmSetPoint { // TODO add more positions
     retracted, extended
   }
+
+  /* 
   public final AnArmPosition m_extendedPos = new AnArmPosition(
     ArmConstants.WRIST_POSITION_UP,
     ArmConstants.PRIMARY_ARM_POSITION_UP
@@ -33,6 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
     ArmConstants.WRIST_POSITION_DOWN,
     ArmConstants.PRIMARY_ARM_POSITION_DOWN
   );
+  */
 
   // currently not used
   private ArmSetPoint m_armSetPoint = ArmSetPoint.retracted;
@@ -106,20 +109,21 @@ public class ArmSubsystem extends SubsystemBase {
 
   /** position of mid arm in rotations */
   public void setWristMotorPosition(double position) {
-    double distToSetPos = position - getPrimaryArmPosition();
+    double distToSetPos = position - getWristPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
       setWristMotorPower(Math.copySign(0.5, distToSetPos));
     }
   }
 
   /** position of primary arm in rotations */
-  public void setPrimaryMotorPosition(double position) {
-    double distToSetPos = position - getWristPosition();
+  public void setPrimaryArmMotorPosition(double position) {
+    double distToSetPos = position - getPrimaryArmPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
       setPrimaryMotorPower(Math.copySign(0.5, distToSetPos));
     }
   }
 
+/* old code, delete?
   public void setArmPosition(ArmSetPoint setPoint) {
     m_armSetPoint = setPoint;
     switch (setPoint) {
@@ -135,6 +139,8 @@ public class ArmSubsystem extends SubsystemBase {
       }
     }
   }
+   * 
+  */
 
   @Deprecated
   public void parallelArmSet(double speed) {
@@ -191,15 +197,18 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
   }
 
+  /*
   public class AnArmPosition {
     // private final PossibleArmPositions m_thisArmPosition;
     private final double midArmPosition;
     private final double primaryPosition;
 
+    /*
     AnArmPosition(double midArmPosition, double primaryArmPosition) {
       // m_thisArmPosition = thisPosition;
       this.midArmPosition = midArmPosition;
       this.primaryPosition = primaryArmPosition;
     }
   }
+  */
 }
