@@ -149,6 +149,8 @@ public class RobotContainer {
     m_driverController.b().onTrue(new InstantCommand(
       ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).setDirection(Direction.forwards);}
     ));
+
+    m_driverController.rightBumper().whileTrue(new FastAutoBalance(m_driveTrainSubsystem, m_gyroSubsystem));
     
     //These are the binding for the operator controller
     m_opController.leftBumper().whileTrue(new RunCommand(
@@ -162,7 +164,6 @@ public class RobotContainer {
       ()-> {((ArmCommand)m_armSubsystem.getDefaultCommand()).toggleWristPosition();}, m_armSubsystem
     ));
 
-    m_driverController.rightBumper().whileTrue(new FastAutoBalance(m_driveTrainSubsystem, m_gyroSubsystem));
 
     // m_opController.y().onTrue(new RunCommand(
     //   ()-> {m_grabberSubsystem.setGrabberPosition(5);}, m_grabberSubsystem));
