@@ -120,18 +120,18 @@ public final class Constants {
  
     public static final int USB_CAMERACOLOR = 0; //FIXME Not used?
 
-    public static final double AUTO_SHOOT_RPM = 3700; 
-    public static final double SHOOTER_TIMER_1 = 1;
-    public static final double SHOOTER_TIMER_2 = 1.7;
-
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
     public static double AUTO_TURN_ANGLE = 180;
 
     //we need extra distance because the encoder takes distance regardless of angle. 
-    //This makes going up the charge station come up a bit short. 
+    //This makes going up the charge station come up a bit short. To compensate: 
     public static double CHARGE_STATION_MAGIC_NUM = 25;
+
+    //Arm constants
+    public static double AUTO_WRIST_POSITION = -0.4; //rotations
+    public static double AUTO_ARM_POSITION = 0.2; //rotations
 
       public enum Objective {
         SITSTILL ( "LookPretty"),
@@ -217,6 +217,7 @@ public final class Constants {
 
     public static final double ARM_POWER_SCALE_FACTOR = 0.6;
 
+    //WRIST CONSTANTS
     // wrist arm conversion factor
     public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
 
@@ -252,7 +253,7 @@ public final class Constants {
     public static final int SMART_CURRENT_LIMIT = 30;
 
     public static final double GRABBER_MAX_AT_FULL_ARM = -2;
-    public static final double GRABBER_CLOSE_MAX_AT_FULL_ARM = GRABBER_MAX_AT_FULL_ARM - 0.2; //close to max is bigger to ensure grabber doesn't try to both go in and out at once 
+    public static final double GRABBER_CLOSE_MAX_AT_FULL_ARM = GRABBER_MAX_AT_FULL_ARM + 0.2; //close to max is bigger to ensure grabber doesn't try to both go in and out at once 
     public static final double GRABBER_GOOD_ENOUGH_SQUEEZE = 0.3; //when the triggers are substantially pressed 
 
   }  
