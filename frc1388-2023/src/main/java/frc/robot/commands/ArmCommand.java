@@ -54,20 +54,22 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     m_ArmSubsystem.setWristMotorPower(-0.3 * m_opLeftY.get()); //XXX scaling]\[]
+    m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
     
-    if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM && 
-        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
-          if (-m_opRightY.get() < 0 )
-          {
-            m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
-          }
-          else
-          {
-            m_ArmSubsystem.setPrimaryMotorPower(0);
-          }
-    } else {
-      m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
-    }
+    // if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM && 
+    //     (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
+    //       if (-m_opRightY.get() < 0 )
+    //       {
+    //         m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
+    //       }
+    //       else
+    //       {
+    //         m_ArmSubsystem.setPrimaryMotorPower(0);
+    //       }
+    // } else {
+    //   m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
+    // }
+
 
     //test
     // if (m_wristPosition == WristPosition.flat) m_ArmSubsystem.parallelArmSet(m_opRightY.get());
