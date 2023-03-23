@@ -231,6 +231,7 @@ public final class Constants {
     
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = 0.45;
+    public static final double WRIST_POSITION_SCORE = 0.3;
 
     public static final double WRIST_HOLD_POWER = 0.15;
   }

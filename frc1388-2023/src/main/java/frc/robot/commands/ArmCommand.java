@@ -59,14 +59,14 @@ public class ArmCommand extends CommandBase {
         (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW && m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
           if (-m_opRightY.get() < 0 )
           {
-            m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
+            m_ArmSubsystem.setPrimaryArmMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
           }
           else
           {
-            m_ArmSubsystem.setPrimaryMotorPower(0);
+            m_ArmSubsystem.setPrimaryArmMotorPower(0);
           }
     } else {
-      m_ArmSubsystem.setPrimaryMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
+      m_ArmSubsystem.setPrimaryArmMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
     }
 
     //test
@@ -78,7 +78,7 @@ public class ArmCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ArmSubsystem.setPrimaryMotorPower(0);
+    m_ArmSubsystem.setPrimaryArmMotorPower(0);
     m_ArmSubsystem.setWristMotorPower(0);
   }
 

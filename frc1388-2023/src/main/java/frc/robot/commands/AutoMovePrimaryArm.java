@@ -38,7 +38,7 @@ public class AutoMovePrimaryArm extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_armSubsystem.setPrimaryMotorPower(0);
+    m_armSubsystem.setPrimaryArmMotorPower(0);
     // m_armSubsystem.setWristMotorPower(0);
   }
 

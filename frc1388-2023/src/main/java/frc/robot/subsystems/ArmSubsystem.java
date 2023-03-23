@@ -93,7 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
   /** Sets the power of the primary motor. The range of motion is limited by the limit switch and encoder
    * @param power the power to set the motor [-1, 1]
    */
-  public void setPrimaryMotorPower(double power) {
+  public void setPrimaryArmMotorPower(double power) {
     SmartDashboard.putNumber("primary arm power ", power);
     if (
       (power < 0) && (!isPrimaryLimitContacted())
@@ -123,7 +123,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryArmMotorPosition(double position) {
     double distToSetPos = position - getPrimaryArmPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
-      setPrimaryMotorPower(Math.copySign(0.5, distToSetPos));
+      setPrimaryArmMotorPower(Math.copySign(0.5, distToSetPos));
     }
   }
 
@@ -148,14 +148,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Deprecated
   public void parallelArmSet(double speed) {
-    setPrimaryMotorPower(speed);
+    setPrimaryArmMotorPower(speed);
     // setWristMotorPosition(getPrimaryArmPosition());
     // setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP); // <-- doesn't work
   }
 
   @Deprecated //maybe ?
   public void stowedArmSet(double speed) {
-    setPrimaryMotorPower(speed);
+    setPrimaryArmMotorPower(speed);
     setWristMotorPower(-1.0);
     // setWristMotorPosition(ArmConstants.FLAT_TO_UP + 0.25);
     // setWristMotorPosition(getPrimaryArmPosition() + ArmConstants.FLAT_TO_UP + 0.25); // <-- doesn't work
