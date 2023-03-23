@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import com.ctre.phoenix.motorcontrol.GroupMotorControllers;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -19,7 +21,7 @@ public class GrabberCommand extends CommandBase {
   private enum Direction {
     in, out
   }
-  private Direction m_grabberDirection;
+  private Direction m_grabberDirection = Direction.out;
 
   private final GrabberSubsystem m_grabberSubsystem;
   private final ArmSubsystem m_ArmSubsystem;
@@ -56,31 +58,43 @@ public class GrabberCommand extends CommandBase {
   public void execute() {
     String state;
 
-    if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM &&
-        (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW)
-        && (m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
-      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
-      state = "arm too high, pulling grabber in ";
-    } else if ((m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE)
-        && ((m_grabberSubsystem.getGrabberEncoder() < GrabberConstants.GRABBER_CLOSE_MAX_AT_FULL_ARM)
-            || ((m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_LOW)
-                || (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH)))) {
-      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+    // don't delate this yet
+    // if (m_grabberSubsystem.getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM &&
+    //     (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW)
+    //     && (m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH)) {
+    //   m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+    //   state = "arm too high, pulling grabber in ";
+    // } else if ((m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE)
+    //     && ((m_grabberSubsystem.getGrabberEncoder() < GrabberConstants.GRABBER_CLOSE_MAX_AT_FULL_ARM)
+    //         || ((m_ArmSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_LOW)
+    //             || (m_ArmSubsystem.getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH)))) {
+    //   m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
+    //   state = "left trigger out";
+    // } else if (m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
+    //   m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+    //   state = "right trigger in";
+    // } else {
+    //   m_grabberSubsystem.setGrabberMotor(0);
+    //   state = "default, grabber at 0";
+    // }
+
+    // SmartDashboard.putString("current grabber state   ", state);
+
+    if (m_opLeftTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
       m_grabberDirection = Direction.out;
-      state = "left trigger out";
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_OUT);
     } else if (m_opRightTrigger.get() > GrabberConstants.GRABBER_GOOD_ENOUGH_SQUEEZE) {
-      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
       m_grabberDirection = Direction.in;
-      state = "right trigger in";
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_POWER_IN);
+    } else if (m_grabberDirection == Direction.in) {
+      m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
     } else {
       if (m_grabberDirection == Direction.in) {
         m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
       }
       m_grabberSubsystem.setGrabberMotor(0);
-      state = "default, grabber at 0";
     }
 
-    SmartDashboard.putString("current grabber state   ", state);
   }
 
   // Called once the command ends or is interrupted.

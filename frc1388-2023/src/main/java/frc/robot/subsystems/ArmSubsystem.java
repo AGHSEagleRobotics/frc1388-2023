@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.RobotContainer.ArmGrabberClass;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -96,12 +97,16 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryArmMotorPower(double power) {
     SmartDashboard.putNumber("primary arm power ", power);
     if (
-      (power < 0) && (!isPrimaryLimitContacted())
-      || (power > 0) && (getPrimaryArmPosition() < ArmConstants.PRIMARY_ARM_POSITION_MAX)
+      ((power < 0) && (!isPrimaryLimitContacted()))
+      || ((power > 0) && (getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH))
+      || (power == 0)
     ) {
-      m_primaryMotor.set(power);
+      if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
+      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)) {
+        m_primaryMotor.set(0);
+      }
     } else {
-      m_primaryMotor.set(0);
+      m_primaryMotor.set(power);
     }
   }
 

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Dashboard;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.RobotContainer.ArmGrabberClass;
 
@@ -86,7 +87,23 @@ public class GrabberSubsystem extends SubsystemBase {
 
   public void setGrabberMotor(double power) {
     if (m_hasEncoderBeenReset) {
-      m_grabberMotor.set(power);
+      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && getGrabberEncoder() > GrabberConstants.GRABBER_CLOSE_MAX_AT_FULL_ARM) {
+        m_grabberMotor.set(GrabberConstants.GRABBER_LOW_POWER_IN);
+      } else {
+
+        if (power > 0) {
+          m_grabberMotor.set(GrabberConstants.GRABBER_POWER_IN);
+        }
+
+        if (power < 0) {
+          m_grabberMotor.set(GrabberConstants.GRABBER_POWER_OUT);
+        }
+
+        if (power == 0) {
+          m_grabberMotor.set(0);
+        }
+
+      }
     } else {
       m_grabberMotor.set(MathUtil.clamp(power, -1, 0));
     }
