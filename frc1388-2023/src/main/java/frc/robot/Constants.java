@@ -188,6 +188,8 @@ public final class Constants {
 
     public static final double RED_LARSON = -0.35;
     public static final double BLUE_LARSON = 0.19;
+
+    public static final double RAINBOW = -0.99;
   }
 
   public final class ArmConstants {

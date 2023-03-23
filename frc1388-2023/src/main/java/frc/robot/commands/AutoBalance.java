@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoBalanceConstants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 public class AutoBalance extends CommandBase {
 
@@ -24,6 +25,7 @@ public class AutoBalance extends CommandBase {
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
+  private LEDSubsystem m_LedSubsystem;
 
   private double m_angle1 = 0;
   private double m_angle2 = 0;
@@ -98,6 +100,7 @@ public class AutoBalance extends CommandBase {
         
         if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
           m_balanceState = BalanceStates.balanced;
+          m_LedSubsystem.ledBalanced();
         }
         break;
 
@@ -144,6 +147,7 @@ public class AutoBalance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveTrainSubsystem.curvatureDrive(0, 0, false);
+    m_LedSubsystem.ledNormal();
   }
 
   // Returns true when the command should end.
