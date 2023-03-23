@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.RobotContainer.ArmGrabberClass;
 
 public class ArmSubsystem extends SubsystemBase {
   public enum ArmSetPoint { // TODO add more positions
@@ -50,8 +51,10 @@ public class ArmSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_primaryMotor;
   private final DigitalInput m_primaryArmLimitSwitch;
 
+  private final ArmGrabberClass m_armGrabberClass;
+
   /** Creates a new Arm. */
-  public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit) {
+  public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
     m_wristMotor = midArm;
       // m_wristMotor.setIdleMode(IdleMode.kBrake);
       m_wristMotor.setNeutralMode(NeutralMode.Brake);
@@ -68,6 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
       m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     m_primaryArmLimitSwitch = primaryLimit;
+    m_armGrabberClass = armGrabberClass;
       // m_primaryArmLimitSwitch.
   }
 
@@ -195,6 +199,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
     // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
     // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
+    m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
   }
 
   /*

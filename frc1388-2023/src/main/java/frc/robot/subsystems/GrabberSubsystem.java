@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Dashboard;
 import frc.robot.Constants.GrabberConstants;
+import frc.robot.RobotContainer.ArmGrabberClass;
 
 public class GrabberSubsystem extends SubsystemBase {
   private DataLog m_log = DataLogManager.getLog();
@@ -51,8 +52,10 @@ public class GrabberSubsystem extends SubsystemBase {
 
   // private double m_encoderOffset = 0;
 
+  private final ArmGrabberClass m_armGrabberClass;
+
   /** Creates a new Grabber. */
-  public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch, Dashboard dashboard) {
+  public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch, Dashboard dashboard, ArmGrabberClass armGrabberClass) {
     m_grabberMotor = motor;
       m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
       m_grabberMotor.setIdleMode(IdleMode.kBrake);
@@ -61,6 +64,8 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberLimit = limitSwitch;
 
     m_Dashboard = dashboard;
+    
+    m_armGrabberClass = armGrabberClass;
   }
 
   // @Deprecated
