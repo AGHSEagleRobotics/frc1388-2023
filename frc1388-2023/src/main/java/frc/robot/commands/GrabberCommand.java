@@ -89,6 +89,9 @@ public class GrabberCommand extends CommandBase {
     } else if (m_grabberDirection == Direction.in) {
       m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
     } else {
+      if (m_grabberDirection == Direction.in) {
+        m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN);
+      }
       m_grabberSubsystem.setGrabberMotor(0);
     }
 

@@ -33,8 +33,8 @@ public class AutoScore extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setPrimaryMotorPosition(0.2);
     m_armSubsystem.setWristMotorPosition(0.4);
+    m_armSubsystem.setPrimaryArmMotorPosition(0.2);
   }
 
   // Called once the command ends or is interrupted.
