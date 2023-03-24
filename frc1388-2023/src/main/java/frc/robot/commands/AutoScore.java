@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 
@@ -33,13 +35,25 @@ public class AutoScore extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setWristMotorPosition(0.4);
-    m_armSubsystem.setPrimaryArmMotorPosition(0.2);
+    //starting position: wrist is as far up as it can be against the arm, arm is down. Within frame position
+    m_grabberSubsystem.setGrabberMotor(GrabberConstants.GRABBER_LOW_POWER_IN); //makes sure the cone is held - POWER
+    if ( m_armSubsystem.getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH )
+    {
+      m_armSubsystem.setPrimaryArmMotorPower(0.35); 
+    }
+    if ( m_armSubsystem.getWristPosition() < ArmConstants.WRIST_POSITION_SCORE )
+    {
+      m_armSubsystem.setWristMotorPower(-0.05); //starts from max top position, needs to go down to score
+    }
+    m_grabberSubsystem.setGrabberMotor(0.3); //POWER //Move this 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_armSubsystem.setPrimaryArmMotorPower(0);
+    m_armSubsystem.setWristMotorPosition(0);
+  }
 
   // Returns true when the command should end.
   @Override
