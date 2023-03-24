@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -57,23 +58,25 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new Arm. */
   public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
     m_wristMotor = midArm;
-      // m_wristMotor.setIdleMode(IdleMode.kBrake);
       m_wristMotor.setNeutralMode(NeutralMode.Brake);
       m_wristMotor.setInverted(false);
-    //   m_wristMotor.setSmartCurrentLimit(40);
-    // m_wristEncoder = m_wristMotor.getEncoder();
+      m_wristMotor.configStatorCurrentLimit(
+        new StatorCurrentLimitConfiguration(true, ArmConstants.WRIST_CURRENT_LIMIT, ArmConstants.WRIST_CURRENT_LIMIT, 0)
+      );
     m_wristLimitSwitch = midArmLimit;
 
     m_primaryMotor = primary;
       m_primaryMotor.setInverted(true);
       m_primaryMotor.configFactoryDefault();
-      // m_primaryMotor.getSelectedSensorPosition(0);
       m_primaryMotor.setNeutralMode(NeutralMode.Brake);
       m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+      m_primaryMotor.configStatorCurrentLimit(
+        new StatorCurrentLimitConfiguration(true, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, 0)
+      );
 
     m_primaryArmLimitSwitch = primaryLimit;
+
     m_armGrabberClass = armGrabberClass;
-      // m_primaryArmLimitSwitch.
   }
 
   /** Sets the power of the wrist motor. The range of motion is limited by the limit switch and encoder 

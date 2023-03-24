@@ -206,6 +206,7 @@ public final class Constants {
     
     public static final int PRIMARY_ARM_CANID = 5;
     public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
+    public static final int PRIMARY_ARM_CURRENT_LIMIT = 30;
 
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
@@ -225,6 +226,7 @@ public final class Constants {
     public static final int WRIST_CANID = 8;
     // public static final double WRIST_MOTOR_DEADBADND = 1;
     public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
+    public static final int WRIST_CURRENT_LIMIT = 30;
 
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
