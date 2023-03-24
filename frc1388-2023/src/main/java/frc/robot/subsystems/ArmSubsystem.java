@@ -107,9 +107,9 @@ public class ArmSubsystem extends SubsystemBase {
       if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
       && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)) {
         m_primaryMotor.set(0);
-      }
-    } else {
+      } else {
       m_primaryMotor.set(power);
+      }
     }
   }
 
@@ -208,6 +208,9 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
     // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
     m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
+
+    SmartDashboard.putNumber("arm position from arm grabber class ", m_armGrabberClass.primaryArmPosition);
+    SmartDashboard.putNumber("grabber position from arm grabber class ", m_armGrabberClass.grabberPosition);
   }
 
   /*
