@@ -9,10 +9,8 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoKeepArmUp;
-import frc.robot.commands.AutoMove;
-import frc.robot.commands.AutoTurn;
-import frc.robot.commands.AutoTurnTo;
 import frc.robot.commands.GrabberCommand;
+import frc.robot.commands.WristCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.GrabberConstants;
@@ -26,15 +24,12 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.MultiChannelADIS;
 
-import javax.lang.model.util.ElementScanner14;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.subsystems.RumbleSubsystem;
-
+import frc.robot.subsystems.WristSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -81,6 +76,11 @@ public class RobotContainer {
     m_armGrabber
   );
 
+  private final WristSubsystem m_wristSubsystem = new WristSubsystem(
+    new WPI_TalonFX(ArmConstants.WRIST_CANID),
+    new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID)
+  );
+
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
   //  );
@@ -118,6 +118,13 @@ public class RobotContainer {
         m_armSubsystem,
         ()-> m_opController.getLeftY(),
         ()-> m_opController.getRightY()
+      )
+    );
+
+    m_wristSubsystem.setDefaultCommand(
+      new WristCommand(
+        m_wristSubsystem,
+        ()-> m_opController.getLeftY()
       )
     );
 
