@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
@@ -14,6 +13,7 @@ public class LEDSubsystem extends SubsystemBase {
   private PWMSparkMax m_leds;
   private boolean m_maxArm;
   private boolean m_ledBalanced;
+  private boolean m_ledUpRamp;
 
   /** Creates a new LED. */
   public LEDSubsystem(PWMSparkMax leds ) {
@@ -29,16 +29,25 @@ public class LEDSubsystem extends SubsystemBase {
     m_ledBalanced = true;
   }
 
+  public void goLedUpRamp(){
+    m_ledUpRamp = true;
+  }
+
   public void ledNormal(){
     m_ledBalanced = false;
+    m_ledUpRamp = false;
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(m_ledBalanced){
+    if(m_ledUpRamp){
+      m_leds.set(LEDConstants.REDHEARTBEAT);
+    }
+    else if(m_ledBalanced){
       m_leds.set(LEDConstants.RAINBOW);
     }
+
   }
 }

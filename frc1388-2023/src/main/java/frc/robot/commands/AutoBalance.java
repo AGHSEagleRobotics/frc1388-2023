@@ -34,10 +34,11 @@ public class AutoBalance extends CommandBase {
   private int m_outOfBalanceCounter = 0;
 
   /** Creates a new AutoTurn. */
-  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, boolean backwards) {
+  public AutoBalance(DriveTrainSubsystem driveTrainSubsystem, GyroSubsystem gyroSubsystem, LEDSubsystem ledSubsystem, boolean backwards) {
     m_backwards = backwards;
     m_driveTrainSubsystem = driveTrainSubsystem;
     m_gyroSubsystem = gyroSubsystem;
+    m_LedSubsystem = ledSubsystem;
 
     addRequirements(driveTrainSubsystem);
   }
@@ -82,6 +83,7 @@ public class AutoBalance extends CommandBase {
 
       case driveOnRamp:
       // Drive a number of inches forward then move to balance state
+      m_LedSubsystem.goLedUpRamp();
       if (m_backwards == true) {
         m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
       }
@@ -96,17 +98,17 @@ public class AutoBalance extends CommandBase {
         break;
 
       case moveToBalance:
+      m_LedSubsystem.goLedUpRamp();
         constantSpeedBalance(AutoBalanceConstants.BALANCING_SPEED);
         
         if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
           m_balanceState = BalanceStates.balanced;
-          m_LedSubsystem.ledBalanced();
         }
         break;
 
       case balanced:
         m_driveTrainSubsystem.stop();
-        
+        m_LedSubsystem.ledBalanced();
         if (Math.abs(currentAngle) <= AutoBalanceConstants.BALANCED_ANGLE){
           m_outOfBalanceCounter = 0;
         }

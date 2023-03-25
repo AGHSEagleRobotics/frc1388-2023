@@ -16,10 +16,11 @@ import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.GrabberConstants;
-
+import frc.robot.Constants.LEDConstants;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.commands.FastAutoBalance;
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -37,6 +38,7 @@ import frc.robot.subsystems.RumbleSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -72,7 +74,9 @@ public class RobotContainer {
     new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID),
     m_dashboard,
     m_armGrabber
+
   );
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem(new PWMSparkMax(LEDConstants.PWM_LEDS));
 
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(
     new WPI_TalonFX(ArmConstants.WRIST_CANID),
@@ -89,7 +93,7 @@ public class RobotContainer {
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_gyroSubsystem, m_dashboard );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_gyroSubsystem, m_ledSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -142,7 +146,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //These are the binding for the driver controller
-    m_driverController.x().whileTrue(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false));
+    m_driverController.x().whileTrue(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, m_ledSubsystem, false));
     
     m_driverController.y().onTrue( new InstantCommand(()-> {m_gyroSubsystem.resetYAngle();} ));
 
