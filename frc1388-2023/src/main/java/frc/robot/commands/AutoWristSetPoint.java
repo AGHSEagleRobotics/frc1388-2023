@@ -5,7 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 public class AutoWristSetPoint extends CommandBase {
   public enum WristPositions {
@@ -13,28 +14,36 @@ public class AutoWristSetPoint extends CommandBase {
   }
   private final WristPositions m_wristSetPoint;
 
-  private final ArmSubsystem m_armSubsystem;
+  private final WristSubsystem m_wristSubsystem;
 
   /** Creates a new AutoWristSetPoint. */
-  public AutoWristSetPoint(ArmSubsystem armSubsystem, WristPositions setPoint) {
-    m_armSubsystem = armSubsystem;
-    
+  public AutoWristSetPoint(WristSubsystem wristSubsystem, WristPositions setPoint) {
+    m_wristSubsystem = wristSubsystem;
+
     m_wristSetPoint = setPoint;
 
-    addRequirements(m_armSubsystem);
+    addRequirements(m_wristSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_wristSetPoint == WristPositions.extend) {
+      m_wristSubsystem.setWristMotorPower(-0.2);
+    } else if(m_wristSetPoint == WristPositions.retract) {
+      m_wristSubsystem.setWristMotorPower(0.2);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

@@ -5,17 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PrimaryArmSubsystem;
 
 public class AutoMovePrimaryArm extends CommandBase {
 
-  private final ArmSubsystem m_armSubsystem;
+  private final PrimaryArmSubsystem m_armSubsystem;
 
   private final double m_primaryArmSetPoint;
   private boolean m_atSetPoint = false;
 
   /** Creates a new AutoMoveArm. */
-  public AutoMovePrimaryArm(ArmSubsystem armSubsystem, double primaryArmSetPoint) {
+  public AutoMovePrimaryArm(PrimaryArmSubsystem armSubsystem, double primaryArmSetPoint) {
     m_armSubsystem = armSubsystem;
 
     m_primaryArmSetPoint = primaryArmSetPoint;

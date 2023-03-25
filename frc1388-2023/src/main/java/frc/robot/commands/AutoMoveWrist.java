@@ -5,21 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 @Deprecated
 public class AutoMoveWrist extends CommandBase {
   
-  private final ArmSubsystem m_armSubsystem;
+  private final WristSubsystem m_requirements;
 
-  private final double m_secondaryArmSetPoint;
+  private final double m_wristSetPoint;
   private boolean m_atSetPoint = false;
 
   /** Creates a new AutoMoveSecondaryArm. */
-  public AutoMoveWrist(ArmSubsystem armSubsystem, double secondaryArmSetPoint) {
-    m_armSubsystem  = armSubsystem;
+  public AutoMoveWrist(WristSubsystem wristSubsystem, double wristSetPoint) {
+    m_requirements  = wristSubsystem;
 
-    m_secondaryArmSetPoint = secondaryArmSetPoint;
+    m_wristSetPoint = wristSetPoint;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,13 +30,13 @@ public class AutoMoveWrist extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_atSetPoint = m_armSubsystem.setWristMotorPosition(m_secondaryArmSetPoint);
+    m_atSetPoint = m_requirements.setWristMotorPosition(m_wristSetPoint);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_armSubsystem.setWristMotorPower(0);
+    m_requirements.setWristMotorPower(0);
   }
 
   // Returns true when the command should end.

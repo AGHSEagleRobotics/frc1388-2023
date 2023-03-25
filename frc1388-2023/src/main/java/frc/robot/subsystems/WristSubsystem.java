@@ -12,18 +12,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.RobotContainer.ArmGrabberClass;
 
 public class WristSubsystem extends SubsystemBase {
 
-  // mid arm
+  // wrist
   private final WPI_TalonFX m_wristMotor;
   private final DigitalInput m_wristLimitSwitch;
 
 
   /** Creates a new Arm. */
-  public WristSubsystem(WPI_TalonFX midArm, DigitalInput wristLimit) {
-    m_wristMotor = midArm;
+  public WristSubsystem(WPI_TalonFX wristMotor, DigitalInput wristLimit) {
+    m_wristMotor = wristMotor;
     m_wristMotor.setNeutralMode(NeutralMode.Brake);
     m_wristMotor.setInverted(false);
     m_wristMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ArmConstants.WRIST_CURRENT_LIMIT, ArmConstants.WRIST_CURRENT_LIMIT,0));
@@ -52,7 +51,7 @@ public class WristSubsystem extends SubsystemBase {
     // m_wristMotor.set(m_pidController.calculate(m_wristMotor.getSelectedSensorVelocity(), speed));
   }
 
-  /** position of mid arm in rotations */
+  /** position of wrist in rotations */
   public boolean setWristMotorPosition(double position) {
     double distToSetPos = position - getWristPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){

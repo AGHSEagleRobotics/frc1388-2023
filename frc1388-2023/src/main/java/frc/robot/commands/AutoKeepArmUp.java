@@ -6,15 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 public class AutoKeepArmUp extends CommandBase {
-  private final ArmSubsystem m_arm;
+  private final WristSubsystem m_wrist;
+
   /** Creates a new AutoKeepArmUp. */
-  public AutoKeepArmUp(ArmSubsystem arm) {
-    m_arm = arm;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_arm);
+  public AutoKeepArmUp(WristSubsystem wrist) {
+    m_wrist = wrist;
+
+    addRequirements(m_wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +25,13 @@ public class AutoKeepArmUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.setWristMotorPower(ArmConstants.WRIST_HOLD_POWER);
+    m_wrist.setWristMotorPower(ArmConstants.WRIST_HOLD_POWER);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.setWristMotorPower(0);
+    m_wrist.setWristMotorPower(0);
   }
 
   // Returns true when the command should end.
