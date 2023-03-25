@@ -199,15 +199,17 @@ public class RobotContainer {
 
   public void resetGrabberEncoder() {
     m_grabberSubsystem.setGrabberEncoder(0);
+    m_armGrabber.hasGrabberEncoderBeenReset = true;
   }
 
   public void setHasGrabberBeenReset(boolean hasGrabberBeenReset) {
-    m_grabberSubsystem.setHasGrabberBeenReset(hasGrabberBeenReset);
+    m_armGrabber.hasGrabberEncoderBeenReset = hasGrabberBeenReset;
   }
 
-  public class ArmGrabberClass{
+  public class ArmGrabberClass {
     public double primaryArmPosition;
     public double grabberPosition;
+    public boolean hasGrabberEncoderBeenReset;
   }
 
 }

@@ -47,13 +47,15 @@ public class GrabberSubsystem extends SubsystemBase {
   private final RelativeEncoder m_grabberEncoder;
   private final DigitalInput m_grabberLimit;
 
-  private boolean m_hasEncoderBeenReset = false;
+  // private boolean m_hasEncoderBeenReset = false;
 
   private final Dashboard m_Dashboard;
 
   // private double m_encoderOffset = 0;
 
   private final ArmGrabberClass m_armGrabberClass;
+
+  private double m_grabberPower = 0;
 
   /** Creates a new Grabber. */
   public GrabberSubsystem(CANSparkMax motor, DigitalInput limitSwitch, Dashboard dashboard, ArmGrabberClass armGrabberClass) {
@@ -86,31 +88,10 @@ public class GrabberSubsystem extends SubsystemBase {
   }
 
   public void setGrabberMotor(double power) {
-    if (m_hasEncoderBeenReset) {
-      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && getGrabberEncoder() > GrabberConstants.GRABBER_CLOSE_MAX_AT_FULL_ARM) {
-        m_grabberMotor.set(GrabberConstants.GRABBER_LOW_POWER_IN);
-      } else {
-
-        if (power > 0) {
-          m_grabberMotor.set(GrabberConstants.GRABBER_POWER_IN);
-        }
-
-        if (power < 0) {
-          m_grabberMotor.set(GrabberConstants.GRABBER_POWER_OUT);
-        }
-
-        if (power == 0) {
-          m_grabberMotor.set(0);
-        }
-
-      }
-    } else {
-      m_grabberMotor.set(MathUtil.clamp(power, -1, 0));
-    }
+    m_grabberPower = power;
   }
 
   public void setGrabberEncoder(double value) {
-    m_hasEncoderBeenReset = true;
     m_grabberEncoder.setPosition(value);
   }
 
@@ -118,22 +99,50 @@ public class GrabberSubsystem extends SubsystemBase {
     return m_grabberEncoder.getPosition();
   }
 
-  public void setHasGrabberBeenReset(boolean hasGrabberBeenReset) {
-    m_hasEncoderBeenReset = hasGrabberBeenReset;
-  }
 
   @Override
   public void periodic() {
+
+    m_armGrabberClass.grabberPosition = getGrabberEncoder();
+    // m_hasEncoderBeenReset = m_armGrabberClass.hasGrabberEncoderBeenReset;
+
+    if (m_armGrabberClass.hasGrabberEncoderBeenReset) {
+      SmartDashboard.putNumber("arm", m_armGrabberClass.primaryArmPosition);
+      SmartDashboard.putNumber("grabber", getGrabberEncoder());
+      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && (getGrabberEncoder() > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)) {
+            m_grabberMotor.set(GrabberConstants.GRABBER_POWER_IN);
+          } else {
+        m_grabberMotor.set(m_grabberPower);
+      }
+    } else {
+      if (m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) {
+        m_grabberMotor.setSmartCurrentLimit(10);
+        m_grabberMotor.set(GrabberConstants.GRABBER_LOW_POWER_IN);
+      } else {
+        m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT);
+        m_grabberMotor.set(m_grabberPower);
+        // m_grabberMotor.set(MathUtil.clamp(power, -1, 0));
+
+      }
+    }
+
+
+    
+    // m_grabberMotor.set(m_grabberPower);
+
+
     // This method will be called once per scheduler run
     // if (m_grabberLimit.get()) m_grabberEncoder.setPosition(Constants.GrabberConstants.GRABBER_POSITION_AT_LIMIT_SWITCH);
     // System.out.println("grabber limit switch: " + m_grabberLimit.get());
     SmartDashboard.putNumber("grabber motor position ", m_grabberEncoder.getPosition());
     SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
-    if (!m_hasEncoderBeenReset && m_grabberMotor.getOutputCurrent() > 20);
+
+    // if (!m_hasEncoderBeenReset && m_grabberMotor.getOutputCurrent() > 20);
+
     // SmartDashboard.putBoolean("|||has the arm been reset?|||", m_hasEncoderBeenReset);
     // Shuffleboard.putBoolean("has the grabber been reset? ", m_hasEncoderBeenReset);
     // m_log.appendDouble(0, m_grabberEncoder.getPosition(), 0);
 
-    m_Dashboard.setIfGrabberReset(m_hasEncoderBeenReset);
+    m_Dashboard.setIfGrabberReset(m_armGrabberClass.hasGrabberEncoderBeenReset);
   }
 }

@@ -55,6 +55,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private final ArmGrabberClass m_armGrabberClass;
 
+  private double m_primaryArmPower = 0;
+
   /** Creates a new Arm. */
   public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
     m_wristMotor = midArm;
@@ -98,19 +100,9 @@ public class ArmSubsystem extends SubsystemBase {
    * @param power the power to set the motor [-1, 1]
    */
   public void setPrimaryArmMotorPower(double power) {
+    m_primaryArmPower = power;
     SmartDashboard.putNumber("primary arm power ", power);
-    if (
-      ((power < 0) && (!isPrimaryLimitContacted()))
-      || ((power > 0) && (getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_HIGH))
-      || (power == 0)
-    ) {
-      if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
-      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)) {
-        m_primaryMotor.set(0);
-      } else {
-      m_primaryMotor.set(power);
-      }
-    }
+
   }
 
   @Deprecated
@@ -195,6 +187,26 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
+
+    if (
+      ((m_primaryArmPower < 0) && (!isPrimaryLimitContacted()))
+      || ((m_primaryArmPower > 0) && (getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH))
+      || (m_primaryArmPower == 0)
+    ) {
+      if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
+      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)
+      && m_armGrabberClass.hasGrabberEncoderBeenReset
+      && (m_primaryArmPower > 0)) {
+        m_primaryMotor.set(0);
+      } else {
+      m_primaryMotor.set(m_primaryArmPower);
+      }
+    } else {
+      m_primaryMotor.set(0);
+    }
+
     // This method will be called once per scheduler run
     // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
     if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
@@ -207,7 +219,6 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
     // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
     // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
-    m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
 
     SmartDashboard.putNumber("arm position from arm grabber class ", m_armGrabberClass.primaryArmPosition);
     SmartDashboard.putNumber("grabber position from arm grabber class ", m_armGrabberClass.grabberPosition);
