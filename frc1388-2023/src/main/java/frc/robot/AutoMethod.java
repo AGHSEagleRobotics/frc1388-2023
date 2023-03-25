@@ -13,11 +13,13 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMovePrimaryArm;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.FastAutoBalance;
 import frc.robot.commands.GoUntilAngle;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
@@ -27,6 +29,7 @@ public class AutoMethod {
     private DriveTrainSubsystem m_driveTrainSubsystem;
     private GyroSubsystem m_gyroSubsystem;
     private final Dashboard m_Dashboard;
+    private ArmSubsystem m_armSubsystem;
 
     //assume blue
     private double m_autoTurnAngle = AutoConstants.AUTO_TURN_ANGLE; //local variable to avoid changing constant
@@ -71,8 +74,26 @@ public class AutoMethod {
         return 
         new AutoMove(18, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
         .andThen(
-            new AutoMove(-18, 0.5, m_driveTrainSubsystem, m_gyroSubsystem)
+            new AutoMovePrimaryArm(m_armSubsystem, m_autoTurnAngle)
                 )
+        .andThen(
+            
+        )
+        .andThen(
+            new AutoMove(9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
+        )
+        .andThen(
+            
+        )
+        .andThen(
+            new AutoMovePrimaryArm(null, m_autoTurnAngle)
+            )
+            .alongWith(
+                new AutoMove(-9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
+                )
+        .andThen(
+            new AutoTurn(10, 0.25, m_gyroSubsystem, m_driveTrainSubsystem) //lining up with charge station  
+        )
             // new AutoScore() //move arm
         ; 
     }
