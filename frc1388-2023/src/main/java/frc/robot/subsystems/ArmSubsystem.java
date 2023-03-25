@@ -7,48 +7,22 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.RobotContainer.ArmGrabberClass;
 
 public class ArmSubsystem extends SubsystemBase {
-  public enum ArmSetPoint { // TODO add more positions
-    retracted, extended
-  }
-
-  /* 
-  public final AnArmPosition m_extendedPos = new AnArmPosition(
-    ArmConstants.WRIST_POSITION_UP,
-    ArmConstants.PRIMARY_ARM_POSITION_UP
-  );
-
-  public final AnArmPosition m_retractedPos = new AnArmPosition(
-    ArmConstants.WRIST_POSITION_DOWN,
-    ArmConstants.PRIMARY_ARM_POSITION_DOWN
-  );
-  */
-
-  // currently not used
-  private ArmSetPoint m_armSetPoint = ArmSetPoint.retracted;
 
   // mid arm
   private final WPI_TalonFX m_wristMotor;
-  // private final RelativeEncoder m_wristEncoder;
   private final DigitalInput m_wristLimitSwitch;
-  private final PIDController m_pidController = new PIDController(0.1, 0, 0);
-  
+
   // primary
   private final WPI_TalonFX m_primaryMotor;
   private final DigitalInput m_primaryArmLimitSwitch;
@@ -58,23 +32,20 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_primaryArmPower = 0;
 
   /** Creates a new Arm. */
-  public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput midArmLimit, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
+  public ArmSubsystem(WPI_TalonFX midArm, WPI_TalonFX primary, DigitalInput wristLimit, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
     m_wristMotor = midArm;
-      m_wristMotor.setNeutralMode(NeutralMode.Brake);
-      m_wristMotor.setInverted(false);
-      m_wristMotor.configStatorCurrentLimit(
-        new StatorCurrentLimitConfiguration(true, ArmConstants.WRIST_CURRENT_LIMIT, ArmConstants.WRIST_CURRENT_LIMIT, 0)
-      );
-    m_wristLimitSwitch = midArmLimit;
+    m_wristMotor.setNeutralMode(NeutralMode.Brake);
+    m_wristMotor.setInverted(false);
+    m_wristMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ArmConstants.WRIST_CURRENT_LIMIT, ArmConstants.WRIST_CURRENT_LIMIT,0));
+
+    m_wristLimitSwitch = wristLimit;
 
     m_primaryMotor = primary;
-      m_primaryMotor.setInverted(true);
-      m_primaryMotor.configFactoryDefault();
-      m_primaryMotor.setNeutralMode(NeutralMode.Brake);
-      m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-      m_primaryMotor.configStatorCurrentLimit(
-        new StatorCurrentLimitConfiguration(true, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, 0)
-      );
+    m_primaryMotor.configFactoryDefault();
+    m_primaryMotor.setInverted(false);
+    m_primaryMotor.setNeutralMode(NeutralMode.Brake);
+    m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_primaryMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, 0));
 
     m_primaryArmLimitSwitch = primaryLimit;
 
@@ -102,49 +73,35 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPrimaryArmMotorPower(double power) {
     m_primaryArmPower = power;
     SmartDashboard.putNumber("primary arm power ", power);
-
   }
 
   @Deprecated
   /** doesn't work */
   public void setWristMotorSpeed(double speed) {
-    m_wristMotor.set(m_pidController.calculate(m_wristMotor.getSelectedSensorVelocity(), speed));
+    // m_wristMotor.set(m_pidController.calculate(m_wristMotor.getSelectedSensorVelocity(), speed));
   }
 
   /** position of mid arm in rotations */
-  public void setWristMotorPosition(double position) {
+  public boolean setWristMotorPosition(double position) {
     double distToSetPos = position - getWristPosition();
     if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
-      setWristMotorPower(Math.copySign(0.5, distToSetPos));
+      setWristMotorPower(Math.copySign(0.5, distToSetPos)); //TODO add constants for 0.5
+      return false;
+    } else {
+      return true;
     }
   }
 
   /** position of primary arm in rotations */
-  public void setPrimaryArmMotorPosition(double position) {
+  public boolean setPrimaryArmMotorPosition(double position) {
     double distToSetPos = position - getPrimaryArmPosition();
-    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND){
-      setPrimaryArmMotorPower(Math.copySign(0.5, distToSetPos));
+    if (Math.abs(distToSetPos) > ArmConstants.DEADBAND) {
+      setPrimaryArmMotorPower(Math.copySign(0.5, distToSetPos)); //TODO add constants for 0.5
+      return false;
+    } else {
+      return true;
     }
   }
-
-/* old code, delete?
-  public void setArmPosition(ArmSetPoint setPoint) {
-    m_armSetPoint = setPoint;
-    switch (setPoint) {
-      case retracted: {
-        setWristMotorPosition(m_retractedPos.midArmPosition);
-        setPrimaryMotorPower(m_retractedPos.primaryPosition);
-        break;
-      } 
-      case extended: {
-        setWristMotorPosition(m_extendedPos.midArmPosition);
-        setPrimaryMotorPower(m_extendedPos.primaryPosition);
-        break;
-      }
-    }
-  }
-   * 
-  */
 
   @Deprecated
   public void parallelArmSet(double speed) {
@@ -184,9 +141,10 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean isPrimaryLimitContacted() {
     return !m_primaryArmLimitSwitch.get();
   }
-
+  
   @Override
   public void periodic() {
+    // This method will be called once per scheduler run
 
     m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
 
@@ -201,41 +159,21 @@ public class ArmSubsystem extends SubsystemBase {
       && (m_primaryArmPower > 0)) {
         m_primaryMotor.set(0);
       } else {
-      m_primaryMotor.set(m_primaryArmPower);
+        m_primaryMotor.set(m_primaryArmPower);
       }
     } else {
       m_primaryMotor.set(0);
     }
 
-    // This method will be called once per scheduler run
-    // if (m_wristLimitSwitch.get()) m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
-    if (isPrimaryLimitContacted()) m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
-    SmartDashboard.putBoolean("primary limit switch ", isPrimaryLimitContacted());
-    if (isPrimaryLimitContacted()) {
+    // if (m_wristLimitSwitch.get()){
+      // m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
+    // }
+    if (isPrimaryLimitContacted()){
       m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
     }
-    SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
-    // SmartDashboard.putBoolean("wrist limit switch", m_wristLimitSwitch.get());
+
     SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
-    // SmartDashboard.putNumber("primary arm raw units", m_primaryMotor.getSelectedSensorPosition());
-    // SmartDashboard.putNumber("wrist motor", m_wristEncoder.getPosition() / ArmConstants.WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS);
-
-    SmartDashboard.putNumber("arm position from arm grabber class ", m_armGrabberClass.primaryArmPosition);
-    SmartDashboard.putNumber("grabber position from arm grabber class ", m_armGrabberClass.grabberPosition);
+    SmartDashboard.putBoolean("primary limit switch ", isPrimaryLimitContacted());
+    SmartDashboard.putNumber("wrist motor position ", getWristPosition());
   }
-
-  /*
-  public class AnArmPosition {
-    // private final PossibleArmPositions m_thisArmPosition;
-    private final double midArmPosition;
-    private final double primaryPosition;
-
-    /*
-    AnArmPosition(double midArmPosition, double primaryArmPosition) {
-      // m_thisArmPosition = thisPosition;
-      this.midArmPosition = midArmPosition;
-      this.primaryPosition = primaryArmPosition;
-    }
-  }
-  */
 }

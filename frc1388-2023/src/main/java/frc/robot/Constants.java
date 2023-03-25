@@ -217,10 +217,11 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     public static final double ARM_POWER_SCALE_FACTOR = 0.6;
+    public static final double WRIST_POWER_SCALE_FACTOR = 0.3;
 
     //WRIST CONSTANTS
     // wrist arm conversion factor
-    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
+    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 63; // TODO check this
 
     // wrist arm
     public static final int WRIST_CANID = 8;

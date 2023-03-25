@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import javax.print.attribute.standard.PrinterMessageFromOperator;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
@@ -14,6 +12,7 @@ public class AutoMovePrimaryArm extends CommandBase {
   private final ArmSubsystem m_armSubsystem;
 
   private final double m_primaryArmSetPoint;
+  private boolean m_atSetPoint = false;
 
   /** Creates a new AutoMoveArm. */
   public AutoMovePrimaryArm(ArmSubsystem armSubsystem, double primaryArmSetPoint) {
@@ -32,19 +31,18 @@ public class AutoMovePrimaryArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setPrimaryArmMotorPosition(m_primaryArmSetPoint);
+    m_atSetPoint = m_armSubsystem.setPrimaryArmMotorPosition(m_primaryArmSetPoint);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_armSubsystem.setPrimaryArmMotorPower(0);
-    // m_armSubsystem.setWristMotorPower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_atSetPoint;
   }
 }

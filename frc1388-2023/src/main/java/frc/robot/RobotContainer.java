@@ -69,7 +69,6 @@ public class RobotContainer {
 
    private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
     new CANSparkMax(GrabberConstants.GRABBER_CANID, MotorType.kBrushless), 
-    new DigitalInput(GrabberConstants.GRABBER_LIMIT_SWITCH_ID),
     m_dashboard,
     m_armGrabber
   );
@@ -109,7 +108,6 @@ public class RobotContainer {
     m_grabberSubsystem.setDefaultCommand(
       new GrabberCommand(
         m_grabberSubsystem,
-        m_armSubsystem,
         ()-> m_opController.getLeftTriggerAxis(), 
         ()->m_opController.getRightTriggerAxis()
       )
@@ -118,7 +116,6 @@ public class RobotContainer {
     m_armSubsystem.setDefaultCommand(
       new ArmCommand(
         m_armSubsystem,
-        m_grabberSubsystem,
         ()-> m_opController.getLeftY(),
         ()-> m_opController.getRightY()
       )
@@ -162,11 +159,6 @@ public class RobotContainer {
     m_opController.rightBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrainSubsystem
     ));
-
-    m_opController.a().onTrue(new InstantCommand(
-      ()-> {((ArmCommand)m_armSubsystem.getDefaultCommand()).toggleWristPosition();}, m_armSubsystem
-    ));
-
 
     // m_opController.y().onTrue(new RunCommand(
     //   ()-> {m_grabberSubsystem.setGrabberPosition(5);}, m_grabberSubsystem));
