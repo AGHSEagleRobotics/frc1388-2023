@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.subsystems.WristSubsystem;
 
 public class AutoWristSetPoint extends CommandBase {
   public enum WristPositions {

@@ -86,7 +86,7 @@ public class RobotContainer {
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_gyroSubsystem, m_dashboard );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
