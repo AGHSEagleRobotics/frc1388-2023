@@ -177,7 +177,7 @@ public final class Constants {
   }
 
   public final class LEDConstants {
-    public static final int PWM_LEDS = 8;
+    public static final int PWM_LEDS = 0;
 
     public static final double RED_SOLID = 0.61;
     public static final double BLUE_SOLID = 0.87;
