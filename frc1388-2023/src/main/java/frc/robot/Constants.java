@@ -216,7 +216,7 @@ public final class Constants {
     public static final double ARM_MAX_EXTEND_HIGH = 0.25;
     public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
-    public static final double ARM_POWER_SCALE_FACTOR = 0.6;
+    public static final double ARM_POWER_SCALE_FACTOR = -0.6;
     public static final double WRIST_POWER_SCALE_FACTOR = 0.3;
 
     //WRIST CONSTANTS
@@ -251,9 +251,9 @@ public final class Constants {
     /** the dead band tolerance for the grabber, measured in motor rotations */
     public static final double GRABBER_ENCODER_DEADBAND = 0.4;
 
-    public static final double GRABBER_POWER_OUT = 0.25;
-    public static final double GRABBER_POWER_IN = -0.25;
-    public static final double GRABBER_LOW_POWER_IN = -0.15;
+    public static final double GRABBER_POWER_OUT = -0.25;
+    public static final double GRABBER_POWER_IN = 0.25;
+    public static final double GRABBER_LOW_POWER_IN = 0.15;
     public static final int SMART_CURRENT_LIMIT = 30;
 
     public static final double GRABBER_MAX_AT_FULL_ARM = -2;

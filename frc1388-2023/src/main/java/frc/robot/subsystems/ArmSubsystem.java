@@ -149,8 +149,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
 
     if (
-      ((m_primaryArmPower < 0) && (!isPrimaryLimitContacted()))
-      || ((m_primaryArmPower > 0) && (getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH))
+      ((m_primaryArmPower > 0) && (!isPrimaryLimitContacted()))
+      || ((m_primaryArmPower < 0) && (getPrimaryArmPosition() < ArmConstants.ARM_MAX_EXTEND_HIGH))
       || (m_primaryArmPower == 0)
     ) {
       if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
