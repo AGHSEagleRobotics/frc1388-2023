@@ -57,12 +57,12 @@ public class RobotContainer {
 
   private final DriveTrainSubsystem m_driveTrainSubsystem = new DriveTrainSubsystem(
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_FRONT),
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK), 
-   new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT), 
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_LEFT_BACK),
+      new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_FRONT),
       new WPI_TalonFX(Constants.DriveTrainConstants.CANID_RIGHT_BACK)
-      );
+  );
 
-   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
+  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem(
     new CANSparkMax(GrabberConstants.GRABBER_CANID, MotorType.kBrushless), 
     m_dashboard,
     m_armGrabber

@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Dashboard;
@@ -32,7 +31,7 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabberMotor = motor;
     m_grabberMotor.setSmartCurrentLimit(GrabberConstants.SMART_CURRENT_LIMIT); // in amps
     m_grabberMotor.setIdleMode(IdleMode.kBrake);
-    m_grabberMotor.setInverted(true);
+    m_grabberMotor.setInverted(false);
 
     m_grabberEncoder = m_grabberMotor.getEncoder();
 
@@ -48,6 +47,10 @@ public class GrabberSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * sets the power of the grabber motor
+   * @param power range [-1, 1] positive is out, negative is in
+   */
   public void setGrabberMotor(double power) {
     m_grabberPower = power;
   }

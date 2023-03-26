@@ -30,9 +30,10 @@ public class WristSubsystem extends SubsystemBase {
     m_wristLimitSwitch = wristLimit;
   }
 
-  /** Sets the power of the wrist motor. The range of motion is limited by the limit switch and encoder 
-   * @param power the power to set the motor [-1, 1]
-  */
+  /**
+   * sets the power of the wrist motor
+   * @param power the power to set the motor [-1, 1], positive is up/retract, negative is down/extend
+   */
   public void setWristMotorPower(double power) {
     // if (
     //   (power < 0) && (!m_wristLimitSwitch.get())
@@ -42,6 +43,7 @@ public class WristSubsystem extends SubsystemBase {
     // } else {
     //   m_wristMotor.set(0);
     // }
+    SmartDashboard.putNumber("wrist motor power ", power);
     m_wristMotor.set(power);
   }
 
@@ -88,5 +90,8 @@ public class WristSubsystem extends SubsystemBase {
     // }
 
     SmartDashboard.putNumber("wrist motor position ", getWristPosition());
+    SmartDashboard.putNumber("wrist motor current ", m_wristMotor.getSelectedSensorVelocity());
+
+
   }
 }

@@ -14,15 +14,15 @@ public class WristCommand extends CommandBase {
 
   private final WristSubsystem m_wristSubsystem;
 
-  private final Supplier<Double> m_opY;
+  private final Supplier<Double> m_opLeftY;
 
   /** Creates a new ArmCommand. */
   public WristCommand(
     WristSubsystem wristSubsystem,
-    Supplier<Double> opY
+    Supplier<Double> opLeftY
   ) {
     m_wristSubsystem = wristSubsystem;
-    m_opY = opY;
+    m_opLeftY = opLeftY;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_wristSubsystem);
   }
@@ -34,7 +34,7 @@ public class WristCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_wristSubsystem.setWristMotorPower(ArmConstants.WRIST_POWER_SCALE_FACTOR * -m_opY.get());
+    m_wristSubsystem.setWristMotorPower(ArmConstants.WRIST_POWER_SCALE_FACTOR * -m_opLeftY.get());
   }
 
   // Called once the command ends or is interrupted.

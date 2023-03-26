@@ -31,7 +31,7 @@ public class PrimaryArmSubsystem extends SubsystemBase {
 
     m_primaryMotor = primary;
     m_primaryMotor.configFactoryDefault();
-    m_primaryMotor.setInverted(false);
+    m_primaryMotor.setInverted(true);
     m_primaryMotor.setNeutralMode(NeutralMode.Brake);
     m_primaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_primaryMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, ArmConstants.PRIMARY_ARM_CURRENT_LIMIT, 0));
@@ -41,8 +41,9 @@ public class PrimaryArmSubsystem extends SubsystemBase {
     m_armGrabberClass = armGrabberClass;
   }
 
-  /** Sets the power of the primary motor. The range of motion is limited by the limit switch and encoder
-   * @param power the power to set the motor [-1, 1]
+  /**
+   * sets the power of the primary arm motor
+   * @param power range [-1, 1], positive makes the arm go up, negative retracts the arm
    */
   public void setPrimaryArmMotorPower(double power) {
     m_primaryArmPower = power;
@@ -98,6 +99,10 @@ public class PrimaryArmSubsystem extends SubsystemBase {
     } else {
       m_primaryMotor.set(0);
     }
+
+    /// XXX important debug, remove
+    // System.out.println(m_primaryArmPower);
+    // m_primaryMotor.set(m_primaryArmPower);
     
     if (isPrimaryLimitContacted()){
       m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
