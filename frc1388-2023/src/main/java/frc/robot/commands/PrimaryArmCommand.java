@@ -4,22 +4,25 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.PrimaryArmSubsystem;
 
-public class AutoMovePrimaryArm extends CommandBase {
+public class PrimaryArmCommand extends CommandBase {
 
   private final PrimaryArmSubsystem m_armSubsystem;
 
-  private final double m_primaryArmSetPoint;
-  private boolean m_atSetPoint = false;
+  private final Supplier<Double> m_opRightY;
 
-  /** Creates a new AutoMoveArm. */
-  public AutoMovePrimaryArm(PrimaryArmSubsystem armSubsystem, double primaryArmSetPoint) {
+  /** Creates a new ArmCommand. */
+  public PrimaryArmCommand(
+    PrimaryArmSubsystem armSubsystem,
+    Supplier<Double> opRightY
+  ) {
     m_armSubsystem = armSubsystem;
-
-    m_primaryArmSetPoint = primaryArmSetPoint;
-
+    m_opRightY = opRightY;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_armSubsystem);
   }
@@ -31,7 +34,7 @@ public class AutoMovePrimaryArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_atSetPoint = m_armSubsystem.setPrimaryArmMotorPosition(m_primaryArmSetPoint);
+    m_armSubsystem.setPrimaryArmMotorPower(ArmConstants.ARM_POWER_SCALE_FACTOR * -m_opRightY.get());
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +46,6 @@ public class AutoMovePrimaryArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_atSetPoint;
+    return false;
   }
 }

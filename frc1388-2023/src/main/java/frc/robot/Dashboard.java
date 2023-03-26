@@ -21,9 +21,9 @@ public class Dashboard {
     private static SendableChooser<Position> m_autoPosition = new SendableChooser<>();
 
     private final UsbCamera m_cameraView;
-    private final int CAMERA_RES_HEIGHT = 30;
-    private final int CAMERA_RES_WIDTH = 40;
-    private final int CAMERA_FPS = 40;
+    private final int CAMERA_RES_WIDTH = 320;
+    private final int CAMERA_RES_HEIGHT = 200;
+    private final int CAMERA_FPS = 30;
 
     private final ComplexWidget m_CameraComplexWidget;
     private final ComplexWidget m_complexWidgetObjective;
@@ -43,7 +43,7 @@ public class Dashboard {
 
         m_CameraComplexWidget = m_shuffleboardTab.add("Camera View", m_cameraView)
             .withWidget(BuiltInWidgets.kCameraStream)
-            .withSize(13, 11)
+            .withSize(19, 11)
             .withPosition(0, 0);
 
         // objectives
@@ -54,7 +54,7 @@ public class Dashboard {
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(13, 0);
+            .withPosition(19, 0);
 
         // position
         for (AutoConstants.Position p : Position.values()) {
@@ -66,17 +66,17 @@ public class Dashboard {
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(4, 4)
-            .withPosition(17, 0);
+            .withPosition(23, 0);
 
         m_pitch = m_shuffleboardTab.add("Pitch", 0 )
             .withWidget(BuiltInWidgets.kTextView)
             .withSize(2, 2)
-            .withPosition(13, 4)
+            .withPosition(19, 4)
             .getEntry();
         m_isGrabberReset = m_shuffleboardTab.add("Grabber reset", false)
             .withWidget(BuiltInWidgets.kBooleanBox)
             .withSize(3, 4)
-            .withPosition(13, 8)
+            .withPosition(21, 4)
             .getEntry();
 
     } //end constructor

@@ -208,31 +208,35 @@ public final class Constants {
     
     public static final int PRIMARY_ARM_CANID = 5;
     public static final int PRIMARY_ARM_LIMIT_SWITCH_DIO_ID = 0;
+    public static final int PRIMARY_ARM_CURRENT_LIMIT = 30;
 
     public static final double PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double PRIMARY_ARM_POSITION_UP = ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS * 0.25; 
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
 
     public static final double ARM_MAX_EXTEND_LOW = 0.13;
-    public static final double ARM_MAX_EXTEND_HIGH = 0.25;
-    public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
+    public static final double ARM_MAX_EXTEND_HIGH = 0.22;
+    // public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     public static final double ARM_POWER_SCALE_FACTOR = 0.6;
+    public static final double WRIST_POWER_SCALE_FACTOR = 0.3;
 
     //WRIST CONSTANTS
     // wrist arm conversion factor
-    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 16; // TODO check this
+    public static final double WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS = 2048 * 63; // TODO check this
 
     // wrist arm
     public static final int WRIST_CANID = 8;
     // public static final double WRIST_MOTOR_DEADBADND = 1;
     public static final int WRIST_LIMIT_SWITCH_DIO_ID = 1;
+    public static final int WRIST_CURRENT_LIMIT = 30;
 
     public static final double WRIST_POSITION_AT_LIMIT_SWITCH = 0;
     public static final double WRIST_POSITION_UP = WRIST_MOTOR_ROTATIONS_PER_WRIST_ARM_ROTATIONS * 0.45;
     
     public static final double WRIST_POSITION_DOWN = 0;
     public static final double WRIST_POSITION_MAX = 0.45;
+    public static final double WRIST_POSITION_SCORE = 0.3;
 
     public static final double WRIST_HOLD_POWER = 0.15;
   }
