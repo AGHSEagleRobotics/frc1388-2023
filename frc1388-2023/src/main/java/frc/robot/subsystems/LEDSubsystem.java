@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
@@ -11,9 +12,11 @@ import frc.robot.Constants.LEDConstants;
 public class LEDSubsystem extends SubsystemBase {
 
   private PWMSparkMax m_leds;
-  private boolean m_maxArm;
+  private boolean m_dangerZone;
   private boolean m_ledBalanced;
   private boolean m_ledUpRamp;
+  private boolean m_isBlue;
+  private boolean m_isRed;
 
   /** Creates a new LED. */
   public LEDSubsystem(PWMSparkMax leds ) {
@@ -21,8 +24,8 @@ public class LEDSubsystem extends SubsystemBase {
       m_leds.setSafetyEnabled(false);
   } // end constructor
 
-  public void hitMaxArm(){
-    m_maxArm = true;
+  public void hitDangerZone(){
+    m_dangerZone = true;
   }
 
   public void ledBalanced(){
@@ -42,11 +45,41 @@ public class LEDSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(m_ledUpRamp){
-      m_leds.set(LEDConstants.REDHEARTBEAT);
+    m_isBlue = (DriverStation.getAlliance() == DriverStation.Alliance.Blue);
+    m_isRed = (DriverStation.getAlliance() == DriverStation.Alliance.Red);
+
+    if(m_isBlue){
+      if(m_ledUpRamp){
+        m_leds.set(LEDConstants.REDHEARTBEAT);
+      }
+      else if(m_ledBalanced){
+        m_leds.set(LEDConstants.RAINBOW);
+      }
+      else{
+        m_leds.set(LEDConstants.BLUE_LARSON);
+      }
     }
-    else if(m_ledBalanced){
-      m_leds.set(LEDConstants.RAINBOW);
+    else if(m_isRed){
+      if(m_ledUpRamp){
+        m_leds.set(LEDConstants.REDHEARTBEAT);
+      }
+      else if(m_ledBalanced){
+        m_leds.set(LEDConstants.RAINBOW);
+      }
+      else{
+        m_leds.set(LEDConstants.RED_LARSON);
+      }
+    }
+    else{
+      if(m_ledUpRamp){
+        m_leds.set(LEDConstants.REDHEARTBEAT);
+      }
+      else if(m_ledBalanced){
+        m_leds.set(LEDConstants.RAINBOW);
+      }
+      else{
+        m_leds.set(LEDConstants.BLUE_SOLID);
+      }
     }
 
   }
