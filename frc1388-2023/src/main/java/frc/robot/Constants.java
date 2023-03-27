@@ -123,7 +123,7 @@ public final class Constants {
     public static final double ENCODER_DISTANCE_CUTOFF = 1.0; //TODO change - is this cutoff??
     public static final double AUTO_DRIVE_SPEED = 0.5;
 
-    public static double AUTO_TURN_ANGLE = 180;
+    public static double AUTO_TURN_ANGLE = 10;
 
     //we need extra distance because the encoder takes distance regardless of angle. 
     //This makes going up the charge station come up a bit short. To compensate: 
@@ -144,7 +144,7 @@ public final class Constants {
         OVERCHARGESTATION( "OverChargeStation" ),
         CHARGESTATIONBACK( "OverCharge, Balance" ), 
         SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" ),
-        HYBRIDSCORE("score in hybrid node");
+        HYBRIDSCORE("ShakeScore");
     
         public static final Objective Default = SITSTILL;
       
