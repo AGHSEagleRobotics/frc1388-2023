@@ -213,7 +213,7 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
 
     public static final double ARM_MAX_EXTEND_LOW = 0.13;
-    public static final double ARM_MAX_EXTEND_HIGH = 0.22;
+    public static final double ARM_MAX_EXTEND_HIGH = 0.24;
     // public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     public static final double ARM_POWER_SCALE_FACTOR = 0.6;
