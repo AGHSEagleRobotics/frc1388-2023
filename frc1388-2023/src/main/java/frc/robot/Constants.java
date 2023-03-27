@@ -194,7 +194,7 @@ public final class Constants {
 
     // general
     /**arm rotations */
-    public static final double DEADBAND = 0.04;
+    public static final double DEADBAND = 0.015;
     /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
     public static final double FLAT_TO_UP = 0.27;
     

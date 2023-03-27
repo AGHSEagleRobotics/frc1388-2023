@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.AutoBalance;
@@ -17,6 +18,7 @@ import frc.robot.commands.AutoMovePrimaryArm;
 import frc.robot.commands.AutoMoveWrist;
 import frc.robot.commands.AutoPickUp;
 import frc.robot.commands.AutoScore;
+import frc.robot.commands.AutoSetGrabberPosition;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoWristSetPoint;
 import frc.robot.commands.FastAutoBalance;
@@ -25,6 +27,7 @@ import frc.robot.commands.AutoWristSetPoint.WristPositions;
 import frc.robot.subsystems.PrimaryArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 
 /** Add your docs here. */
@@ -35,15 +38,17 @@ public class AutoMethod {
     private final Dashboard m_Dashboard;
     private final PrimaryArmSubsystem m_primaryArmSubsystem;
     private final WristSubsystem m_wristSubsystem;
+    private final GrabberSubsystem m_grabberSubsystem;
 
     //assume blue
     private double m_autoTurnAngle = AutoConstants.AUTO_TURN_ANGLE; //local variable to avoid changing constant
 
-    public AutoMethod(DriveTrainSubsystem driveTrainSubsystem, PrimaryArmSubsystem primaryArmSubsystem, WristSubsystem wristSubsystem, GyroSubsystem gyroSubsystem, Dashboard Dashboard)
+    public AutoMethod(DriveTrainSubsystem driveTrainSubsystem, PrimaryArmSubsystem primaryArmSubsystem, WristSubsystem wristSubsystem, GrabberSubsystem grabberSubsystem, GyroSubsystem gyroSubsystem, Dashboard Dashboard)
     {
         m_driveTrainSubsystem = driveTrainSubsystem;
         m_primaryArmSubsystem = primaryArmSubsystem;
         m_wristSubsystem = wristSubsystem;
+        m_grabberSubsystem = grabberSubsystem;
         m_gyroSubsystem = gyroSubsystem;
         m_Dashboard = Dashboard;
 
@@ -78,27 +83,34 @@ public class AutoMethod {
     public Command Score() //start slanted
     {
         return 
-            new AutoMovePrimaryArm(m_primaryArmSubsystem, 0.21)
-        .andThen(
-            new AutoWristSetPoint(m_wristSubsystem, WristPositions.extend) //CHANGE
-            .withTimeout(2)
+            new AutoMovePrimaryArm(m_primaryArmSubsystem, 0.22)
+        .alongWith(
+            new WaitCommand(1.0)
+            .andThen(
+                new AutoWristSetPoint(m_wristSubsystem, WristPositions.extend) //CHANGE
+                // .withTimeout(1.7)
+            )
         )
-        .andThen(
-            new AutoMove(9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
-        )
+        // .andThen(
+        //     new AutoMove(9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
+        // )
         .andThen(
             new AutoWristSetPoint(m_wristSubsystem, WristPositions.retract) //CHANGE
             .withTimeout(2)
-        )
-        .andThen(
-            new AutoMovePrimaryArm(null, -0.21)
             .alongWith(
-                new AutoMove(-9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
-            )
+                new WaitCommand(0.3)
+                .andThen(
+                    new AutoMovePrimaryArm(m_primaryArmSubsystem, 0.0)
+                )
         )
-        .andThen(
-            new AutoTurn(10, 0.25, m_gyroSubsystem, m_driveTrainSubsystem) //lining up with charge station  
+        
+            // .alongWith(
+            //     new AutoMove(-9, 0.25, m_driveTrainSubsystem, m_gyroSubsystem)
+            // )
         )
+        // .andThen(
+        //     new AutoTurn(10, 0.25, m_gyroSubsystem, m_driveTrainSubsystem) //lining up with charge station  
+        // )
             // new AutoScore() //move arm
         ; 
     }
@@ -312,48 +324,48 @@ public class AutoMethod {
         switch (objective) {
     
           case SITSTILL:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).SitStillLookPretty();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).SitStillLookPretty();
     
           case LEAVECOMMUNITY:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).LeaveCommunityFar();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).LeaveCommunityFar();
             } else {// handles every position but Position C
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).LeaveCommunityNear();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).LeaveCommunityNear();
             }
     
           case SCORE:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).Score();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).Score();
     
           case SCOREANDLEAVE:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeaveFar();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeaveFar();
             } else { //handles every position but Position C
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeaveNear();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeaveNear();
             }
     
           case SCORELEAVEPICKUP:
             if (position == AutoConstants.Position.FAR) {
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpFar();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpFar();
             } else {// handles every position but Position C
-              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpNear();
+              return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreLeavePickUpNear();
             }
     
           case CHARGESTATION:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ChargeStation();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ChargeStation();
     
           case SCORETHENCHARGE:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreThenCharge();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreThenCharge();
     
           case OVERCHARGESTATION:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).OverChargeStation();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).OverChargeStation();
     
           case CHARGESTATIONBACK:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).OverChargeAndBack();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).OverChargeAndBack();
 
           case SCOREOVERCHARGEBACK:
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
           case HYBRIDSCORE: 
-            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_Dashboard).hybridScoreCommand();
+            return new AutoMethod(m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_Dashboard).hybridScoreCommand();
           //case :
             //return new AutoMethod(m_driveTrainSubsystem, m_gyroSubsystem, m_Dashboard).ScoreOverChargeAndBack();
         

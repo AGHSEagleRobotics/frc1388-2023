@@ -10,8 +10,8 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.WristSubsystem;
 
 public class AutoWristSetPoint extends CommandBase {
-private double SWITCH_TO_LOW_POWER = 1.0;
-private double STOP_TIME = 2.0;
+private double SWITCH_TO_LOW_POWER = 0.8;
+private double STOP_TIME = 1.0;
 
   public enum WristPositions {
     extend, retract
@@ -36,11 +36,13 @@ private double STOP_TIME = 2.0;
   @Override
   public void initialize() {
     m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("m timer: " + m_timer.get());
     if (m_wristSetPoint == WristPositions.extend) {
       if (m_timer.get() < SWITCH_TO_LOW_POWER) {
         m_wristSubsystem.setWristMotorPower(-1.0 * ArmConstants.WRIST_POWER_SCALE_FACTOR);

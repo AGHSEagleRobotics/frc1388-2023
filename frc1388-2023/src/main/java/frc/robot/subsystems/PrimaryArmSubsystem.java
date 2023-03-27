@@ -26,6 +26,8 @@ public class PrimaryArmSubsystem extends SubsystemBase {
 
   private double m_primaryArmPower = 0;
 
+  private boolean m_lastLimitValue = false;
+
   /** Creates a new Arm. */
   public PrimaryArmSubsystem(WPI_TalonFX primary, DigitalInput primaryLimit, ArmGrabberClass armGrabberClass) {
 
@@ -39,6 +41,8 @@ public class PrimaryArmSubsystem extends SubsystemBase {
     m_primaryArmLimitSwitch = primaryLimit;
 
     m_armGrabberClass = armGrabberClass;
+
+    // m_lastLimitValue = isPrimaryLimitContacted();
   }
 
   /**
@@ -47,7 +51,6 @@ public class PrimaryArmSubsystem extends SubsystemBase {
    */
   public void setPrimaryArmMotorPower(double power) {
     m_primaryArmPower = power;
-    SmartDashboard.putNumber("primary arm power ", power);
   }
 
   /** position of primary arm in rotations */
@@ -81,6 +84,7 @@ public class PrimaryArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+
     m_armGrabberClass.primaryArmPosition = getPrimaryArmPosition();
 
     if (
@@ -103,12 +107,14 @@ public class PrimaryArmSubsystem extends SubsystemBase {
     /// XXX important debug, remove
     // System.out.println(m_primaryArmPower);
     // m_primaryMotor.set(m_primaryArmPower);
-    
-    if (isPrimaryLimitContacted()){
+    boolean primaryLimitContacted = isPrimaryLimitContacted();
+    if (primaryLimitContacted && !m_lastLimitValue) {
       m_primaryMotor.setSelectedSensorPosition(ArmConstants.PRIMARY_ARM_POSITION_AT_LIMIT_SWITCH);
     }
+    m_lastLimitValue = primaryLimitContacted;
 
     SmartDashboard.putNumber("primary arm position ", getPrimaryArmPosition());
     SmartDashboard.putBoolean("primary limit switch ", isPrimaryLimitContacted());
+    SmartDashboard.putNumber("primary arm power ", m_primaryArmPower);
   }
 }

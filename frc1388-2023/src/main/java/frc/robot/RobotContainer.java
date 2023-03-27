@@ -9,8 +9,12 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.PrimaryArmCommand;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.AutoKeepArmUp;
+import frc.robot.commands.AutoMovePrimaryArm;
+import frc.robot.commands.AutoSetGrabberPosition;
+import frc.robot.commands.AutoWristSetPoint;
 import frc.robot.commands.GrabberCommand;
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.AutoWristSetPoint.WristPositions;
 import frc.robot.commands.DriveTrainCommand.Direction;
 import frc.robot.commands.DriveTrainCommand.Side;
 import frc.robot.Constants.GrabberConstants;
@@ -86,7 +90,7 @@ public class RobotContainer {
 
   private final LoggingSubsystem m_LoggingSubsystem = new LoggingSubsystem();
 
-  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_gyroSubsystem, m_dashboard );
+  private final AutoMethod m_autoMethod = new AutoMethod( m_driveTrainSubsystem, m_primaryArmSubsystem, m_wristSubsystem, m_grabberSubsystem, m_gyroSubsystem, m_dashboard );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -174,11 +178,27 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // temp commented XXX uncoment
     m_gyroSubsystem.resetAllAngles();
-    return m_autoMethod.getAutonomousCommand()
-    .alongWith(
-      new AutoKeepArmUp(m_wristSubsystem)
-    ); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+
+    return m_autoMethod.getAutonomousCommand();
+    // .alongWith(
+    //   new AutoKeepArmUp(m_wristSubsystem)
+    // ); //have to return autoMethod because it's set to m_autonomousCommand in robot class
+    // temp commented XXX uncoment
+
+    // testing
+    // return new AutoWristSetPoint(m_wristSubsystem, WristPositions.extend)
+    // .andThen(new AutoWristSetPoint(m_wristSubsystem, WristPositions.retract));
+
+    // testing
+    // return new AutoMovePrimaryArm(m_primaryArmSubsystem, 0.2)
+    // .andThen(new AutoMovePrimaryArm(m_primaryArmSubsystem, 0));
+
+    //testing
+    // return new AutoSetGrabberPosition(m_grabberSubsystem, -3.0);
+
+    // return m_autoMethod.Score();
   }
 
   public void setDriveTrainNeutralMode(NeutralMode mode) {
