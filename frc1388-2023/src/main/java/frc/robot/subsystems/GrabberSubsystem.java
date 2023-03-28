@@ -40,10 +40,13 @@ public class GrabberSubsystem extends SubsystemBase {
     m_armGrabberClass = armGrabberClass;
   }
 
-  public void setGrabberPosition(double position) {
+  public boolean setGrabberPosition(double position) {
     double distToSetPoint = position - m_grabberEncoder.getPosition();
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
       m_grabberMotor.set(Math.copySign(0.2, distToSetPoint)); // TODO fix magic number
+      return false;
+    } else {
+      return true;
     }
   }
 

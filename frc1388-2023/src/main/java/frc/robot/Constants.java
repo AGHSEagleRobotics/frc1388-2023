@@ -136,15 +136,15 @@ public final class Constants {
       public enum Objective {
         SITSTILL ( "LookPretty"),
         LEAVECOMMUNITY( "LeaveCommunity" ),
-        SCORE( "ArmScore" ),
-        SCOREANDLEAVE ( "Score, Leave" ),
-        SCORELEAVEPICKUP ( "Score, Leave, Pickup" ),
+        SCORE( "HighScore" ),
+        SCOREANDLEAVE ( "HighScore, Leave" ),
+        SCORELEAVEPICKUP ( "HighScore, Leave, Pickup" ),
         CHARGESTATION ( "Balance" ),
-        SCORETHENCHARGE( "Score, Balance" ),
+        SCORETHENCHARGE( "HighScore, Balance" ),
         OVERCHARGESTATION( "OverChargeStation" ),
         CHARGESTATIONBACK( "OverCharge, Balance" ), 
-        SCOREOVERCHARGEBACK( "Score, OverCharge, Balance" ),
-        HYBRIDSCORE("ShakeScore");
+        SCOREOVERCHARGEBACK( "HighScore, OverCharge, Balance" ),
+        HYBRIDSCORE("LowScore");
     
         public static final Objective Default = SITSTILL;
       
@@ -194,7 +194,7 @@ public final class Constants {
 
     // general
     /**arm rotations */
-    public static final double DEADBAND = 0.04;
+    public static final double DEADBAND = 0.015;
     /** the distance, measured in rotations, of the arm position parallel to the ground to the arm position stowed */
     public static final double FLAT_TO_UP = 0.27;
     
@@ -213,7 +213,7 @@ public final class Constants {
     public static final double PRIMARY_ARM_POSITION_DOWN = 0; 
 
     public static final double ARM_MAX_EXTEND_LOW = 0.13;
-    public static final double ARM_MAX_EXTEND_HIGH = 0.22;
+    public static final double ARM_MAX_EXTEND_HIGH = 0.24;
     // public static final double PRIMARY_ARM_POSITION_MAX = 0.3;
 
     public static final double ARM_POWER_SCALE_FACTOR = 0.6;
