@@ -126,7 +126,7 @@ public class AutoMethod {
                 .andThen(
                         LeaveCommunityNear())
                 .andThen(
-                        new AutoTurn(180, m_autoTurnAngle, m_gyroSubsystem, m_driveTrainSubsystem)
+                        new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem)
                         )
                         // new AutoPickUp()
                         ;
@@ -140,7 +140,7 @@ public class AutoMethod {
             LeaveCommunityFar()
                )
         .andThen(
-            new AutoTurn(180, m_autoTurnAngle, m_gyroSubsystem, m_driveTrainSubsystem)
+            new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem)
                 )
         ;
     }
