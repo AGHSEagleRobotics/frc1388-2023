@@ -85,8 +85,6 @@ public class LoggingSubsystem extends SubsystemBase {
       m_logGY.append(gY);
       m_logGZ.append(gZ);
       m_logGTotal.append(gTotal);
-      // SmartDashboard.putNumber("total g", gTotal - 1.0);
-      SmartDashboard.putNumber("translational acceleration ", Math.sqrt(gX * gX + gY * gY));
     }
 
     // Log robot mode
