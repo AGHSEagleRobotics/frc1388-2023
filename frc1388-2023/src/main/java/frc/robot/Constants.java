@@ -181,6 +181,10 @@ public final class Constants {
 
     public static final double RED_SOLID = 0.61;
     public static final double BLUE_SOLID = 0.87;
+    public static final double DARK_BLUE = 0.85;
+    
+    public static final double OCEAN_PALLETE = -0.95;
+    public static final double LAVA_PALLETE = -0.93;
 
     public static final double RED_FLASH = -0.85;
     public static final double BLUE_FLASH = -0.83;

@@ -32,8 +32,8 @@ public class LEDSubsystem extends SubsystemBase {
     m_ledBalanced = true;
   }
 
-  public void goLedUpRamp(){
-    m_ledUpRamp = true;
+  public boolean goLedUpRamp(){
+    return false;
   }
 
   public void ledNormal(){
@@ -49,7 +49,7 @@ public class LEDSubsystem extends SubsystemBase {
     m_isRed = (DriverStation.getAlliance() == DriverStation.Alliance.Red);
 
     if(m_isBlue){
-      if(m_ledUpRamp){
+      if(m_ledUpRamp = true){
         m_leds.set(LEDConstants.REDHEARTBEAT);
       }
       else if(m_ledBalanced){
