@@ -167,7 +167,7 @@ public class RobotContainer {
     m_opController.rightBumper().whileTrue(new RunCommand(
       ()-> {((DriveTrainCommand)m_driveTrainSubsystem.getDefaultCommand()).turnSlow(Side.right);}, m_driveTrainSubsystem
     ));
-
+    m_opController.a().onTrue(m_autoMethod.Score());
     // m_opController.y().onTrue(new RunCommand(
     //   ()-> {m_grabberSubsystem.setGrabberPosition(5);}, m_grabberSubsystem));
   }
