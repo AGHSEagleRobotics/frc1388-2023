@@ -65,7 +65,7 @@ public class Dashboard {
             
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 4)
+            .withSize(8, 4)
             .withPosition(19, 0);
 
         // m_pitch = m_shuffleboardTab.add("Pitch", 0 )
@@ -75,8 +75,8 @@ public class Dashboard {
         //     .getEntry();
         m_isGrabberReset = m_shuffleboardTab.add("Grabber reset", false)
             .withWidget(BuiltInWidgets.kBooleanBox)
-            .withSize(3, 8)
-            .withPosition(24, 0)
+            .withSize(3, 4)
+            .withPosition(24, 4)
             .getEntry();
 
     } //end constructor
