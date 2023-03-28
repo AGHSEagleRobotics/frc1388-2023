@@ -178,7 +178,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("average encoder distance", getAverageEncoderDistance());
     //debug===============
-    SmartDashboard.putNumber("robot speed in feet per sec", getRobotSpeed());
+    SmartDashboard.putNumber("robot speed (fps)", getRobotSpeed());
 
     //debug=end============
   }
