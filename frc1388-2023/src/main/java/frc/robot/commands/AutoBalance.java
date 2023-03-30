@@ -83,7 +83,7 @@ public class AutoBalance extends CommandBase {
 
       case driveOnRamp:
       // Drive a number of inches forward then move to balance state
-      m_LedSubsystem.goLedUpRamp();
+      // m_LedSubsystem.goLedUpRamp(); // ask alex
       if (m_backwards == true) {
         m_driveTrainSubsystem.constantSpeedDrive(-AutoBalanceConstants.DRIVE_ON_RAMP_SPEED);
       }
@@ -98,7 +98,7 @@ public class AutoBalance extends CommandBase {
         break;
 
       case moveToBalance:
-      m_LedSubsystem.goLedUpRamp();
+      // m_LedSubsystem.goLedUpRamp(); // ask alex
         constantSpeedBalance(AutoBalanceConstants.BALANCING_SPEED);
         
         if (Math.abs(averageAngle) - Math.abs(currentAngle) > 1) {
