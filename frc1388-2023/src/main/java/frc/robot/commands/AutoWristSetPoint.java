@@ -42,7 +42,6 @@ private double STOP_TIME = 1.0;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("m timer: " + m_timer.get());
     if (m_wristSetPoint == WristPositions.extend) {
       if (m_timer.get() < SWITCH_TO_LOW_POWER) {
         m_wristSubsystem.setWristMotorPower(-1.0 * ArmConstants.WRIST_POWER_SCALE_FACTOR);

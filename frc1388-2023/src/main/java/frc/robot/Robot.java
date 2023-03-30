@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.AutoMove;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,6 +24,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private boolean m_lastUserButton = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -61,12 +62,13 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    // set motors to coast mode when user button on RoboRio is pressed
-    if (RobotController.getUserButton()) {
+    // Actions to perform when user button on RoboRio is pressed
+    if (RobotController.getUserButton() & !m_lastUserButton) {
+      DataLogManager.log("### UserButtonPressed");
       m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Coast);
       m_robotContainer.resetGrabberEncoder();
-      System.out.println("###RobotPeriodic() -> UserButtonPressed -> NeutralMode.Coast###");
     }
+    m_lastUserButton = RobotController.getUserButton();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -83,12 +85,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     DataLogManager.log("####### Autonomous Init");
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    System.out.println("setting neutral mode");
+    
     m_robotContainer.setDriveTrainNeutralMode(NeutralMode.Brake);
-    System.out.println("starting auto command");
+
     // schedule the autonomous command (example)
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -134,7 +135,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("y angle > ", m_robotContainer.getGyroYAngle());
   }
 
   @Override

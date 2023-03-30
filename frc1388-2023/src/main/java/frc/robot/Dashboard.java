@@ -28,7 +28,7 @@ public class Dashboard {
     private final ComplexWidget m_CameraComplexWidget;
     private final ComplexWidget m_complexWidgetObjective;
     private final ComplexWidget m_complexWidgetPosition;
-    private final GenericEntry m_pitch;
+    // private final GenericEntry m_pitch;
 
     private final GenericEntry m_isGrabberReset;
     
@@ -53,8 +53,8 @@ public class Dashboard {
         m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(4, 4)
-            .withPosition(19, 0);
+            .withSize(5, 4)
+            .withPosition(19, 4);
 
         // position
         for (AutoConstants.Position p : Position.values()) {
@@ -65,18 +65,18 @@ public class Dashboard {
             
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(4, 4)
-            .withPosition(23, 0);
+            .withSize(8, 4)
+            .withPosition(19, 0);
 
-        m_pitch = m_shuffleboardTab.add("Pitch", 0 )
-            .withWidget(BuiltInWidgets.kTextView)
-            .withSize(2, 2)
-            .withPosition(19, 4)
-            .getEntry();
+        // m_pitch = m_shuffleboardTab.add("Pitch", 0 )
+        //     .withWidget(BuiltInWidgets.kTextView)
+        //     .withSize(2, 2)
+        //     .withPosition(19, 4)
+        //     .getEntry();
         m_isGrabberReset = m_shuffleboardTab.add("Grabber reset", false)
             .withWidget(BuiltInWidgets.kBooleanBox)
             .withSize(3, 4)
-            .withPosition(21, 4)
+            .withPosition(24, 4)
             .getEntry();
 
     } //end constructor
@@ -86,8 +86,9 @@ public class Dashboard {
         return m_autoObjective.getSelected();
     }
     
+    @Deprecated
     public void setPitchEntry(double value){
-        m_pitch.setValue(value);
+        // m_pitch.setValue(value);
     } 
 
     public Position getPosition() {
