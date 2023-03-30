@@ -43,7 +43,7 @@ public class WristSubsystem extends SubsystemBase {
     // } else {
     //   m_wristMotor.set(0);
     // }
-    SmartDashboard.putNumber("wrist motor power ", power);
+    SmartDashboard.putNumber("wrist motor power", power);
     m_wristMotor.set(power);
   }
 
@@ -89,8 +89,8 @@ public class WristSubsystem extends SubsystemBase {
       // m_wristEncoder.setPosition(ArmConstants.WRIST_POSITION_AT_LIMIT_SWITCH);
     // }
 
-    SmartDashboard.putNumber("wrist motor position ", getWristPosition());
-    SmartDashboard.putNumber("wrist motor current ", m_wristMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("wrist motor position", getWristPosition());
+    SmartDashboard.putNumber("wrist motor velocity", m_wristMotor.getSelectedSensorVelocity());
 
 
   }

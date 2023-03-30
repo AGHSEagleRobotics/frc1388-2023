@@ -40,10 +40,13 @@ public class GrabberSubsystem extends SubsystemBase {
     m_armGrabberClass = armGrabberClass;
   }
 
-  public void setGrabberPosition(double position) {
+  public boolean setGrabberPosition(double position) {
     double distToSetPoint = position - m_grabberEncoder.getPosition();
     if (Math.abs(distToSetPoint) > GrabberConstants.GRABBER_ENCODER_DEADBAND) {
       m_grabberMotor.set(Math.copySign(0.2, distToSetPoint)); // TODO fix magic number
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -90,7 +93,7 @@ public class GrabberSubsystem extends SubsystemBase {
     }
     
     SmartDashboard.putNumber("grabber position", m_armGrabberClass.grabberPosition);
-    SmartDashboard.putNumber("grabber motor current ", m_grabberMotor.getOutputCurrent());
+    SmartDashboard.putNumber("grabber motor current", m_grabberMotor.getOutputCurrent());
     SmartDashboard.putBoolean("has grabber been reset", m_armGrabberClass.hasGrabberEncoderBeenReset);
 
     m_Dashboard.setIfGrabberReset(m_armGrabberClass.hasGrabberEncoderBeenReset);
