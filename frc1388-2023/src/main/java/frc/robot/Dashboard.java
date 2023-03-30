@@ -53,8 +53,8 @@ public class Dashboard {
         m_autoObjective.setDefaultOption(Objective.Default.getDashboardDescript(), Objective.Default);
         m_complexWidgetObjective = m_shuffleboardTab.add( "AutoObjective", m_autoObjective)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(5, 4)
-            .withPosition(19, 4);
+            .withSize(8, 4)
+            .withPosition(19, 0); // 5 4 19 4
 
         // position
         for (AutoConstants.Position p : Position.values()) {
@@ -65,8 +65,8 @@ public class Dashboard {
             
         m_complexWidgetPosition = m_shuffleboardTab.add( "AutoPosition", m_autoPosition)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(8, 4)
-            .withPosition(19, 0);
+            .withSize(5, 4)
+            .withPosition(19, 4); // 8 4 19 0 
 
         // m_pitch = m_shuffleboardTab.add("Pitch", 0 )
         //     .withWidget(BuiltInWidgets.kTextView)
