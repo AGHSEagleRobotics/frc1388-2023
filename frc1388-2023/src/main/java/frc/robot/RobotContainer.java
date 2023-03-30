@@ -224,7 +224,7 @@ public class RobotContainer {
   public class ArmGrabberClass {
     public double primaryArmPosition;
     public double grabberPosition;
-    public boolean hasGrabberEncoderBeenReset;
+    public boolean hasGrabberEncoderBeenReset = false;
   }
 
 }

@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     DataLogManager.log("####### Disabled Robot");
-    m_robotContainer.setHasGrabberBeenReset(false);
+    // m_robotContainer.setHasGrabberBeenReset(false); // causing issues
   }
 
   @Override
