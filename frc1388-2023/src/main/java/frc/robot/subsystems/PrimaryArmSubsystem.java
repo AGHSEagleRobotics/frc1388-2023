@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -73,7 +74,12 @@ public class PrimaryArmSubsystem extends SubsystemBase {
   }
 
   public double maxArmPosition() {
-    return 0.0;
+    double armPosition = ( 10*( Math.sqrt(3)*Math.sqrt(421875 - (37729 * m_armGrabberClass.grabberPosition)) + 1125) )/113187;
+    if ( m_armGrabberClass.grabberPosition <= GrabberConstants.GRABBER_MAX_AT_FULL_ARM )
+    {
+      armPosition = ArmConstants.ARM_MAX_EXTEND_HIGH;
+    }
+    return armPosition;
   }
   
   /**
@@ -97,9 +103,7 @@ public class PrimaryArmSubsystem extends SubsystemBase {
       || (m_primaryArmPower == 0)
     ) {
       if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
-      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM
-      //maxGrabberPosition()
-      )
+      && (getPrimaryArmPosition() > maxArmPosition() ) 
       && m_armGrabberClass.hasGrabberEncoderBeenReset
       && (m_primaryArmPower > 0)) {
         m_primaryMotor.set(0);

@@ -82,7 +82,7 @@ public class GrabberSubsystem extends SubsystemBase {
     m_armGrabberClass.grabberPosition = getGrabberEncoder();
 
     if (m_armGrabberClass.hasGrabberEncoderBeenReset) {
-      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && (m_armGrabberClass.grabberPosition > maxGrabberPosition())) {
+      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && (m_armGrabberClass.grabberPosition >= maxGrabberPosition())) {
         m_grabberMotor.set(GrabberConstants.GRABBER_POWER_IN);
           } else {
         m_grabberMotor.set(m_grabberPower);
