@@ -21,6 +21,7 @@ public class AutoBalance extends CommandBase {
   }
   private boolean m_backwards;
   private BalanceStates m_balanceState;
+  private double m_startEncoderValue;
 
   private DriveTrainSubsystem m_driveTrainSubsystem;
   private GyroSubsystem m_gyroSubsystem;
@@ -73,7 +74,7 @@ public class AutoBalance extends CommandBase {
         
         else if (Math.abs(currentAngle) > AutoBalanceConstants.CHARGE_STATION_DETECTION_ANGLE) {
           // reset encoder before switching to driveOnRamp
-          m_driveTrainSubsystem.resetLeftEncoder();
+          m_startEncoderValue = m_driveTrainSubsystem.getAverageEncoderDistance();
           m_balanceState = BalanceStates.driveOnRamp;
         }
         break;
@@ -88,7 +89,7 @@ public class AutoBalance extends CommandBase {
       }
 
         // if a distance is reached (number of inches)
-        if (Math.abs(m_driveTrainSubsystem.getLeftEncoderDistance()) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
+        if (Math.abs(m_driveTrainSubsystem.getAverageEncoderDistance() - m_startEncoderValue) > AutoBalanceConstants.DRIVE_ON_RAMP_DISTANCE) {
           m_balanceState = BalanceStates.moveToBalance;
         }
         break;
