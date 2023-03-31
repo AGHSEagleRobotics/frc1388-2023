@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Dashboard;
@@ -66,6 +67,12 @@ public class GrabberSubsystem extends SubsystemBase {
     return m_grabberEncoder.getPosition();
   }
 
+  public double maxGrabberPosition() { //based on arm 
+    double grabPosition = m_armGrabberClass.primaryArmPosition * (216.374 - (1131.87 * m_armGrabberClass.primaryArmPosition) );
+    grabPosition = MathUtil.clamp(grabPosition, GrabberConstants.GRABBER_MAX_AT_FULL_ARM, 9.5); //9.5 is max for grabber
+    return grabPosition;
+  }
+
 
   @Override
   public void periodic() {
@@ -75,7 +82,7 @@ public class GrabberSubsystem extends SubsystemBase {
     m_armGrabberClass.grabberPosition = getGrabberEncoder();
 
     if (m_armGrabberClass.hasGrabberEncoderBeenReset) {
-      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)) {
+      if ((m_armGrabberClass.primaryArmPosition > ArmConstants.ARM_MAX_EXTEND_LOW) && (m_armGrabberClass.grabberPosition > maxGrabberPosition())) {
         m_grabberMotor.set(GrabberConstants.GRABBER_POWER_IN);
           } else {
         m_grabberMotor.set(m_grabberPower);

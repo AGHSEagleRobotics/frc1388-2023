@@ -71,6 +71,10 @@ public class PrimaryArmSubsystem extends SubsystemBase {
   public double getPrimaryArmPosition() {
     return m_primaryMotor.getSelectedSensorPosition() / ArmConstants.ENCODER_UNITS_PER_PRIMARY_ARM_ROTATIONS;
   }
+
+  public double maxArmPosition() {
+    return 0.0;
+  }
   
   /**
    * the limit switch on the primary arm
@@ -93,7 +97,9 @@ public class PrimaryArmSubsystem extends SubsystemBase {
       || (m_primaryArmPower == 0)
     ) {
       if ((getPrimaryArmPosition() > ArmConstants.ARM_MAX_EXTEND_LOW) 
-      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM)
+      && (m_armGrabberClass.grabberPosition > GrabberConstants.GRABBER_MAX_AT_FULL_ARM
+      //maxGrabberPosition()
+      )
       && m_armGrabberClass.hasGrabberEncoderBeenReset
       && (m_primaryArmPower > 0)) {
         m_primaryMotor.set(0);
