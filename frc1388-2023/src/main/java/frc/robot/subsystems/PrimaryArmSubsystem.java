@@ -123,6 +123,7 @@ public class PrimaryArmSubsystem extends SubsystemBase {
     }
     m_lastLimitValue = primaryLimitContacted;
 
+    SmartDashboard.putNumber("max arm position", maxArmPosition());
     SmartDashboard.putNumber("primary arm position", getPrimaryArmPosition());
     SmartDashboard.putBoolean("primary limit switch", isPrimaryLimitContacted());
     SmartDashboard.putNumber("primary arm power", m_primaryArmPower);

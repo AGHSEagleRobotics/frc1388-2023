@@ -99,6 +99,7 @@ public class GrabberSubsystem extends SubsystemBase {
       }
     }
     
+    SmartDashboard.putNumber("max grabber position", maxGrabberPosition());
     SmartDashboard.putNumber("grabber position", m_armGrabberClass.grabberPosition);
     SmartDashboard.putNumber("grabber motor current", m_grabberMotor.getOutputCurrent());
     SmartDashboard.putBoolean("has grabber been reset", m_armGrabberClass.hasGrabberEncoderBeenReset);
