@@ -101,6 +101,10 @@ public final class Constants {
   }
   
   public static class AutoConstants {
+
+    /** after the score command starts, the rest of the driving and balancing starts 2.8 seconds later */
+    public static final double SCORE_WAIT_TIME = 2.8;
+
     //TEST P VALUE LATER
     public static final double TURN_P_VALUE = 0.0125;
     public static final double TURN_P_TOLERANCE = 1.25;

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.nio.channels.NonWritableChannelException;
+
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -104,45 +106,38 @@ public class AutoMethod {
         ; 
     }
 
-    public Command ScoreLeaveNear()
-    { 
-        return 
-            Score()
-        .andThen(
-            LeaveCommunityNear()
-        )
-        ;
+    public Command ScoreLeaveNear() { 
+        return Score()
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(LeaveCommunityNear())
+            );
     }
 
-    public Command ScoreLeaveFar()
-    {
+    public Command ScoreLeaveFar() {
         return Score()
-                .andThen(
-                        LeaveCommunityFar());
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(LeaveCommunityFar())
+            );
     }
 
     public Command ScoreLeavePickUpNear() {
         return Score()
-                .andThen(
-                        LeaveCommunityNear())
-                .andThen(
-                        new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem)
-                        )
-                        // new AutoPickUp()
-                        ;
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(LeaveCommunityNear())
+        .andThen(new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem))
+            );
     }
 
-    public Command ScoreLeavePickUpFar()
-    {
-        return 
-            Score()
-        .andThen(
-            LeaveCommunityFar()
-               )
-        .andThen(
-            new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem)
-                )
-        ;
+    public Command ScoreLeavePickUpFar(){
+        return Score()
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(LeaveCommunityFar())
+        .andThen(new AutoTurn(180, 0.25, m_gyroSubsystem, m_driveTrainSubsystem))
+            );
     }
 
     //Position B specific commands
@@ -160,15 +155,12 @@ public class AutoMethod {
 
     }
 
-    public Command ScoreThenCharge() 
-    {
-        return
-            Score()
-        .andThen(
-            new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, true)
-                )  
-            
-        ;
+    public Command ScoreThenCharge() {
+        return Score()
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, true))
+            );
     }
 
     public Command OverChargeStation()
@@ -188,17 +180,13 @@ public class AutoMethod {
         ;
     }
 
-    public Command ScoreOverChargeAndBack()
-    {
-        return 
-            Score()
-        .andThen(
-            new AutoMove( -(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH + AutoConstants.CHARGE_STATION_MAGIC_NUM), 0.35, m_driveTrainSubsystem, m_gyroSubsystem)
-                )
-        .andThen(
-            new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false)  
-                )
-                ; 
+    public Command ScoreOverChargeAndBack() {
+        return Score()
+            .alongWith(
+        new WaitCommand(AutoConstants.SCORE_WAIT_TIME)
+        .andThen(new AutoMove( -(FieldConstants.SCORE_ZONE_TO_CHARGE_STATION + FieldConstants.CHARGE_STATION_LENGTH + AutoConstants.CHARGE_STATION_MAGIC_NUM), 0.35, m_driveTrainSubsystem, m_gyroSubsystem))
+        .andThen(new AutoBalance(m_driveTrainSubsystem, m_gyroSubsystem, false))
+            );
     }
 
     public Command hybridScoreCommand() { //NON-SCORE-ZONE FACING, GAME PIECE ON BACK
