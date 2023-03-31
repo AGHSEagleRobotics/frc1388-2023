@@ -69,7 +69,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
   public double maxGrabberPosition() { //based on arm 
     double grabPosition = m_armGrabberClass.primaryArmPosition * (216.374 - (1131.87 * m_armGrabberClass.primaryArmPosition) );
-    grabPosition = MathUtil.clamp(grabPosition, GrabberConstants.GRABBER_MAX_AT_FULL_ARM, 9.5); //9.5 is max for grabber
+    grabPosition = MathUtil.clamp(grabPosition, GrabberConstants.GRABBER_MAX_AT_FULL_ARM, GrabberConstants.GRABBER_MAX_EXTENSION); //9 is max for grabber
     return grabPosition;
   }
 

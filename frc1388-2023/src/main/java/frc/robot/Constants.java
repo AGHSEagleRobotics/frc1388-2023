@@ -260,6 +260,8 @@ public final class Constants {
     public static final double GRABBER_CLOSE_MAX_AT_FULL_ARM = GRABBER_MAX_AT_FULL_ARM + 0.2; //close to max is bigger to ensure grabber doesn't try to both go in and out at once 
     public static final double GRABBER_GOOD_ENOUGH_SQUEEZE = 0.3; //when the triggers are substantially pressed 
 
+    public static final double GRABBER_MAX_EXTENSION = 9;
+
   }  
   
   public final class FieldConstants {
