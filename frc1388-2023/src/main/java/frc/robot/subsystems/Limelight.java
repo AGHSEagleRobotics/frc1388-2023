@@ -62,6 +62,21 @@ public class Limelight extends SubsystemBase {
   public double getTv() {
     return m_tv.getDouble(0.0);
   }
+  //testing limelight accuracy for calculating objects distance
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry ty = table.getEntry("ty");
+  double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+  // how many degrees the limelight is rotated from perfect vertical
+  public double limelightMountAngleDegrees = 0.0; //test number for now
+
+  // distance from the center of the Limelight lens to the floor
+  public double limelightLensHeightInches = 30.0; //test number for now
+
+  // height of target object
+  public double heightOfObject = 20; //test number for now
+  
+  double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+  double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0); //to get into radians
 
   @Override
   public void periodic() {
