@@ -16,6 +16,7 @@ public class Limelight extends SubsystemBase {
   private final NetworkTableEntry m_tx;
   private double txPrev;
   private final NetworkTableEntry m_ty;
+  private final NetworkTableEntry m_tz;
   private final NetworkTableEntry m_ta;
   private final NetworkTableEntry m_tv;
   private final NetworkTableEntry m_ts;
@@ -34,6 +35,7 @@ public class Limelight extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable("limelight");
     m_tx = m_table.getEntry("tx");
     m_ty = m_table.getEntry("ty");
+    m_tz = m_table.getEntry("tz");
     m_ta = m_table.getEntry("ta");
     m_tv = m_table.getEntry("tv");
     m_ts = m_table.getEntry("ts");
@@ -45,6 +47,7 @@ public class Limelight extends SubsystemBase {
     m_botpos = m_table.getEntry("botpose");
 
 
+
   }
 
   public double getTx() {
@@ -52,6 +55,10 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getTy() {
+    return m_ty.getDouble(0.0);
+  }
+  
+  public double getTz() {
     return m_ty.getDouble(0.0);
   }
 
@@ -62,21 +69,14 @@ public class Limelight extends SubsystemBase {
   public double getTv() {
     return m_tv.getDouble(0.0);
   }
-  //testing limelight accuracy for calculating objects distance
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry ty = table.getEntry("ty");
-  double targetOffsetAngle_Vertical = ty.getDouble(0.0);
-  // how many degrees the limelight is rotated from perfect vertical
-  public double limelightMountAngleDegrees = 0.0; //test number for now
-
-  // distance from the center of the Limelight lens to the floor
-  public double limelightLensHeightInches = 30.0; //test number for now
-
-  // height of target object
-  public double heightOfObject = 20; //test number for now
   
-  double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-  double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0); //to get into radians
+  public static double calculateDistance(double getTx, double getTy, double getTz) {
+//finds distance in meters (needs callibration from limelight) needs to see the april tag (needs testing)
+    double distance = Math.sqrt(getTx * getTx + getTy * getTy + getTz * getTz); 
+    System.out.println("Distance to AprilTag: " + distance + " meters"); //it calculates in meters
+    return distance;
+ 
+  }
 
   @Override
   public void periodic() {
