@@ -20,6 +20,7 @@ import frc.robot.Constants.GrabberConstants;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.commands.FastAutoBalance;
 import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LoggingSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -77,6 +78,8 @@ public class RobotContainer {
     new DigitalInput(ArmConstants.WRIST_LIMIT_SWITCH_DIO_ID),//TODO XXX FIXME change this
     new DigitalInput(ArmConstants.PRIMARY_ARM_LIMIT_SWITCH_DIO_ID) //TODO XXX FIXME change this
   );
+
+  private final Limelight m_Limelight = new Limelight();
 
   //  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(
   //  new MultiChannelADIS()
